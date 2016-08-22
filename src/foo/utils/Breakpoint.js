@@ -6,7 +6,7 @@ import Bowser from "bowser"
 import isMobile from "ismobilejs"
 import ObjectUtils from "foo/utils/ObjectUtils"
 
-export default class Breakpoints {
+export default class Breakpoint {
     static setup () {
         this.body = document.getElementsByTagName( "body" )[ 0 ];
         this.mobile();
