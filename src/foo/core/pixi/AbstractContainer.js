@@ -3,6 +3,9 @@
 export default class AbstractContainer extends PIXI.Container {
 
     /**
+     * @class AbstractContainer
+     * @namespace core.pixi
+     * @extends PIXI.Container
      * @constructor
      * @return {void}
      */
@@ -15,17 +18,21 @@ export default class AbstractContainer extends PIXI.Container {
      * Called when the Object is added to the stage
      * @returns {void}
      * @abstract
+     * @method init
+     * @override
      */
     init() {
 
     }
 
     /**
-     * Called to destroy the object
+     * Called to cleanUp(destroy) the object
      * @return {void}
      * @abstract
+     * @method cleanUp
+     * @override
      */
-    destroy() {
+    cleanUp() {
 
     }
 }

@@ -12,7 +12,8 @@
  *      }
  *
  * @class KeyCode
- * @namespace utils.keys
+ * @namespace utils
+ * @author Mendieta
  */
 export default class KeyCode {
     /**

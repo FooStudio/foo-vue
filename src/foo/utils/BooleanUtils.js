@@ -19,7 +19,7 @@ export default class BooleanUtils {
      * @param {object} value The value to be evaluated
      * @returns {boolean} if the specified value is a boolean
      */
-    static getBoolean(value):boolean {
+    static getBoolean(value) {
         if (!value) {
             return false;
         }
