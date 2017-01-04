@@ -2,6 +2,7 @@
  * Helper Class to work with String
  * @class StringUtils
  * @namespace utils.types
+ * @author Mendieta
  */
 export default class StringUtils {
 
@@ -24,7 +25,7 @@ export default class StringUtils {
      * @param  {string} email the string to be validated
      * @returns {boolean} A boolean indicating if is a valid email
      */
-    static isValidEmail(email:string):boolean {
+    static isValidEmail(email) {
         return StringUtils.VALIDATION_EMAIL.test(email);
     }
 
@@ -36,7 +37,7 @@ export default class StringUtils {
      * @param {string} text The string to be stripped
      * @returns {string} The string returned after evaluation
      */
-    static stripInvalidFileCharacters(text:string):string {
+    static stripInvalidFileCharacters(text) {
         text = text.split(":").join("");
         return text;
     }
@@ -49,7 +50,7 @@ export default class StringUtils {
      * @param {string} text The string to be stub
      * @returns {string} The string returned after evaluation
      */
-    static makeStub(text:string):string {
+    static makeStub(text) {
         return text.toLowerCase().replace("", "-").replace(/[^a-z0-9\-]/gi, "");
     }
 
@@ -64,7 +65,7 @@ export default class StringUtils {
      * @param {string} [postText=""] The String to be added after the cropped String, defaults to blank
      * @returns {string} The string returned after evaluation
      */
-    static cropText(text:string, maximumLength:number, breakAnywhere:boolean = false, postText:string = ""):string {
+    static cropText(text, maximumLength, breakAnywhere = false, postText = "") {
         if (text.length <= maximumLength) return text;
         //Crops a long text, to get excerpts
         if (breakAnywhere) {
@@ -95,7 +96,7 @@ export default class StringUtils {
      * @param {string} pchar the character or substring
      * @returns {string} The string returned after evaluation
      */
-    static afterFirst(pstring:string, pchar:string):string {
+    static afterFirst(pstring, pchar) {
         if (pstring === null) {
             return "";
         }
@@ -117,7 +118,7 @@ export default class StringUtils {
      * @param {string} pchar The string to evaluate
      * @returns {string} The string returned after evaluation
      */
-    static afterLast(pstring:string, pchar:string):string {
+    static afterLast(pstring, pchar) {
         if (pstring === null) {
             return "";
         }
@@ -138,7 +139,7 @@ export default class StringUtils {
      * @param {string} pbegin The prefix that will be tested against the string.
      * @returns {boolean} A boolean determining if evaluation passed
      */
-    static beginsWith(pstring:string, pbegin:string):boolean {
+    static beginsWith(pstring, pbegin) {
         if (pstring === null) {
             return false;
         }
@@ -154,7 +155,7 @@ export default class StringUtils {
      * @param {string} pchar The string to evaluate with
      * @returns {string} The string returned after evaluation
      */
-    static beforeFirst(pstring:string, pchar:string):string {
+    static beforeFirst(pstring, pchar) {
         if (pstring === null) {
             return "";
         }
@@ -174,7 +175,7 @@ export default class StringUtils {
      * @param {string} pchar The string to evaluate
      * @returns {string} The string returned after evaluation
      */
-    static beforeLast(pstring:string, pchar:string):string {
+    static beforeLast(pstring, pchar) {
         if (pstring === null) {
             return "";
         }
@@ -195,7 +196,7 @@ export default class StringUtils {
      * @param {string} pend The character or sub-string to use as the end index.
      * @returns {string} The string returned after evaluation
      */
-    static between(pstring:string, pstart:string, pend:string):string {
+    static between(pstring, pstart, pend) {
         let str = "";
         if (pstring === null) {
             return str;
@@ -220,7 +221,7 @@ export default class StringUtils {
      * @param {string} pchar The string to validate in the string
      * @returns {boolean} A boolean determining if if the string validated
      */
-    static contains(pstring:string, pchar:string):boolean {
+    static contains(pstring, pchar) {
         if (pstring === null) {
             return false;
         }
@@ -236,7 +237,7 @@ export default class StringUtils {
      * @param {string} pend The string to validate end
      * @returns {boolean} A boolean determining if the string validated
      */
-    static endsWith(pstring:string, pend:string):boolean {
+    static endsWith(pstring, pend) {
         return pstring.lastIndexOf(pend) === pstring.length - pend.length;
     }
 
@@ -248,7 +249,7 @@ export default class StringUtils {
      * @param {string} pstring The string to be validated
      * @returns {boolean} A boolean determining if the string was empty
      */
-    static isEmpty(pstring:string):boolean {
+    static isEmpty(pstring) {
         if (pstring === null) {
             return true;
         }
@@ -263,7 +264,7 @@ export default class StringUtils {
      * @param {string} pstring The string to ve validated
      * @returns {boolean} A boolean determining if the string is numeric
      */
-    static isNumeric(pstring:string):boolean {
+    static isNumeric(pstring) {
         if (pstring === null) {
             return false;
         }
@@ -280,9 +281,9 @@ export default class StringUtils {
      * @param {number} amount the amount of repetitions for the string
      * @returns {string} the string repeated
      */
-    static repeat(string:string, amount:number):string {
+    static repeat(string, amount) {
         let ret = "";
-        for (let i:number = 0; i < amount; i++) {
+        for (let i = 0; i < amount; i++) {
             ret += string;
         }
         return ret;
@@ -298,14 +299,14 @@ export default class StringUtils {
      * @param {string} [fillChar=" "] The character to fill the pad
      * @returns {string} The string with the padding
      */
-    static padLeft(string:string, length:number, fillChar:string = " "):string {
+    static padLeft(string, length, fillChar = " ") {
         if (fillChar == null || fillChar.length == 0) {
             throw "invalid value for fillChar: '" + fillChar + "'";
         }
 
         if (string.length < length) {
-            let lim:number = length - string.length;
-            for (let i:number = 0; i < lim; i++) {
+            let lim = length - string.length;
+            for (let i = 0; i < lim; i++) {
                 string = fillChar + string;
             }
         }
@@ -322,13 +323,13 @@ export default class StringUtils {
      * @param {string} [fillChar=" "] The character to fill the pad
      * @returns {string} The string with the padding
      */
-    static padRight(string:string, length:number, fillChar:string = " "):string {
+    static padRight(string, length, fillChar = " ") {
         if (fillChar == null || fillChar.length == 0) {
             throw "invalid value for fillChar: '" + fillChar + "'";
         }
         if (string.length < length) {
-            let lim:number = length - string.length;
-            for (let i:number = 0; i < lim; i++) {
+            let lim = length - string.length;
+            for (let i = 0; i < lim; i++) {
                 string += fillChar;
             }
         }
@@ -343,7 +344,7 @@ export default class StringUtils {
      * @param {string} string The string to be edited
      * @returns {string} The string trimmed of all tabs, newlines and spaces
      */
-    static ignoreWhiteSpace(string:string):string {
+    static ignoreWhiteSpace(string) {
         return string.replace(/[\t\r\n]|\s\s/g, "");
     }
 
@@ -352,7 +353,7 @@ export default class StringUtils {
      * @param {string} replace The string to be replaced
      * @returns {string} The slugged string
      */
-    static slugify(replace):string {
+    static slugify(replace) {
         let st = replace.toLowerCase();
         st = st.replace(/[\u00C0-\u00C5]/ig, "a");
         st = st.replace(/[\u00C8-\u00CB]/ig, "e");
@@ -373,15 +374,6 @@ export default class StringUtils {
      */
     static addLineBreaks(str) {
         return str.replace(new RegExp("\r\n", "g"), "<br/>");
-    }
-
-    /**
-     * Creates a html markup object for React set inner HTML
-     * @param {string} text The text to be added
-     * @returns {object}
-     */
-    static createTextMarkup(text) {
-        return {__html: text};
     }
 
 }
