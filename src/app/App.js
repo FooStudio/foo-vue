@@ -11,6 +11,7 @@ import store from "app/store"
 //VUE PLUGINS
 import RavenVue from "raven-js/plugins/vue"
 import VueI18n from "vue-i18n"
+import VueMediaQuery from "v-media-query"
 import VueFoo from "foo/core/vue/VueFoo"
 
 //VUE ROUTER
@@ -32,6 +33,13 @@ export default class App extends AbstractApp {
         }
 
         Vue.use(VueI18n);
+        Vue.use(VueMediaQuery, {
+            variables: {
+                mobile: 600,
+                desktop: 1280,
+                hd: 1440
+            }
+        });
         Vue.use(VueFoo, {app: this});
         Vue.use(VueRouter);
     }

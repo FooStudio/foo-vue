@@ -34,7 +34,8 @@ module.exports = {
             'assets': path.resolve( __dirname, '../src/assets' ),
             'app'   : path.resolve( __dirname, '../src/app' ),
             'styles': path.resolve( __dirname, '../src/styles' ),
-            'foo'   : path.resolve( __dirname, '../src/foo' )
+            'foo'   : path.resolve( __dirname, '../src/foo' ),
+            modernizr$: path.resolve(__dirname, "../.modernizrrc")
 
         }
     },
@@ -72,6 +73,14 @@ module.exports = {
                 loader: 'json'
             },
             {
+                test: /\.modernizrrc.js$/,
+                loader: "modernizr"
+            },
+            {
+                test: /\.modernizrrc(\.json)?$/,
+                loader: "modernizr!json"
+            },
+            {
                 test  : /\.(png|jpe?g|gif|svg)(\?.*)?$/,
                 loader: 'url',
                 query : {
@@ -79,6 +88,7 @@ module.exports = {
                     name : utils.assetsPath( 'img/[name].[ext]' )
                 }
             },
+
             {
                 test  : /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
                 loader: 'url',

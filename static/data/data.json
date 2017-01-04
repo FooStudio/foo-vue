@@ -1,9 +1,4 @@
 {
-    "global": [
-        "static/data/data.json",
-        "static/data/tracking.json",
-        "static/img/logo.gif"
-    ],
     "home": [],
     "test": []
 }

@@ -9,5 +9,5 @@ module.exports = {
     port: 21,
     localRoot: __dirname + "/../dist",
     remoteRoot: "/html/clients/foo/boilerplate",
-    exclude: ['.gitkeep']
+    exclude: ['.gitkeep', '.DS_Store']
 }

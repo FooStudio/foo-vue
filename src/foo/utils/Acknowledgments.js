@@ -18,15 +18,15 @@ export default class Acknowledgements {
     static show() {
         let consoleString = '%c Developed by Foo(Studio) http://foostudio.mx \n Coded by:';
         for (let developer of developers) {
-            consoleString += `\n - ${developer.name} - ${developer.url}`
+            consoleString += `\n * ${developer.name} - ${developer.url}`
         }
         consoleString += '\n Designed by:';
         for (let designer of designers) {
-            consoleString += `\n - ${designer.name} - ${designer.url}`
+            consoleString += `\n * ${designer.name} - ${designer.url}`
         }
         consoleString += '\n Produced by:';
         for (let producer of producers) {
-            consoleString += `\n - ${producer.name}`
+            consoleString += `\n * ${producer.name}`
         }
         console.log(consoleString, Acknowledgements.styles);
     }

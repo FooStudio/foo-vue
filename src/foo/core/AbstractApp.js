@@ -131,7 +131,12 @@ export default class AbstractApp {
         this._addListeners();
         this._initSDKs().then(() => {
             if (this.config.asset_loading) {
-                this.loadAssets();
+                Requester.getJSON("static/data/preload.json").then((response) => {
+                    this.loadAssets(response.body);
+                }).then(undefined, (error) => {
+                    throw new Error("Unable to load preload.json file!");
+                });
+
             } else {
                 this.start();
             }
@@ -299,12 +304,13 @@ export default class AbstractApp {
     /**
      * Method to load all assets
      * @private
+     * @param assets
      * @method loadAssets
      * @return {void}
      */
-    loadAssets() {
+    loadAssets(assets) {
         store.commit(LOADING, true);
-        this.data.global.map((item, i) => {
+        assets.map((item, i) => {
             this.loader.add(item);
         });
         this.loader.on("progress", this.loaderProgress.bind(this));

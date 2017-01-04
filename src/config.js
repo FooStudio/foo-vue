@@ -27,7 +27,7 @@ const config = {
     "xeerpa_presist": true,
     "apis": {
         "facebook": true,
-        "google": true,
+        "google": false,
         "twitter": false,
         "xeerpa": true,
     },
@@ -42,7 +42,7 @@ const config = {
                 "base": productionURL,
                 "route": productionRoute,
                 "routerMode": "hash",
-                "sentry":true,
+                "sentry": true,
                 "debug": false
             },
             "urls": {
@@ -60,7 +60,7 @@ const config = {
                 "base": stagingURL,
                 "route": stagingRoute,
                 "routerMode": "hash",
-                "sentry":true,
+                "sentry": true,
                 "debug": true
             },
             "urls": {
@@ -78,7 +78,7 @@ const config = {
                 "base": qaURL,
                 "route": qaRoute,
                 "routerMode": "hash",
-                "sentry":true,
+                "sentry": true,
                 "debug": true
             },
             "urls": {
@@ -96,7 +96,7 @@ const config = {
                 "base": developmentURL,
                 "route": developmentRoute,
                 "routerMode": "history",
-                "sentry":false,
+                "sentry": false,
                 "debug": true
             },
             "urls": {
@@ -139,6 +139,10 @@ switch (host.split(":").shift()) {
 
     case "marca.com": {
         env = "production";
+        break;
+    }
+    default: {
+        env = "development";
         break;
     }
 }

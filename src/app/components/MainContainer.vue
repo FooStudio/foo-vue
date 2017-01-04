@@ -3,7 +3,6 @@
 <script type="text/babel">
 
     import Vue from "vue"
-    import Pixi from "app/components/PixiComponent.vue"
 
     export default{
         name: "MainContainer",
@@ -11,10 +10,9 @@
             return {}
         },
         created(){
-            window.bus = new Vue();
         },
         props: {},
-        components: {Pixi},
+        components: {},
         methods: {},
         computed: {}
     }
@@ -25,6 +23,5 @@
         <keep-alive>
             <router-view></router-view>
         </keep-alive>
-        <pixi></pixi>
     </div>
 </template>

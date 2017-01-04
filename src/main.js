@@ -7,6 +7,9 @@
 import "sanitize.css/sanitize.css"
 import "./main.styl"
 
+//IMPORT MODERNIZR
+import Modernizr from "modernizr"
+
 //IMPORT POLYFILLS
 require('es6-promise').polyfill();
 

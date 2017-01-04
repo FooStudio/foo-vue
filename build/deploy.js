@@ -3,7 +3,7 @@
  */
 require('shelljs/global');
 
-var ora = require('ora')
+var ora = require('ora');
 var FtpDeploy = require("ftp-deploy");
 var ftpDeploy = new FtpDeploy();
 

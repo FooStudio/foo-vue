@@ -22,6 +22,9 @@ rm('-rf', assetsPath)
 mkdir('-p', assetsPath)
 cp('-R', 'static/*', assetsPath)
 
+var staticAssetsPath = path.join(config.build.assetsRoot);
+cp('-R', 'htdocs/.', staticAssetsPath)
+
 webpack(webpackConfig, function (err, stats) {
   spinner.stop()
   if (err) throw err
