@@ -66,7 +66,7 @@ export default class ArrayUtils {
      * @public
      * @static
      */
-    static contains(array:array, value):boolean {
+    static contains(array, value) {
         return (array.indexOf(value) != -1);
     }
 
@@ -80,7 +80,7 @@ export default class ArrayUtils {
      * @static
      * @public
      */
-    static inArrayField(array:array, field, value):boolean {
+    static inArrayField(array, field, value) {
         for (let i = 0; i < array.length; i++) {
             if (array[i][field] == value) return true;
         }
@@ -95,7 +95,7 @@ export default class ArrayUtils {
      * @returns {Object} The extracted element
      * @public
      */
-    static randomElement(array:array) {
+    static randomElement(array) {
         if (array.length > 0) {
             return array[Math.floor(Math.random * array.length)];
         }
@@ -110,7 +110,7 @@ export default class ArrayUtils {
      * @param {array} array The Array to be shuffled
      * @returns {void}
      */
-    static shuffle(array:array) {
+    static shuffle(array) {
         let i = array.length;
         if (i == 0) {
             return;
@@ -135,7 +135,7 @@ export default class ArrayUtils {
      * @param {array} target The Array to copy the supplied Array
      * @returns {void}
      */
-    static copy(array:array, target:array) {
+    static copy(array, target) {
         let leni = target.length = array.length;
         for (let i = 0; i < leni; i++) {
             target[i] = array[i];
@@ -150,7 +150,7 @@ export default class ArrayUtils {
      * @param {array} array The Array to be cloned
      * @return {array} the cloned Array
      */
-    static deepArrayClone(array):array {
+    static deepArrayClone(array) {
         let ret = array.concat();
         let iLim = ret.length;
         let i;
@@ -169,7 +169,7 @@ export default class ArrayUtils {
      * @param {array} array The array to get the average value
      * @return {number} The average value
      */
-    static average(array:array):number {
+    static average(array) {
         if (array == null || array.length == 0) return NaN;
         let total = 0;
         for (let i = 0; i < array.length; i++) {
@@ -187,7 +187,7 @@ export default class ArrayUtils {
      * @param {object} value The value to be removed
      * @return {number} The number of removed items
      */
-    static removeValueFromArray(array:array, value):number {
+    static removeValueFromArray(array, value) {
         let total = 0;
         for (let i = array.length; i > -1; i--) {
             if (array[i] === value) {
@@ -207,7 +207,7 @@ export default class ArrayUtils {
      * @param {object} value The value to be removed
      * @returns {boolean} A boolean which indicates if a value was removed
      */
-    static removeValueFromArrayOnce(array:array, value):boolean {
+    static removeValueFromArrayOnce(array, value) {
         let len = array.length;
         for (let i = len; i > -1; i--) {
             if (array[i] === value) {
@@ -226,7 +226,7 @@ export default class ArrayUtils {
      * @param {array} array The Array to be processed
      * @return {Array} The array with unique instances
      */
-    static createUniqueCopy(array:array):array {
+    static createUniqueCopy(array) {
         let newArray = [];
         let len = array.length;
         let item;
@@ -252,7 +252,7 @@ export default class ArrayUtils {
      * @param {array} array The Array to be cloned
      * @return {array} The cloned Array
      */
-    static clone(array:array):array {
+    static clone(array) {
         return array.slice(0, array.length);
     }
 
@@ -265,7 +265,7 @@ export default class ArrayUtils {
      * @param {array} array2 An Array to compare
      * @return {boolean} A boolean determining if the two Arrays were equal
      */
-    static areEqual(array1:array, array2:array):boolean {
+    static areEqual(array1, array2) {
         if (array1 == array2) {
             return true;
         }
@@ -289,7 +289,7 @@ export default class ArrayUtils {
      * @param {array} array The Array to be evaluated
      * @return {number} The amount of not empty items
      */
-    static filledLength(array:array):number {
+    static filledLength(array) {
         let length = 0;
         let leni = array.length;
         for (let i = 0; i < leni; i++) {
@@ -307,7 +307,7 @@ export default class ArrayUtils {
      * @param {array} array2 The second array to be evaluated
      * @return {Array} The resulting array with the items unique in first array
      */
-    static getUniqueFirst(array1:array, array2:array):boolean {
+    static getUniqueFirst(array1, array2) {
         let ret = [];
         for (let i = 0; i < array1.length; i++) {
             if (array2.indexOf(array1[i]) == -1) ret.push(array1[i]);
@@ -324,7 +324,7 @@ export default class ArrayUtils {
      * @param {array} array2 The array to be evaluated
      * @return {Array} The resulting array
      */
-    static intersect(array1:array, array2:array):array {
+    static intersect(array1, array2) {
         let ret = [];
         let i;
 
@@ -350,7 +350,7 @@ export default class ArrayUtils {
      * @param {array} [array] The Array to add elements
      * @return {Array} The Array with the added elements
      */
-    static addElements(element, amount:number = 1, array:array = []):array {
+    static addElements(element, amount = 1, array = []) {
         for (let i = 0; i < amount; i++) {
             array.push(element);
         }
@@ -365,7 +365,7 @@ export default class ArrayUtils {
      * @param {array} array The Array to remove empty elements from
      * @return {Array} The new Array without empty elements
      */
-    static removeEmptyElements(array:array):array {
+    static removeEmptyElements(array) {
         let results = [];
         for (let i = 0; i < array.length; i++) {
             if (array[i] != "" && array[i] != null && array[i] != undefined) results.push(array[i]);

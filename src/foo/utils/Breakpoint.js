@@ -1,33 +1,56 @@
-/**
- * Created by mendieta on 7/6/16.
- */
-
 import Bowser from "bowser"
 import isMobile from "ismobilejs"
-import ObjectUtils from "foo/utils/ObjectUtils"
 
+/**
+ * Static helper class to add meaningful classes to HTML body.
+ * @class Breakpoint
+ * @namespace utils
+ * @author Mendieta
+ */
 export default class Breakpoint {
-    static setup () {
-        this.body = document.getElementsByTagName( "body" )[ 0 ];
-        this.mobile();
-        this.bowser();
+    /**
+     * Calls the mobile and browser handlers.
+     * @method setup
+     * @static
+     * @public
+     */
+    static setup() {
+        this.body = document.getElementsByTagName("body")[0];
+        this._mobile();
+        this._bowser();
     }
 
-    static bowser () {
-        this.body.classList.add( Bowser.name );
-        this.body.classList.add( Bowser.version );
+    /**
+     * Setups class names depending on browser.
+     * @method _bowser
+     * @private
+     * @static
+     */
+    static _bowser() {
+        //IE BREAKS IF YOU ADD A CLASS WITH SPACES
+        const name = (Bowser.name == "Internet Explorer") ? "IE" : Bowser.name;
+        this.body.classList.add(name);
+        this.body.classList.add(Bowser.version);
     }
 
-    static mobile () {
-        for ( let key of ObjectUtils.getKeys( isMobile ) ) {
-            if ( typeof isMobile[ key ] !== "object" && isMobile[ key ] == true && key !== "any" ) {
-                this.body.classList.add( key );
+    /**
+     * Setups class names depending on mobile device.
+     * @method _mobile
+     * @private
+     * @static
+     */
+    static _mobile() {
+        const keys = Object.keys(isMobile);
+        for (let key of keys) {
+            if (typeof isMobile[key] !== "object" && isMobile[key] == true && key !== "any") {
+                this.body.classList.add(key);
             }
 
-            if ( typeof isMobile[ key ] == "object" ) {
-                for ( let k of ObjectUtils.getKeys( isMobile[ key ] ) ) {
-                    if ( isMobile[ key ][ k ] == true && k !== "blackberry" && k !== "blackberry10" && k !== "chrome" && k !== "device" && k !== "firefox" && k !== "opera" ) {
-                        this.body.classList.add( key );
+            if (typeof isMobile[key] == "object") {
+                const keys2 = Object.keys(isMobile[key]);
+                for (let k of keys2) {
+                    if (isMobile[key][k] == true && k !== "blackberry" && k !== "blackberry10" && k !== "chrome" && k !== "device" && k !== "firefox" && k !== "opera") {
+                        this.body.classList.add(key);
                         break;
                     }
                 }

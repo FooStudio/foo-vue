@@ -3,6 +3,7 @@ import StringUtils from "foo/utils/StringUtils"
  * Helper Class to work with Time
  * @class TimeUtils
  * @namespace utils.types
+ * @author Mendieta
  */
 export default class TimeUtils {
 
@@ -17,7 +18,7 @@ export default class TimeUtils {
      * @param {string} [delimiter=":"] The delimiter to be used
      * @returns {number} The number of seconds parsed
      */
-    static stringToSeconds(value:string, delimiter:string = ":"):number {
+    static stringToSeconds(value, delimiter = ":") {
         let arr = value.split(delimiter);
         let sec = 0;
         if (value.substr(-1) == "s") {
@@ -56,7 +57,7 @@ export default class TimeUtils {
      * @param {string} [delimiter=":"] The delimiter to be used
      * @returns {string} The time formatted to string
      */
-    static secondsToString(seconds:number, delimiter:string = ":"):string {
+    static secondsToString(seconds, delimiter = ":") {
         return StringUtils.padLeft(Math.floor(seconds / 60).toString(), 2, "0") + delimiter + StringUtils.padLeft(Math.floor(seconds % 60).toString(), 2, "0");
     }
 
@@ -69,7 +70,7 @@ export default class TimeUtils {
      * @param {string} [delimiter=":"] The delimiter to be used
      * @returns {string} The string of the formatted time
      */
-    static formatTime(milliseconds:number, delimiter:string = ":"):string {
+    static formatTime(milliseconds, delimiter = ":") {
         return StringUtils.padLeft(Math.floor(milliseconds / 60000).toString(), 2, "0") + delimiter + StringUtils.padLeft((Math.floor(milliseconds * .001) % 60).toString(), 2, "0") + -"." + StringUtils.padLeft((Math.round(Math.floor(milliseconds % 1000))).toString(), 3, "0");
     }
 
@@ -82,7 +83,7 @@ export default class TimeUtils {
      * @param {string} [delimiter=":"] The delimiter to be used
      * @returns {string} The string of the formatted time
      */
-    static formatTime2(milliseconds:number, delimiter:string = ":"):string {
+    static formatTime2(milliseconds, delimiter = ":") {
         return StringUtils.padLeft((Math.floor(milliseconds / 86400000)).toString(), 2, "0") +
             delimiter + StringUtils.padLeft((Math.floor(milliseconds / 3600000) % 24).toString(), 2, "0") +
             delimiter + StringUtils.padLeft((Math.floor(milliseconds / 60000) % 60).toString(), 2, "0") +
@@ -99,7 +100,7 @@ export default class TimeUtils {
      * @param {string} [delimiter=":"] The delimiter to be used
      * @returns {string} the string of the formatted time
      */
-    static formatMinutesSeconds(milliseconds:number, delimiter:string = ":"):string {
+    static formatMinutesSeconds(milliseconds, delimiter = ":") {
         return StringUtils.padLeft(Math.floor(milliseconds / (60000)).toString(), 2, "0") + delimiter + StringUtils.padLeft((Math.floor(milliseconds / 1000) % 60).toString(), 2, "0");
     }
 
@@ -112,7 +113,7 @@ export default class TimeUtils {
      * @param {string} [delimiter=":"] The delimiter to be used
      * @returns {string} The string of the formatted time
      */
-    static formatMinutesSecondsAlt(milliseconds:numnber, delimiter:string = ":"):string {
+    static formatMinutesSecondsAlt(milliseconds, delimiter = ":") {
         return (Math.floor(milliseconds / 60000)).toString() + delimiter + StringUtils.padLeft((Math.floor(milliseconds / 1000) % 60).toString(), 2, "0");
     }
 

@@ -82,7 +82,7 @@ export default class DateUtils {
      * @param {date} date The date to be parsed
      * @returns {string} The resulting string
      */
-    static getShortYear(date:date):string {
+    static getShortYear(date) {
         let year = date.getFullYear().toString();
         if (year.length < 3) {
             return year;
@@ -104,7 +104,7 @@ export default class DateUtils {
      * @param {date} date2 The date that will be compared to the first date.
      * @returns {number} The number of the result
      */
-    static compareDate(date1:date, date2:date):string {
+    static compareDate(date1, date2) {
         let d1ms = date1.getTime();
         let d2ms = date2.getTime();
 
@@ -127,7 +127,7 @@ export default class DateUtils {
      * @param {date} date The date to be parsed
      * @returns {number} The hours parsed from date
      */
-    static getShortHour(date:date):number {
+    static getShortHour(date) {
         let h = date.getHours();
         if (h === 0 || h === 12) {
             return 12;
@@ -148,7 +148,7 @@ export default class DateUtils {
      * @param {date} end The end date
      * @returns {number} The number of days between
      */
-    static countDays(start:date, end:date):number {
+    static countDays(start, end) {
         return Math.abs(end.valueOf() - start.valueOf()) / (1000 * 60 * 60 * 24);
     }
 
@@ -160,7 +160,7 @@ export default class DateUtils {
      * @param {*} year the year value as stored in a Date object.
      * @returns {boolean} A boolean determining if the year is leap
      */
-    static isLeapYear(year):boolean {
+    static isLeapYear(year) {
         if (year % 100 === 0) {
             return year % 400 === 0;
         }
@@ -168,12 +168,12 @@ export default class DateUtils {
     }
 
     /**
-     * Determines if the dates are the same day
+     * Determines if the dates are the same
      * @param {date} compare The first Date to compare
      * @param {date} to The seconds Date to compare
      * @returns {boolean} A boolean determining if the two days are the same
      */
-    static isSameDay(compare:date, to:date):boolean {
+    static isSameDay(compare, to) {
         if (compare.getFullYear() !== to.getFullYear()) {
             return false;
         }
@@ -195,7 +195,7 @@ export default class DateUtils {
      * @param {date} [on] Date on which the age is calculated. If null, the current date is used.
      * @returns {number} The age in number of the supplied Date
      */
-    static age(birthdate:date, on:date = null):number {
+    static age(birthdate, on = null) {
         if (!on) {
             on = new Date();
         }
@@ -221,7 +221,7 @@ export default class DateUtils {
      * @param {number} years The minimum years
      * @returns {boolean} A boolean determining if the Date is valid
      */
-    static ageCheck(date:date, years:number):boolean {
+    static ageCheck(date, years) {
         return DateUtils.age(date) >= years;
     }
 
@@ -233,7 +233,7 @@ export default class DateUtils {
      * @param {date} date The Date to be evaluated
      * @returns {number} the number of days in month
      */
-    static getDaysOfMonth(date:date):number {
+    static getDaysOfMonth(date) {
         return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
     }
 
@@ -245,7 +245,7 @@ export default class DateUtils {
      * @param {date} date The date to ve evaluated
      * @returns {string} The resulting string of hours
      */
-    static getAMPM(date:date):string {
+    static getAMPM(date) {
         return (date.getHours() > 11) ? "PM" : "AM";
     }
 
@@ -257,7 +257,7 @@ export default class DateUtils {
      * @param {date} date The date to be evaluated
      * @returns {number} The number of week of the current date
      */
-    static getWeekOfYear(date:date):number {
+    static getWeekOfYear(date) {
         let dayOfYear = DateUtils.getDayOfYear(date);
         let firstDay = new Date(date.getFullYear(), 0, 1);
         let fullWeeks = (dayOfYear - (DateUtils._MONDAY_STARTING_WEEK[date.getDay()] + (7 - DateUtils._MONDAY_STARTING_WEEK[firstDay.getDay()])) ) / 7;
@@ -276,7 +276,7 @@ export default class DateUtils {
      * @param {date} date The date to be evaluated
      * @returns {number} The day number in current year of the current Date
      */
-    static getDayOfYear(date:date):number {
+    static getDayOfYear(date) {
         let firstDayOfYear = new Date(date.getFullYear(), 0, 1);
         let milliseondsOffset = date.getTime() - firstDayOfYear.getTime();
         return Math.floor(milliseondsOffset / 86400000);
@@ -290,7 +290,7 @@ export default class DateUtils {
      * @param {number} seconds The seconds of the time
      * @returns {Date} The resulting Date
      */
-    static getNextInWeekDateFor(day:number, hours:number, minutes:number, seconds:number):date {
+    static getNextInWeekDateFor(day, hours, minutes, seconds) {
         let d = new Date();
         let targetDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), hours, minutes, seconds);
         if (targetDate.getDay() != day) {

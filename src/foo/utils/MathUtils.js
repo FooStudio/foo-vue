@@ -2,8 +2,8 @@
  * Helper Class to work with Maths
  * @class MathUtils
  * @namespace utils.types
+ * @author Mendieta
  */
-
 export default class MathUtils {
 
     /**
@@ -15,7 +15,7 @@ export default class MathUtils {
      * @param {number} dy the y component of the vector
      * @returns {number} The the angle of the passed vector in degrees.
      */
-    static angle(dx:number, dy:number):number {
+    static angle(dx, dy) {
         return Math.atan2(dy, dx) * 180 / Math.PI;
     }
 
@@ -28,7 +28,7 @@ export default class MathUtils {
      * @param {number} max The max integer
      * @returns {number} The random integer
      */
-    static getRandomInt(min:number, max:number):number {
+    static getRandomInt(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return min + Math.floor(Math.random() * (max + 1 - min));
@@ -43,7 +43,7 @@ export default class MathUtils {
      * @param {number} max The max number
      * @returns {number} the random number
      */
-    static getRandomNumber(min:number, max:number):number {
+    static getRandomNumber(min, max) {
         return min + (Math.random() * (max - min));
     }
 
@@ -57,7 +57,7 @@ export default class MathUtils {
      * @param {number} max The max value
      * @returns {number} the normalize result
      */
-    static normalize(value:number, min:number, max:number):number {
+    static normalize(value, min, max) {
         return (value - min) / (max - min);
     }
 
@@ -71,7 +71,7 @@ export default class MathUtils {
      * @param {number} max the max value
      * @returns {number} The interpolation result
      */
-    static interpolate(value:number, min:number, max:number) {
+    static interpolate(value, min, max) {
         return min + (max - min) * value;
     }
 
@@ -87,7 +87,7 @@ export default class MathUtils {
      * @param {number} max2 the max 2 value
      * @returns {number} The map result
      */
-    static map(value:number, min1:number, max1:number, min2:number, max2:number):number {
+    static map(value, min1, max1, min2, max2) {
         return MathUtils.interpolate(MathUtils.normalize(value, min1, max1), min2, max2);
     }
 
@@ -98,12 +98,12 @@ export default class MathUtils {
      * @public
      * @param {number} width The width
      * @param {number} height The height
-     * @param {number} maxwidth The max width
+     * @param {number} maxWidth The max width
      * @param {number} maxHeight The max height
      * @returns {number} The preferred radio
      */
-    static findPreferredRadio(width:number, height:number, maxwidth:number, maxHeight:number):number {
-        let dw = maxwidth / width;
+    static findPreferredRadio(width, height, maxWidth, maxHeight) {
+        let dw = maxWidth / width;
         let dh = maxHeight / height;
         return dw < dh ? dw : dh;
     }
@@ -120,7 +120,7 @@ export default class MathUtils {
      * @param {number} max The max value
      * @returns {number} The number limited
      */
-    static limit(value:number, min:number, max:number):number {
+    static limit(value, min, max) {
         return Math.min(Math.max(min, value), max);
     }
 
@@ -133,7 +133,7 @@ export default class MathUtils {
      * @param {number} [digits=0] Specifies the digits after the comma.
      * @returns {number} The number rounbded
      */
-    static roundNumber(val:number, digits:number = 0):number {
+    static roundNumber(val, digits = 0) {
         let factor = Math.pow(10, digits);
         return Math.round(val * factor) / factor;
     }
@@ -146,7 +146,7 @@ export default class MathUtils {
      * @param {number} degrees The degrees to be transformed
      * @returns {number} The angle in radians
      */
-    static degreesToRadians(degrees:number):number {
+    static degreesToRadians(degrees) {
         return degrees * (Math.PI / 180);
     }
 
@@ -158,7 +158,7 @@ export default class MathUtils {
      * @param {number} radians the radians to be transformed
      * @returns {number} The angle in degrees
      */
-    static radiansToDegrees(radians:number):number {
+    static radiansToDegrees(radians) {
         return radians * (180 / Math.PI);
     }
 
