@@ -6,14 +6,13 @@ import Requester from "foo/net/Requester";
  */
 export default class Api {
 
-
     /**
      * Login user
      * @method
      * @static
      * @param {Object} data
      */
-    static login(data) {
+    static login (data) {
         return new Promise((resolve, reject) => {
             Requester.postJSON(this.apiURL("login"), data).then((response) => {
                 console.log("Login API success!");
@@ -22,7 +21,7 @@ export default class Api {
                 console.log("Login API error!");
                 reject(error);
             });
-        })
+        });
     }
 
     /**
@@ -31,16 +30,16 @@ export default class Api {
      * @static
      * @return Promise
      */
-    static logout() {
+    static logout () {
         return new Promise((resolve, reject) => {
-            Requester.postJSON(this.apiURL("logout"), data).then((response) => {
+            Requester.postJSON(this.apiURL("logout")).then((response) => {
                 console.log("Login API success!");
                 resolve(response.body);
             }).then(undefined, (error) => {
                 console.log("Login API error!");
                 reject(error);
             });
-        })
+        });
     }
 
     /**
@@ -50,7 +49,7 @@ export default class Api {
      * @static
      * @return Promise
      */
-    static register(data) {
+    static register (data) {
         return new Promise((resolve, reject) => {
             Requester.postJSON(this.apiURL("register"), data).then((response) => {
                 console.log("Register API success.");
@@ -58,12 +57,11 @@ export default class Api {
             }).then(undefined, (error) => {
                 console.error("Register API error!");
                 reject(error);
-            })
+            });
         });
     }
 
-
-    static apiURL(endpoint) {
-        return `${App.environment.urls.api}${endpoint}`
+    static apiURL (endpoint) {
+        return `${App.environment.urls.api}${endpoint}`;
     }
 }

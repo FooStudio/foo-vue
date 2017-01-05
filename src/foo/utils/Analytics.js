@@ -1,6 +1,6 @@
-import Requester from "foo/net/Requester"
-import GoogleAnalytics from "foo/utils/tracking/GoogleAnalytics"
-import store from "app/store"
+import Requester from "foo/net/Requester";
+import GoogleAnalytics from "foo/utils/tracking/GoogleAnalytics";
+import store from "app/store";
 
 export default class Analytics {
 
@@ -60,7 +60,7 @@ export default class Analytics {
             })
             .then(undefined, (error) => {
                 console.error("Error loading analytics tags:", error);
-            })
+            });
     }
 
     /**
@@ -84,8 +84,7 @@ export default class Analytics {
      */
     trackEvent(param) {
         if (!this.started) return;
-
-        if (route) {
+        if (param) {
             const v = this.tags[param];
             if (v) {
                 if (App.DEBUG) console.info("Track Event:", v);
@@ -95,7 +94,7 @@ export default class Analytics {
                             GoogleAnalytics.trackEvent(v);
                             break;
                         default:
-                            console.warn("Analytics: ", "Adapter not defined or not found!")
+                            console.warn("Analytics: ", "Adapter not defined or not found!");
                     }
                 }
             }
@@ -117,7 +116,7 @@ export default class Analytics {
                         GoogleAnalytics.trackPage(route);
                         break;
                     default:
-                        console.warn("Analytics: ", "Adapter not defined or not found!")
+                        console.warn("Analytics: ", "Adapter not defined or not found!");
                 }
             }
         }

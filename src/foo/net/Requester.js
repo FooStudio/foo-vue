@@ -43,6 +43,6 @@ export default class Requester {
      */
     static postJSON(url, data) {
         return request.post(url)
-            .send(data)
+            .send(data);
     }
 }

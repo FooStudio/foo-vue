@@ -16,7 +16,7 @@ const developmentURL = "http://localhost:8080" + developmentRoute;
 
 const apiEndPoint = "/endpoint/";
 
-//CONFIG
+// CONFIG
 const config = {
     "locale": "es-MX",
     "analytics": ["google"],
@@ -112,7 +112,7 @@ const config = {
     }
 };
 
-//ENVIRONMENT
+// ENVIRONMENT
 let env = "development";
 const host = document.location.host;
 

@@ -1,41 +1,29 @@
-import Vue from "vue"
+import Vue from 'vue';
 
-export default  Vue.component("LoaderTransition", {
+export default Vue.component('LoaderTransition', {
     functional: true,
-    render: function (createElement, context) {
-        var data = {
+    render: (createElement, context) => {
+        const data = {
             props: {
-                name: "LoaderTransition",
+                name: 'LoaderTransition',
                 css: false,
-                //mode:"out-in"
+                //mode:'out-in'
             },
             on: {
-                beforeEnter: function (el) {
-
+                beforeEnter: el => { },
+                enter: (el, done) => {
+                    TweenMax.fromTo(el, 0.5, { alpha: 0 }, { alpha: 1, ease: Sine.easeOut, onComplete: done });
                 },
-                enter: function (el, done) {
-                    TweenMax.fromTo(el, 0.5, {alpha: 0}, {alpha: 1, ease: Sine.easeOut, onComplete: done})
+                afterEnter: el => { },
+                enterCancelled: el => { },
+                beforeLeave: el => { },
+                leave: (el, done) => {
+                    TweenMax.to(el, 0.5, { alpha: 0, ease: Sine.easeOut, onComplete: done });
                 },
-                afterEnter: function (el) {
-
-                },
-                enterCancelled: function (el) {
-
-                },
-                beforeLeave: function (el) {
-
-                },
-                leave: function (el, done) {
-                    TweenMax.to(el, 0.5, {alpha: 0, ease: Sine.easeOut, onComplete: done});
-                },
-                afterLeave: function (el) {
-
-                },
-                leaveCancelled: function (el) {
-
-                }
+                afterLeave: el => { },
+                leaveCancelled: el => { }
             }
         };
-        return createElement("transition", data, context.children);
+        return createElement('transition', data, context.children);
     }
-})
+});

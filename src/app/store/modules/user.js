@@ -2,7 +2,7 @@
  * Created by mendieta on 11/7/16.
  */
 
-import AuthManager from "foo/core/AuthManager"
+import AuthManager from "foo/core/AuthManager";
 
 export const LOGIN = "user/login";
 export const REGISTER = "user/register";
@@ -57,7 +57,7 @@ const mutations = {
     },
     [LOGOUT](state){
         state.error = null;
-        //state.logged = false;
+        // state.logged = false;
     }
 };
 

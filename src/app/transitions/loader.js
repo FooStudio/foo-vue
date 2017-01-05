@@ -3,11 +3,9 @@
  */
 
 export function mainLoaderDisappear() {
-
     return new Promise((resolve, reject) => {
-        let element = document.getElementById("main-loader");
-
-        let tl = new TimelineMax({
+        let element = document.getElementById('main-loader');
+        const tl = new TimelineMax({
             onComplete: () => {
                 element.parentNode.removeChild(element);
                 element = null;
@@ -19,7 +17,6 @@ export function mainLoaderDisappear() {
             autoAlpha: 0,
             ease: Sine.easeIn,
             overwrite: 'all',
-        })
+        });
     });
-
 }

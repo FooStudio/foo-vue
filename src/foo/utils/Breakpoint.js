@@ -1,5 +1,5 @@
-import Bowser from "bowser"
-import isMobile from "ismobilejs"
+import Bowser from "bowser";
+import isMobile from "ismobilejs";
 
 /**
  * Static helper class to add meaningful classes to HTML body.
@@ -27,8 +27,8 @@ export default class Breakpoint {
      * @static
      */
     static _bowser() {
-        //IE BREAKS IF YOU ADD A CLASS WITH SPACES
-        const name = (Bowser.name == "Internet Explorer") ? "IE" : Bowser.name;
+        // IE BREAKS IF YOU ADD A CLASS WITH SPACES
+        const name = (Bowser.name === "Internet Explorer") ? "IE" : Bowser.name;
         this.body.classList.add(name);
         this.body.classList.add(Bowser.version);
     }
@@ -42,14 +42,14 @@ export default class Breakpoint {
     static _mobile() {
         const keys = Object.keys(isMobile);
         for (let key of keys) {
-            if (typeof isMobile[key] !== "object" && isMobile[key] == true && key !== "any") {
+            if (typeof isMobile[key] !== "object" && isMobile[key] === true && key !== "any") {
                 this.body.classList.add(key);
             }
 
-            if (typeof isMobile[key] == "object") {
+            if (typeof isMobile[key] === "object") {
                 const keys2 = Object.keys(isMobile[key]);
                 for (let k of keys2) {
-                    if (isMobile[key][k] == true && k !== "blackberry" && k !== "blackberry10" && k !== "chrome" && k !== "device" && k !== "firefox" && k !== "opera") {
+                    if (isMobile[key][k] === true && k !== "blackberry" && k !== "blackberry10" && k !== "chrome" && k !== "device" && k !== "firefox" && k !== "opera") {
                         this.body.classList.add(key);
                         break;
                     }

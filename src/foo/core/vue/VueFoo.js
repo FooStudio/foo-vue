@@ -2,16 +2,16 @@
  * Created by mendieta on 7/17/16.
  */
 
-import request from "superagent"
+import request from "superagent";
 
 const VueFoo = {};
 
 VueFoo.install = function (Vue, options) {
-    //LOCALE
+    // LOCALE
     Vue.prototype.$setLocale = options.app.setLocale;
     Vue.setLocale = options.app.setLocale;
 
-    //SUPERAGENT || HTTP
+    // SUPERAGENT || HTTP
     Vue.prototype.$get = request.get;
     Vue.prototype.$post = request.post;
     Vue.prototype.$delete = request.del;
@@ -19,7 +19,7 @@ VueFoo.install = function (Vue, options) {
     Vue.prototype.$put = request.put;
     Vue.prototype.$patch = request.patch;
 
-    //ANALYTICS
+    // ANALYTICS
     Vue.prototype.$trackEvent = App.analytics.trackEvent;
 };
 

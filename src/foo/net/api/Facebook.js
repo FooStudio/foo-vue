@@ -1,5 +1,5 @@
-import loadJS from "load-script"
-import Requester from "foo/net/Requester"
+import loadJS from "load-script";
+import Requester from "foo/net/Requester";
 
 /**
  * Helper static class for working with Facebook API
@@ -157,7 +157,7 @@ export default class Facebook {
             if (count === 2) {
                 resolve(userData);
             }
-        }
+        };
     }
 
     /**
@@ -194,18 +194,18 @@ export default class Facebook {
 
     }
 
-    static getLocations(access_token = null, limit = 20) {
+    static getLocations(token = null, limit = 20) {
         return new Promise((resolve, reject) => {
-            FB.api("/me/tagged_places", {access_token, limit}, (response) => {
+            FB.api("/me/tagged_places", {token, limit}, (response) => {
                 resolve(response.data);
-            })
+            });
         });
     }
 
-    static getLikes(access_token = null, limit = 100) {
+    static getLikes(token = null, limit = 100) {
         let likes = [];
         return new Promise((resolve, reject) => {
-            FB.api("/me/likes", {access_token, limit}, (response) => {
+            FB.api("/me/likes", {token, limit}, (response) => {
                 likes = likes.concat(response.data);
                 if (response.paging.next) {
                     nextPage(response.paging.next);
@@ -222,10 +222,8 @@ export default class Facebook {
                     } else {
                         resolve(likes);
                     }
-                })
-            }
+                });
+            };
         });
-
     }
-
 }

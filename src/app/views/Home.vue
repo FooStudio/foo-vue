@@ -1,9 +1,9 @@
 <style src="styles/views/Home.styl" lang="stylus"></style>
 
 <script type="text/babel">
-    import MainTransition from "app/transitions/GSAP"
+    import MainTransition from "app/transitions/GSAP";
 
-    export default{
+    export default {
         name: "Home",
         data(){
             return {
@@ -11,7 +11,7 @@
                 filter: "",
                 loading: true,
                 error: false
-            }
+            };
         },
         created(){
             this.fetchData();
@@ -27,30 +27,29 @@
                     this.loading = false;
                     this.error = true;
                     console.error(error);
-                })
+                });
             },
             beforeEnter(el){
-                TweenMax.set(el, {alpha: 0, height: 0})
+                TweenMax.set(el, {alpha: 0, height: 0});
             },
             enter(el, done){
-                let delay = el.dataset.index * .015;
+                let delay = el.dataset.index * 0.015;
                 TweenMax.to(el, 0.65,
                     {alpha: 1, height: 24, delay: delay, ease: Power4.easeOut, onComplete: done});
             },
             leave(el, done){
-                let delay = el.dataset.index * .015;
-                TweenMax.to(el, 0.65,
-                    {alpha: 0, height: 0, ease: Power4.easeOut, delay: delay, onComplete: done});
+                let delay = el.dataset.index * 0.015;
+                TweenMax.to(el, 0.65, {alpha: 0, height: 0, ease: Power4.easeOut, delay: delay, onComplete: done});
             }
         },
         computed: {
             filteredUsers(){
                 return this.users.filter((item) => {
                     return item.name.toLowerCase().indexOf(this.filter.toLowerCase()) !== -1;
-                })
+                });
             }
         }
-    }
+    };
 </script>¡
 
 <template>

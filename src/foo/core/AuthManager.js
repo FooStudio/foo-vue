@@ -1,7 +1,7 @@
-import Facebook from "foo/net/api/Facebook"
-import Google from "foo/net/api/Google"
-import Xeerpa from "foo/net/api/Xeerpa"
-import Api from "app/Api"
+import Facebook from "foo/net/api/Facebook";
+import Google from "foo/net/api/Google";
+import Xeerpa from "foo/net/api/Xeerpa";
+import Api from "app/Api";
 
 /**
  * Authentication manager class.
@@ -49,7 +49,7 @@ export default class AuthManager {
                     Api.login(data);
                     break;
                 default:
-                    throw new Error("AuthManager:", `Supplied service: ${service} is not defined!`);
+                    // throw new Error("AuthManager:", `Supplied service: ${service} is not defined!`);
                     reject("Error");
             }
         });
@@ -69,7 +69,7 @@ export default class AuthManager {
                     Api.register(data);
                     break;
                 default:
-                    throw new Error("AuthManager:", `Supplied service: ${service} is not defined for the register action!`);
+                    // throw new Error("AuthManager:", `Supplied service: ${service} is not defined for the register action!`);
                     reject("Error");
             }
         });

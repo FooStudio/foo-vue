@@ -66,7 +66,7 @@ export default class Google {
         return new Promise((resolve) => {
             this.resolve = resolve;
             this._load();
-        })
+        });
     }
 
     /**
@@ -100,7 +100,7 @@ export default class Google {
                 this.inited = true;
                 this.resolve();
                 this.resolve = null;
-            })
+            });
         });
     }
 
@@ -130,7 +130,7 @@ export default class Google {
             .then(undefined, (error) => {
                 console.error(error);
                 reject(error);
-            })
+            });
     }
 
     /**

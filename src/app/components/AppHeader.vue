@@ -1,14 +1,13 @@
 <style src="styles/components/AppHeader.styl" lang="stylus" scoped></style>
 
 <script type="text/babel">
+    import {mapActions} from "vuex";
+    import {LOADING} from "app/store/modules/loader";
 
-    import {mapActions} from "vuex"
-    import {LOADING} from "app/store/modules/loader"
-
-    export default{
+    export default {
         name: "AppHeader",
         data(){
-            return {}
+            return {};
         },
         props: {},
         components: {},
@@ -18,9 +17,7 @@
             })
         },
         computed: {}
-    }
-
-
+    };
 </script>
 
 <template>

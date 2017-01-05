@@ -1,19 +1,19 @@
 <style src="styles/views/Test.styl" lang="stylus"></style>
 
 <script type="text/babel">
+    import MainTransition from "app/transitions/GSAP";
+    import AuthManager from "foo/core/AuthManager";
+    import Xeerpa from "foo/net/api/Xeerpa";
+    import {LOGIN} from "app/store/modules/user";
+    import XeerpaWidget from "app/components/XeerpaWidget.vue";
+    import { isEmpty } from 'lodash';
 
-    import MainTransition from "app/transitions/GSAP"
-    import AuthManager from "foo/core/AuthManager"
-    import Xeerpa from "foo/net/api/Xeerpa"
-    import {LOGIN} from "app/store/modules/user"
-    import XeerpaWidget from "app/components/XeerpaWidget.vue"
-
-    export default{
+    export default {
         name: "Test",
         data(){
             return {
                 appSize: {width: App.width, height: App.height}
-            }
+            };
         },
         props: {},
         components: {MainTransition, XeerpaWidget},
@@ -29,7 +29,8 @@
             },
             onFBLogin(){
                 this.$store.dispatch(LOGIN, {service: AuthManager.services.FB}).catch((error) => {
-                    //not able to do login
+                    // not able to do login
+                    console.error(error);
                 });
             },
             onXeerpaLogin(){
@@ -37,30 +38,30 @@
             },
             onGoogleLogin(){
                 this.$store.dispatch(LOGIN, {service: AuthManager.services.GO}).catch((error) => {
-                    //not able to do login
+                    // not able to do login
                     console.error(error);
                 });
             }
         },
         computed: {
             fbLoggedIn(){
-                return this.$store.state.user.facebook ? true : false;
+                return !isEmpty(this.$store.state.user.facebook);
             },
             fbData(){
                 return this.$store.state.user.facebook;
             },
             xeerpaLoggedIn(){
-                return this.$store.state.user.xeerpa ? true : false;
+                return !isEmpty(this.$store.state.user.xeerpa);
             },
             googleLoggedIn(){
-                return this.$store.state.user.google ? true : false;
+                return !isEmpty(this.$store.state.user.google);
             },
             googleData(){
                 return this.$store.state.user.google;
             }
 
         }
-    }
+    };
 </script>
 
 <template>

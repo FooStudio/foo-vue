@@ -1,11 +1,10 @@
 <style src="styles/components/XeerpaWidget.styl" lang="stylus" scoped></style>
 
 <script type="text/babel">
-
-    import Facebook from "foo/net/api/Facebook"
-    import filter from  "lodash/filter"
-    import find from "lodash/find"
-    import reject from "lodash/reject"
+    import Facebook from "foo/net/api/Facebook";
+    import filter from "lodash/filter";
+    import find from "lodash/find";
+    import reject from "lodash/reject";
 
     export default{
         name: "XeerpaWidget",
@@ -29,7 +28,7 @@
                     {id: "141447136006433"},
                     {id: "193071850788433"}
                 ]
-            }
+            };
         },
         props: {},
         components: {},
@@ -61,10 +60,10 @@
             missing(){
                 return reject(this.pages, (o) => {
                     return find(this.liked, {id: o.id});
-                })
+                });
             }
         }
-    }
+    };
 </script>
 
 <template>

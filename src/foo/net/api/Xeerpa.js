@@ -1,6 +1,6 @@
-import bowser from "bowser"
-import {LOGIN} from "app/store/modules/user"
-import store from "app/store"
+import bowser from "bowser";
+import {LOGIN} from "app/store/modules/user";
+import store from "app/store";
 
 /**
  * Xeerpa social login helper class.
@@ -73,13 +73,12 @@ export default class Xeerpa {
             if (!App.config.xeerpa_presist) return;
             const data = JSON.parse(window.sessionStorage.getItem("xeerpa"));
             if (data) {
-                const expireDate = new Date(data.auth.expires);
+                // const expireDate = new Date(data.auth.expires);
                 store.commit(LOGIN, {network: "xeerpa", response: data});
             }
             resolve();
         });
     }
-
 
     /**
      * Initiates a login to a social network with Xeerpa.
@@ -100,17 +99,17 @@ export default class Xeerpa {
 
         window.open(apiURL, "Login", "width=" + (500) + ", height=" + (475) + ", scrollbars=yes");
 
-        if (navigator.appName == 'Microsoft Internet Explorer' || !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv 11/)) || bowser.msie) {
+        if (navigator.appName === 'Microsoft Internet Explorer' || !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv 11/)) || bowser.msie) {
             let checkCookie = setInterval(function () {
                 let cookie = this._readCookie();
                 if (cookie) {
                     clearInterval(checkCookie);
-                    this._receiveData(cookie)
+                    this._receiveData(cookie);
                 }
             }, 100);
         }
 
-        //TODO: DUE TO HOW XEERPA WORKS NO CANCEL OR ERROR CALLBACK IS TRIGGERED. MAYBE USING A TIMEOUT TO VERIFY USER ACTIVITY.
+        // TODO: DUE TO HOW XEERPA WORKS NO CANCEL OR ERROR CALLBACK IS TRIGGERED. MAYBE USING A TIMEOUT TO VERIFY USER ACTIVITY.
     }
 
     /**
@@ -120,7 +119,7 @@ export default class Xeerpa {
      * @method _messageHandler
      */
     static _messageHandler(event) {
-        if (typeof event.data != "string") return;
+        if (typeof event.data !== "string") return;
         let data = JSON.parse(event.data);
         if (data.socialNetwork) this._receiveData(data);
     }
@@ -139,7 +138,7 @@ export default class Xeerpa {
             if (cookie[0] === "user") {
                 let value = cookie[1];
                 document.cookie = "user=;path=/;expires=" + new Date(Date.now() - 1000).toGMTString();
-                return value
+                return value;
             }
         }
     }
@@ -151,7 +150,7 @@ export default class Xeerpa {
      * @method _receiveData
      */
     static _receiveData(data) {
-        //TODO: Conditionally remove listener, IE doesn't use it.
+        // TODO: Conditionally remove listener, IE doesn't use it.
         window.removeEventListener("message", this._messageHandler);
         this.cb(data);
         if (App.config.xeerpa_presist) window.sessionStorage.setItem("xeerpa", JSON.stringify(data));

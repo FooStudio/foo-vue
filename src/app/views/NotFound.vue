@@ -1,18 +1,18 @@
 <style src="styles/views/NotFound.styl" lang="stylus"></style>
 
 <script type="text/babel">
-    import MainTransition from "app/transitions/GSAP"
+    import MainTransition from "app/transitions/GSAP";
 
-    export default{
+    export default {
         name: "NotFound",
         data(){
-            return {}
+            return {};
         },
         props: {},
         components: {MainTransition},
         methods: {},
         computed: {}
-    }
+    };
 </script>
 
 <template>

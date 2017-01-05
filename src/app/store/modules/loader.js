@@ -27,7 +27,7 @@ const mutations = {
         state.loading = false;
     },
     [LOADING](state, loading){
-        state.loading = loading
+        state.loading = loading;
     },
     [PROGRESS](state, progress){
         state.progress = progress;

@@ -1,13 +1,10 @@
 <style src="styles/components/MainContainer.styl" lang="stylus" scoped></style>
 
 <script type="text/babel">
-
-    import Vue from "vue"
-
-    export default{
+    export default {
         name: "MainContainer",
         data(){
-            return {}
+            return {};
         },
         created(){
         },
@@ -15,7 +12,7 @@
         components: {},
         methods: {},
         computed: {}
-    }
+    };
 </script>
 
 <template>

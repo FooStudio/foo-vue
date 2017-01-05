@@ -1,18 +1,17 @@
-import Vue from "vue"
-import signals from "signals"
-import store from "app/store"
-import throttle from "lodash/throttle"
-import {mainLoaderDisappear} from "app/transitions/loader"
-import preloader from 'preloader'
-import Analytics from "foo/utils/Analytics"
-import Requester from "foo/net/Requester"
-import Facebook from "foo/net/api/Facebook"
-import Google from "foo/net/api/Google"
-import Xeerpa from "foo/net/api/Xeerpa"
+import Vue from "vue";
+import signals from "signals";
+import store from "app/store";
+import throttle from "lodash/throttle";
+import {mainLoaderDisappear} from "app/transitions/loader";
+import preloader from 'preloader';
+import Analytics from "foo/utils/Analytics";
+import Requester from "foo/net/Requester";
+import Facebook from "foo/net/api/Facebook";
+import Google from "foo/net/api/Google";
+import Xeerpa from "foo/net/api/Xeerpa";
 
-import {LOADING, PROGRESS} from "app/store/modules/loader"
-import {LOCALE_CHANGED, LOCALE_LOADING, STARTED} from "app/store/modules/app"
-
+import {LOADING, PROGRESS} from "app/store/modules/loader";
+import {LOCALE_CHANGED, LOCALE_LOADING, STARTED} from "app/store/modules/app";
 
 export default class AbstractApp {
     /**
@@ -26,7 +25,6 @@ export default class AbstractApp {
      * @param {object} [data={}] App initial load data
      */
     constructor(config, environment, data = {}) {
-
         /**
          * Signal dispatching on app animationFrame
          * @property rendered
@@ -134,9 +132,8 @@ export default class AbstractApp {
                 Requester.getJSON("static/data/preload.json").then((response) => {
                     this.loadAssets(response.body);
                 }).then(undefined, (error) => {
-                    throw new Error("Unable to load preload.json file!");
+                    throw new Error(`Unable to load preload.json file!:${error}`);
                 });
-
             } else {
                 this.start();
             }
@@ -151,7 +148,7 @@ export default class AbstractApp {
      * @returns {void}
      */
     _setupAnalytics() {
-        this.analytics = new Analytics("static/data/tracking.json", this.config.analytics, this._setupPolyglot())
+        this.analytics = new Analytics("static/data/tracking.json", this.config.analytics, this._setupPolyglot());
     }
 
     /**
@@ -192,7 +189,7 @@ export default class AbstractApp {
             })
             .then(undefined, (error) => {
                 console.error("Error: The provided locale was not found in the locales directory.", error);
-            })
+            });
     }
 
     /**
@@ -238,30 +235,30 @@ export default class AbstractApp {
                 count++;
                 Facebook.setup().then(() => {
                     defer();
-                })
+                });
             }
             if (apis.google) {
                 count++;
                 Google.setup().then(() => {
                     defer();
-                })
+                });
             }
             if (apis.twitter) {
-                //TODO: Setup twitter api
+                // TODO: Setup twitter api
             }
             if (apis.xeerpa) {
                 count++;
                 Xeerpa.setup().then(() => {
                     defer();
-                })
+                });
             }
             let defer = () => {
                 loaded++;
-                if (loaded == count) {
+                if (loaded === count) {
                     resolve();
                 }
             };
-            if (count == 0) resolve();
+            if (count === 0) resolve();
         });
     }
 
@@ -328,7 +325,7 @@ export default class AbstractApp {
         this.started = true;
         this.renderApp();
         mainLoaderDisappear().then(() => {
-            //TODO: Defer app rendering to loader out transition complete? ¿Maybe? Or defer first view animation?
+            // TODO: Defer app rendering to loader out transition complete? ¿Maybe? Or defer first view animation?
         });
         store.commit(STARTED);
     }

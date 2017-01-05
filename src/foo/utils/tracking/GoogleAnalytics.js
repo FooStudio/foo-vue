@@ -34,6 +34,7 @@ export function trackPage(route) {
  */
 export function load(ID) {
     (function (i, s, o, g, r, a, m) {
+        /* eslint-disable */
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] || function () {
                 (i[r].q = i[r].q || []).push(arguments)

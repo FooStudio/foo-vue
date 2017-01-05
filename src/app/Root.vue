@@ -1,13 +1,13 @@
 <style src="styles/views/Root.styl" lang="stylus" scoped></style>
 
 <script type="text/babel">
-    import Loader from "app/components/Loader.vue"
-    import AppHeader from "app/components/AppHeader.vue"
-    import MainContainer from "app/components/MainContainer.vue"
+    import Loader from "app/components/Loader.vue";
+    import AppHeader from "app/components/AppHeader.vue";
+    import MainContainer from "app/components/MainContainer.vue";
 
-    export default{
+    export default {
         data(){
-            return {}
+            return {};
         },
         components: {
             Loader,
@@ -15,7 +15,7 @@
             MainContainer
         },
         computed: {}
-    }
+    };
 </script>
 
 <template>
