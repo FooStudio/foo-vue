@@ -4,10 +4,12 @@
 export const LOADING = "loader/loading";
 export const LOADED = "loader/loaded";
 export const PROGRESS = "loader/progress";
+export const LOAD = "loader/load";
 
 const state = {
     loading: false,
-    progress: 0
+    progress: 0,
+    assets: []
 };
 
 const actions = {
@@ -19,6 +21,10 @@ const actions = {
     },
     [PROGRESS]({commit}, progress){
         commit(PROGRESS, progress);
+    },
+    [LOAD]({commit}, assets){
+        commit(LOADING, true);
+        commit(LOAD, assets);
     }
 };
 
@@ -31,6 +37,9 @@ const mutations = {
     },
     [PROGRESS](state, progress){
         state.progress = progress;
+    },
+    [LOAD](state, assets){
+        state.assets = assets;
     }
 };
 

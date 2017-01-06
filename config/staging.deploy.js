@@ -3,8 +3,8 @@
  */
 
 module.exports = {
-    username: "",
-    password: "",
+    username: "adminjedy@fooprojects.com",
+    password: "Mendieta8911_",
     host: "ftp.fooprojects.com",
     port: 21,
     localRoot: __dirname + "/../dist",

@@ -55,10 +55,10 @@ BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
 
 
     # Push state support
-    # RewriteCond %{REQUEST_FILENAME} !-f
-    # RewriteCond %{REQUEST_FILENAME} !-d
-    # RewriteCond %{REQUEST_URI} !index
-    # RewriteRule (.*) index.html [L,QSA]
+     RewriteCond %{REQUEST_FILENAME} !-f
+     RewriteCond %{REQUEST_FILENAME} !-d
+     RewriteCond %{REQUEST_URI} !index
+     RewriteRule (.*) index.html [L,QSA]
 </ifModule>
 
 DirectoryIndex index.php index.html

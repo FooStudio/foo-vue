@@ -7,9 +7,9 @@
     "twitter:site": "",
     "twitter:creator": ""
   },
-  "/route/subroute": {
+  "/test": {
     "title": "",
-    "description": "",
+    "description": "A Foo project test",
     "keywords": ""
   }
 }
