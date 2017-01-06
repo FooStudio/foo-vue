@@ -27,7 +27,7 @@ const config = {
     "xeerpa_presist": true,
     "apis": {
         "facebook": true,
-        "google": false,
+        "google": true,
         "twitter": false,
         "xeerpa": true,
     },
@@ -41,7 +41,7 @@ const config = {
             "vars": {
                 "base": productionURL,
                 "route": productionRoute,
-                "routerMode": "hash",
+                "routerMode": "history",
                 "sentry": true,
                 "debug": false
             },
@@ -59,7 +59,7 @@ const config = {
             "vars": {
                 "base": stagingURL,
                 "route": stagingRoute,
-                "routerMode": "hash",
+                "routerMode": "history",
                 "sentry": true,
                 "debug": true
             },
@@ -77,7 +77,7 @@ const config = {
             "vars": {
                 "base": qaURL,
                 "route": qaRoute,
-                "routerMode": "hash",
+                "routerMode": "history",
                 "sentry": true,
                 "debug": true
             },

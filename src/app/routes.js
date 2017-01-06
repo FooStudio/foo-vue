@@ -4,6 +4,7 @@
 
 import Home from "app/views/Home.vue"
 import Test from "app/views/Test.vue"
+import Contact from "app/views/Contact.vue"
 import NotFound  from "app/views/NotFound.vue"
 
 const routes = {
@@ -19,6 +20,11 @@ const routes = {
             path: "/test",
             name: "test",
             component: Test
+        },
+        {
+            path: "/contact",
+            name: "contact",
+            component: Contact
         },
         {
             path: "*",

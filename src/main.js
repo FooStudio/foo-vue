@@ -11,6 +11,9 @@ import "./main.styl"
 import Modernizr from "modernizr"
 
 //IMPORT POLYFILLS
+require("foo/utils/Polyfills")();
+require("classlist-polyfill");
+require("raf").polyfill();
 require('es6-promise').polyfill();
 
 //IMPORT ANALYTICS ADAPTERS
