@@ -9,23 +9,19 @@ import NotFound from "app/views/NotFound.vue";
 const routes = {
     mode: "hash",
     base: "/",
-    routes: [
-        {
-            path: "/",
-            name: "home",
-            component: Home
-        },
-        {
-            path: "/test",
-            name: "test",
-            component: Test
-        },
-        {
-            path: "*",
-            name: "404",
-            component: NotFound
-        }
-    ]
+    routes: [{
+        path: "/",
+        name: "home",
+        component: Home
+    }, {
+        path: "/test",
+        name: "test",
+        component: Test
+    }, {
+        path: "*",
+        name: "404",
+        component: NotFound
+    }]
 };
 
 export default routes;

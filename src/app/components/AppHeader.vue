@@ -31,7 +31,6 @@
             <router-link to="/test">{{$t("test.title")}}</router-link>
             <router-link to="/404">404</router-link>
         </nav>
-
         <ul>
             <li>
                 <button @click="$setLocale('es-MX')">es</button>

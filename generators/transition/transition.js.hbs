@@ -1,4 +1,4 @@
-import Vue from "vue"
+import Vue from "vue";
 
 export default  Vue.component( "{{#camelize}}{{name}}{{/camelize}}", {
     functional: true,
@@ -12,30 +12,20 @@ export default  Vue.component( "{{#camelize}}{{name}}{{/camelize}}", {
                 //mode:"out-in"
             },
             on   : {
-                beforeEnter   : function ( el ) {
+                beforeEnter: el => {
 
                 },
-                enter         : function ( el, done ) {
-                   done();
-                },
-                afterEnter    : function ( el ) {
-
-                },
-                enterCancelled: function ( el ) {
-
-                },
-                beforeLeave   : function ( el ) {
-
-                },
-                leave         : function ( el, done ) {
+                enter: (el, done) => {
                     done();
                 },
-                afterLeave    : function ( el ) {
-
+                afterEnter: el => {},
+                enterCancelled: el => {},
+                beforeLeave: el => {},
+                leave: (el, done) => {
+                    done();
                 },
-                leaveCancelled: function ( el ) {
-
-                }
+                afterLeave: el => {},
+                leaveCancelled: el => {},
             }
         };
         return h( "transition", data, ctx.children );

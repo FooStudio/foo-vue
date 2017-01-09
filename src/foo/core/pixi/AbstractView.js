@@ -1,5 +1,5 @@
-import AbstractContainer from "foo/core/pixi/AbstractContainer"
-import Signal from "signals"
+import AbstractContainer from "foo/core/pixi/AbstractContainer";
+import Signal from "signals";
 
 export default class AbstractView extends AbstractContainer {
     /**
@@ -56,7 +56,6 @@ export default class AbstractView extends AbstractContainer {
     open() {
         this.animating = true;
     }
-
 
     opened = () => {
         this.didOpened.dispatch(this);

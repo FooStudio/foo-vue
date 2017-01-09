@@ -52,9 +52,11 @@ const loadData = () => {
     // DO INITIAL DATA/ASSET LOADING || START APP
     if (config.data_loading) {
         if (environment.vars.debug) console.info("Foo: Load App Data");
-        Requester.getJSON("static/data/data.json").then((response) => {
+        Requester.getJSON("static/data/data.json")
+        .then((response) => {
             startApp(response.body);
-        }).then(undefined, (error) => {
+        })
+        .then(undefined, (error) => {
             throw new Error(`Foo start error: ${error}`);
         });
     } else {

@@ -58,9 +58,7 @@ export default class App extends AbstractApp {
         let router = new VueRouter(routes);
         this.router = router;
 
-        router.beforeEach((to, from, next) => {
-            next();
-        });
+        router.beforeEach((to, from, next) => next());
 
         sync(store, router);
         new Vue(Vue.util.extend({router, store}, Root)).$mount("#app");
