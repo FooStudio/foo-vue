@@ -7,7 +7,7 @@ import "sanitize.css/sanitize.css";
 import "./main.styl";
 
 // IMPORT MODERNIZR
-import Modernizr from "modernizr";
+// import "modernizr";
 
 // IMPORT POLYFILLS
 require('es6-promise').polyfill();
@@ -23,8 +23,6 @@ import Requester from "foo/net/Requester";
 // IMPORT APP CONFIG
 import {config, environment} from "./config";
 import Acknowledgements from "foo/utils/Acknowledgments";
-
-console.log(Modernizr);
 
 /**
  *
