@@ -50,7 +50,7 @@
             }
         }
     };
-</script>¡
+</script>
 
 <template>
     <main-transition>
