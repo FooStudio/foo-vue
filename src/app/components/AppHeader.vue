@@ -29,7 +29,6 @@
         <nav>
             <router-link to="/">{{$t("home.title")}}</router-link>
             <router-link to="/test">{{$t("test.title")}}</router-link>
-            <router-link to="/contact">contact</router-link>
             <router-link to="/404">404</router-link>
         </nav>
         <ul>

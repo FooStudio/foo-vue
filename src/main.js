@@ -2,13 +2,12 @@
  * Foo (Studio)
  */
 
-
 //IMPORT GLOBAL CSS
-import "sanitize.css/sanitize.css"
-import "./main.styl"
+import "sanitize.css/sanitize.css";
+import "./main.styl";
 
 //IMPORT MODERNIZR
-import Modernizr from "modernizr"
+// import Modernizr from "modernizr"
 
 //IMPORT POLYFILLS
 require("foo/utils/Polyfills")();
@@ -17,16 +16,16 @@ require("raf").polyfill();
 require('es6-promise').polyfill();
 
 //IMPORT ANALYTICS ADAPTERS
-import {load as LoadGA} from "foo/utils/tracking/GoogleAnalytics"
+import {load as LoadGA} from "foo/utils/tracking/GoogleAnalytics";
 
 //IMPORT APP UTILS
-import domready from "domready"
-import Breakpoints from "foo/utils/Breakpoint"
-import Requester from "foo/net/Requester"
+import domready from "domready";
+import Breakpoints from "foo/utils/Breakpoint";
+import Requester from "foo/net/Requester";
 
 //IMPORT APP CONFIG
-import {config, environment} from "./config"
-import Acknowledgements from "foo/utils/Acknowledgments"
+import {config, environment} from "./config";
+import Acknowledgements from "foo/utils/Acknowledgments";
 
 /**
  *
@@ -40,8 +39,8 @@ const startApp = (data = null) => {
         //CREATE APP
         if (environment.vars.debug) console.info("Foo: Start App");
         const App = require("app/App").default;
-        new App(config, environment, data);
-    }, "bundle")
+        new App(config, environment, data); // eslint-disable-line no-new
+    }, "bundle");
 };
 
 /**
@@ -55,10 +54,10 @@ const loadData = () => {
     if (config.data_loading) {
         if (environment.vars.debug) console.info("Foo: Load App Data");
         Requester.getJSON("static/data/data.json").then((response) => {
-            startApp(response.body)
+            startApp(response.body);
         }).then(undefined, (error) => {
-            throw new Error(`Foo start error: ${error}`)
-        })
+            throw new Error(`Foo start error: ${error}`);
+        });
     } else {
         startApp();
     }

@@ -1,7 +1,7 @@
+/* eslint-disable */
 /**
  * Created by mendieta on 1/5/17.
  */
-
 
 function Polyfills() {
 
