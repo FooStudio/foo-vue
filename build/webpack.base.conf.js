@@ -84,7 +84,7 @@ module.exports = {
                         require("poststylus")([
                             require("rucksack-css")({
                                 autoprefixer: true,
-                                fallbacks: true
+                                fallbacks: false
                             }),
                             require("lost")()
                         ])

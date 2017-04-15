@@ -4,10 +4,8 @@
 
 export const LOCALE_CHANGED = "locale/changed";
 export const LOCALE_LOADING = "locale/loading";
-export const STARTED = "app/started";
 
 const state = {
-    started: false,
     locale: "",
     locale_loading: false
 };
@@ -22,11 +20,12 @@ const mutations = {
     [LOCALE_LOADING](state){
         state.locale_loading = true;
     },
-    [STARTED](state){
-        state.started = true;
-    }
 };
 
-const getters = {};
+const getters = {
+    locale: state => {
+        return state.locale;
+    }
+};
 
 export default {state, actions, mutations, getters};

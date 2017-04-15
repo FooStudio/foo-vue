@@ -2,7 +2,7 @@
  * Created by mendieta on 2/18/16.
  */
 
-import Signal from "signals"
+import Signal from "signals";
 
 export default class PixiViewManager {
 
@@ -119,7 +119,7 @@ export default class PixiViewManager {
      * @method addView
      */
     addView(view, route) {
-        if (this.views.get(route) != undefined) {
+        if (this.views.get(route) !== undefined) {
             console.error("PixiViewManger: A route can not be added twice - " + route);
             return false;
         }
@@ -136,13 +136,13 @@ export default class PixiViewManager {
     openView(route) {
         if (!this.views.get(route)) {
             console.error("The given route: " + route + " don't match a route in PixiViewManger");
-            return false
+            return false;
         }
         if (this.currentRoute === route) {
             console.warn("PixiViewManager: already at given route: " + route);
             return false;
         }
-        if (this.currentView != null) {
+        if (this.currentView !== null) {
             this.nextRoute = route;
             this._closeView(this.currentView);
             if (this.concurrent) {
@@ -164,7 +164,7 @@ export default class PixiViewManager {
     _showView(route) {
         // let View = this.views.get(route);
         this.nextView = this.views.get(route);
-        if (this.currentRoute){
+        if (this.currentRoute) {
             this.prevRoute = this.currentRoute;
         }
         this.currentRoute = route;

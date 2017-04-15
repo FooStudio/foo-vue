@@ -1,17 +1,17 @@
 import Vue from "vue";
-import signals from "signals";
-import store from "app/store";
-import throttle from "lodash/throttle";
-import {mainLoaderDisappear} from "app/transitions/loader";
+import Signal from "signals";
+import request from "superagent";
 import preloader from 'preloader';
+import throttle from "lodash/throttle";
+import store from "app/store";
+import {mainLoaderDisappear} from "app/transitions/loader";
 import Analytics from "foo/utils/Analytics";
-import Requester from "foo/net/Requester";
 import Facebook from "foo/net/api/Facebook";
 import Google from "foo/net/api/Google";
 import Xeerpa from "foo/net/api/Xeerpa";
 
 import {LOADING, PROGRESS} from "app/store/modules/loader";
-import {LOCALE_CHANGED, LOCALE_LOADING, STARTED} from "app/store/modules/app";
+import {LOCALE_CHANGED, LOCALE_LOADING} from "app/store/modules/app";
 
 export default class AbstractApp {
     /**
@@ -30,14 +30,14 @@ export default class AbstractApp {
          * @property rendered
          * @type {Signal}
          */
-        this.rendered = new signals.Signal();
+        this.rendered = new Signal();
 
         /**
          * Signal dispatching on ap resize
          * @property resized
          * @type {Signal}
          */
-        this.resized = new signals.Signal();
+        this.resized = new Signal();
 
         /**
          * The app debug flasg
@@ -125,15 +125,16 @@ export default class AbstractApp {
      * @override
      */
     init() {
-        if (this.DEBUG) this.startDebug();
         this._addListeners();
         this._initSDKs().then(() => {
             if (this.config.asset_loading) {
-                Requester.getJSON("static/data/preload.json").then((response) => {
-                    this.loadAssets(response.body);
-                }).then(undefined, (error) => {
-                    throw new Error(`Unable to load preload.json file!:${error}`);
-                });
+                request.get("static/data/preload.json")
+                    .then((response) => {
+                        this.loadAssets(response.body);
+                    })
+                    .catch((error) => {
+                        throw new Error(`Unable to load preload.json file!:${error}`);
+                    });
             } else {
                 this.start();
             }
@@ -177,7 +178,7 @@ export default class AbstractApp {
      * @returns {void}
      */
     _loadLocale() {
-        Requester.getJSON(`static/data/locale/${this.locale}.json`)
+        request.get(`static/data/locale/${this.locale}.json`)
             .then((response) => {
                 this.locales.push(this.locale);
                 Vue.locale(this.locale, response.body);
@@ -187,7 +188,7 @@ export default class AbstractApp {
                     this.init();
                 }
             })
-            .then(undefined, (error) => {
+            .catch((error) => {
                 console.error("Error: The provided locale was not found in the locales directory.", error);
             });
     }
@@ -272,7 +273,7 @@ export default class AbstractApp {
     _onResizeHandler(e) {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
-        App.resized.dispatch({width: this.width, height: this.height});
+        this.resized.dispatch({width: this.width, height: this.height});
     }
 
     /**
@@ -283,19 +284,9 @@ export default class AbstractApp {
      */
     _animate() {
         requestAnimationFrame(() => {
-            App.rendered.dispatch();
+            this.rendered.dispatch();
             this._animate();
         });
-    }
-
-    /**
-     * Method that starts debug mode, depending on App config and environment
-     * @protected
-     * @override
-     * @method startDebug
-     * @returns {void}
-     */
-    startDebug() {
     }
 
     /**
@@ -327,7 +318,6 @@ export default class AbstractApp {
         mainLoaderDisappear().then(() => {
             // TODO: Defer app rendering to loader out transition complete? ¿Maybe? Or defer first view animation?
         });
-        store.commit(STARTED);
     }
 
     /**

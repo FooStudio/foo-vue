@@ -26,7 +26,7 @@ export default class Analytics {
      * The adapter(s) to be used.
      * @property adapter
      * @default "google"
-     * @type {string|array}
+     * @type {string|Array}
      */
     adapter;
 
@@ -42,7 +42,7 @@ export default class Analytics {
      * Analytics static helper class.
      * Loads the tags and initialize tracking.
      * @param {string} tags The tags url file to be loaded.
-     * @param {string|array} adapter A string or an array os strings containing the adapters string IDs.
+     * @param {string|Array} adapter A string or an array os strings containing the adapters string IDs.
      * @param {function} callback Function to be called after successful initialization.
      * @constructor
      * @class Analytics

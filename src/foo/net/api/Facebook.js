@@ -194,7 +194,13 @@ export default class Facebook {
 
     }
 
-    static getLocations(token = null, limit = 20) {
+    /**
+     *
+     * @param {string} token Facebook session token
+     * @param {number }limit The locations amount limit
+     * @return {Promise}
+     */
+    static getUserLocations(token = null, limit = 20) {
         return new Promise((resolve, reject) => {
             FB.api("/me/tagged_places", {token, limit}, (response) => {
                 resolve(response.data);
@@ -202,7 +208,13 @@ export default class Facebook {
         });
     }
 
-    static getLikes(token = null, limit = 100) {
+    /**
+     *
+     * @param {string} token Facebook session token
+     * @param {number} limit The likes amount limit
+     * @return {Promise}
+     */
+    static getUserLikes(token = null, limit = 100) {
         let likes = [];
         return new Promise((resolve, reject) => {
             FB.api("/me/likes", {token, limit}, (response) => {

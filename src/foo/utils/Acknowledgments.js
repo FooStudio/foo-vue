@@ -1,7 +1,6 @@
 /**
  * Created by mendieta on 1/3/17.
  */
-
 import {developers, designers, producers} from "../../config";
 
 export default class Acknowledgements {
@@ -14,6 +13,11 @@ export default class Acknowledgements {
         'font-size: 11px'
     ].join(';');
 
+    /**
+     * @public
+     * @method show
+     * @return {void}
+     */
     static show() {
         let consoleString = '%c Developed by Foo(Studio) http://foostudio.mx \n Coded by:';
         for (let developer of developers) {

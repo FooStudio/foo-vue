@@ -86,7 +86,6 @@ export default class StringUtils {
         return text.substr(0, Math.max(0, prevIndex)) + postText;
     }
 
-
     /**
      * Returns everything after the first occurrence of the provided character in the string.
      * @method afterFirst
@@ -107,7 +106,6 @@ export default class StringUtils {
         idx += pchar.length;
         return pstring.substr(idx);
     }
-
 
     /**
      * Returns everything after the last occurrence of the provided character in pstring.
@@ -300,8 +298,8 @@ export default class StringUtils {
      * @returns {string} The string with the padding
      */
     static padLeft(string, length, fillChar = " ") {
-        if (fillChar == null || fillChar.length == 0) {
-            throw "invalid value for fillChar: '" + fillChar + "'";
+        if (fillChar === null || fillChar.length === 0) {
+            throw new Error("invalid value for fillChar: '" + fillChar + "'");
         }
 
         if (string.length < length) {
@@ -324,8 +322,8 @@ export default class StringUtils {
      * @returns {string} The string with the padding
      */
     static padRight(string, length, fillChar = " ") {
-        if (fillChar == null || fillChar.length == 0) {
-            throw "invalid value for fillChar: '" + fillChar + "'";
+        if (fillChar === null || fillChar.length === 0) {
+            throw new Error("invalid value for fillChar: '" + fillChar + "'");
         }
         if (string.length < length) {
             let lim = length - string.length;
@@ -346,6 +344,15 @@ export default class StringUtils {
      */
     static ignoreWhiteSpace(string) {
         return string.replace(/[\t\r\n]|\s\s/g, "");
+    }
+
+    /**
+     * Removes whitespaces from string
+     * @param {string} string
+     * @return {string}
+     */
+    static removeWiteSpace(string) {
+        return string.replace(/\s+/g, '');
     }
 
     /**

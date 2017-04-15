@@ -16,30 +16,30 @@ export default class Breakpoint {
      */
     static setup() {
         this.body = document.getElementsByTagName("body")[0];
-        this._mobile();
-        this._bowser();
+        this.addMobileClasses();
+        this.addBrowserClasses();
     }
 
     /**
      * Setups class names depending on browser.
-     * @method _bowser
+     * @method addBrowserClasses
      * @private
      * @static
      */
-    static _bowser() {
+    static addBrowserClasses() {
         // IE BREAKS IF YOU ADD A CLASS WITH SPACES
-        const name = (Bowser.name === "Internet Explorer") ? "IE" : Bowser.name;
+        const name = Bowser.name.replace(/\s+/g, '');
         this.body.classList.add(name);
-        this.body.classList.add(Bowser.version);
+        this.body.classList.add(Bowser.version.toString());
     }
 
     /**
      * Setups class names depending on mobile device.
-     * @method _mobile
+     * @method addMobileClasses
      * @private
      * @static
      */
-    static _mobile() {
+    static addMobileClasses() {
         const keys = Object.keys(isMobile);
         for (let key of keys) {
             if (typeof isMobile[key] !== "object" && isMobile[key] === true && key !== "any") {

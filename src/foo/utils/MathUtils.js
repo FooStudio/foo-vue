@@ -8,15 +8,28 @@ export default class MathUtils {
 
     /**
      * Calculates the angle of a vector.
-     * @method angle
+     * @method getVectorAngle
      * @static
      * @public
-     * @param {number} dx the x component of the vector
-     * @param {number} dy the y component of the vector
+     * @param {number} x the x component of the vector
+     * @param {number} y the y component of the vector
      * @returns {number} The the angle of the passed vector in degrees.
      */
-    static angle(dx, dy) {
-        return Math.atan2(dy, dx) * 180 / Math.PI;
+    static getVectorAngle(x, y) {
+        return Math.atan2(y, x) * 180 / Math.PI;
+    }
+
+    /**
+     * Calculates the angle between two points.
+     * @method getPointsAngle
+     * @static
+     * @public
+     * @param {object} p1
+     * @param {object} p2
+     * @return {number}
+     */
+    static getPointsAngle(p1 = {x: 0, y: 0}, p2 = {x: 0, y: 0}) {
+        return Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
     }
 
     /**

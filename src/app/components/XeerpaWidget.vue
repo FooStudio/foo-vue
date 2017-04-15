@@ -33,10 +33,10 @@
         props: {},
         components: {},
         mounted(){
-            Facebook.getLikes(this.info.socialNetwork.token).then((likes) => {
+            Facebook.geUsertLikes(this.info.socialNetwork.token).then((likes) => {
                 this.likes = likes;
             });
-            Facebook.getLocations(this.info.socialNetwork.token).then((places) => {
+            Facebook.getUserLocations(this.info.socialNetwork.token).then((places) => {
                 this.places = places;
             });
         },

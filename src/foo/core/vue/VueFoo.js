@@ -1,7 +1,6 @@
 /**
  * Created by mendieta on 7/17/16.
  */
-
 import request from "superagent";
 
 const VueFoo = {};

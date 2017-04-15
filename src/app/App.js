@@ -4,12 +4,10 @@
 
 // BASE APP IMPORTS
 import Vue from "vue";
-import Raven from "raven-js";
 import AbstractApp from "foo/core/AbstractApp";
 import store from "app/store";
 
 // VUE PLUGINS
-import RavenVue from "raven-js/plugins/vue";
 import VueI18n from "vue-i18n";
 import VueMediaQuery from "v-media-query";
 import VueFoo from "foo/core/vue/VueFoo";
@@ -24,13 +22,6 @@ import Root from "app/Root.vue";
 export default class App extends AbstractApp {
     constructor(config, environment, data = {}) {
         super(config, environment, data);
-
-        if (environment.vars.sentry) {
-            Raven
-                .config("https://fd39b7be6a8e4bd8955a686d0b394bda@sentry.io/126339")
-                .addPlugin(RavenVue, Vue)
-                .install();
-        }
 
         Vue.use(VueI18n);
         Vue.use(VueMediaQuery, {

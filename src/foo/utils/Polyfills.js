@@ -6,7 +6,6 @@
 function Polyfills() {
 
     //ARRAY INCLUDES
-
     if (!Array.prototype.includes) {
         Array.prototype.includes = function (searchElement /*, fromIndex*/) {
             'use strict';

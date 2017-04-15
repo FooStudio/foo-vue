@@ -106,9 +106,10 @@ export default class Google {
 
     /**
      * Login method.
-     * @method login
-     * @public
+     * @param {function} resolve
+     * @param {function} reject
      * @static
+     * @public
      */
     static login(resolve, reject) {
         if (!this.inited) throw new Error("Google SDK not loaded! call Google.setup() before login. You should enable the Google from the config file.");
@@ -135,9 +136,11 @@ export default class Google {
 
     /**
      * The logout method.
+     * @param {function} resolve
+     * @param {function} reject
+     * @static
      * @method logout
      * @public
-     * @static
      */
     static logout(resolve, reject) {
         this.GoogleUser.disconnect();

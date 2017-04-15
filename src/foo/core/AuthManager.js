@@ -49,7 +49,7 @@ export default class AuthManager {
                     Api.login(data);
                     break;
                 default:
-                    // throw new Error("AuthManager:", `Supplied service: ${service} is not defined!`);
+                    console.error("AuthManager:", `Supplied service: ${service} is not defined!`);
                     reject("Error");
             }
         });
@@ -69,7 +69,7 @@ export default class AuthManager {
                     Api.register(data);
                     break;
                 default:
-                    // throw new Error("AuthManager:", `Supplied service: ${service} is not defined for the register action!`);
+                    console.error("AuthManager:", `Supplied service: ${service} is not defined for the register action!`);
                     reject("Error");
             }
         });

@@ -6,7 +6,7 @@
     import Xeerpa from "foo/net/api/Xeerpa";
     import {LOGIN} from "app/store/modules/user";
     import XeerpaWidget from "app/components/XeerpaWidget.vue";
-    import { isEmpty } from 'lodash';
+    import isEmpty from 'lodash/isEmpty';
 
     export default {
         name: "Test",
