@@ -4,7 +4,7 @@
 
 module.exports = {
     username: "adminjedy@fooprojects.com",
-    password: "Mendieta8911_",
+    password: "",
     host: "ftp.fooprojects.com",
     port: 21,
     localRoot: __dirname + "/../dist",

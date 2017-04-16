@@ -120,28 +120,6 @@ export default class AbstractApp {
     }
 
     /**
-     * Method called when the App will initialize, setup initial data at override
-     * @method init
-     * @override
-     */
-    init() {
-        this._addListeners();
-        this._initSDKs().then(() => {
-            if (this.config.asset_loading) {
-                request.get("static/data/preload.json")
-                    .then((response) => {
-                        this.loadAssets(response.body);
-                    })
-                    .catch((error) => {
-                        throw new Error(`Unable to load preload.json file!:${error}`);
-                    });
-            } else {
-                this.start();
-            }
-        });
-    }
-
-    /**
      * Method that init the Analytics helper
      * @protected
      * @override
@@ -161,13 +139,33 @@ export default class AbstractApp {
      */
     _setupPolyglot() {
         /**
-         * the current locale
-         * @default "es-MX"
+         * App locales loaded
          * @type {Array}
          */
         this.locales = [];
-        window.locale = Vue.t;
         this.setLocale(this.locale);
+    }
+
+    /**
+     * Method called when the App will initialize, setup initial data at override
+     * @method init
+     * @override
+     */
+    init() {
+        this._addListeners();
+        this._initSDKs().then(() => {
+            if (this.config.asset_loading) {
+                request.get("static/data/preload.json")
+                    .then((response) => {
+                        this.loadAssets(response.body);
+                    })
+                    .catch((error) => {
+                        throw new Error(`Unable to load preload.json file!:${error}`);
+                    });
+            } else {
+                this.start();
+            }
+        });
     }
 
     /**
@@ -228,7 +226,7 @@ export default class AbstractApp {
      * @returns {Promise}
      */
     _initSDKs() {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             const {apis} = this.config;
             let count = 0;
             let loaded = 0;
@@ -270,7 +268,7 @@ export default class AbstractApp {
      * @method _onResizeHandler
      * @returns {void}
      */
-    _onResizeHandler(e) {
+    _onResizeHandler() {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
         this.resized.dispatch({width: this.width, height: this.height});
@@ -298,7 +296,7 @@ export default class AbstractApp {
      */
     loadAssets(assets) {
         store.commit(LOADING, true);
-        assets.map((item, i) => {
+        assets.map((item) => {
             this.loader.add(item);
         });
         this.loader.on("progress", this.loaderProgress.bind(this));

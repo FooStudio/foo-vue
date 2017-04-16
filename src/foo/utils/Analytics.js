@@ -1,4 +1,4 @@
-import Requester from "foo/net/Requester";
+import request from "superagent";
 import GoogleAnalytics from "foo/utils/tracking/GoogleAnalytics";
 import store from "app/store";
 
@@ -15,12 +15,12 @@ export default class Analytics {
     tags;
 
     /**
-     * Defines if teh analytics has started.
-     * @property started
+     * Defines if the analytics has loaded.
+     * @property loaded
      * @default false
      * @type {boolean}
      */
-    started = false;
+    loaded = false;
 
     /**
      * The adapter(s) to be used.
@@ -51,14 +51,14 @@ export default class Analytics {
      */
     constructor(tags, adapter = Analytics.GOOGLE, callback = null) {
         this.adapter = adapter;
-        Requester.getJSON(tags)
+        request.get(tags)
             .then((response) => {
                 this.tags = response.data;
-                this.started = true;
-                if (callback != null) callback();
+                this.loaded = true;
+                if (callback !== null) callback();
                 store.subscribe(this._handleTracking.bind(this));
             })
-            .then(undefined, (error) => {
+            .catch((error) => {
                 console.error("Error loading analytics tags:", error);
             });
     }
@@ -66,11 +66,10 @@ export default class Analytics {
     /**
      * Handles the router route mutations.
      * @param {Object} mutation The store mutation that dispatched the handler.
-     * @param {Object} state The store state.
      * @private
      * @method _handleTracking
      */
-    _handleTracking(mutation, state) {
+    _handleTracking(mutation) {
         if (mutation.type === "router/ROUTE_CHANGED") {
             this.currentRoute = mutation.payload.path;
             this.trackPage(this.currentRoute);
@@ -83,7 +82,7 @@ export default class Analytics {
      * @method trackEvent
      */
     trackEvent(param) {
-        if (!this.started) return;
+        if (!this.loaded) return;
         if (param) {
             const v = this.tags[param];
             if (v) {
@@ -107,7 +106,7 @@ export default class Analytics {
      * @method trackPage
      */
     trackPage(route) {
-        if (!this.started) return;
+        if (!this.loaded) return;
         if (route) {
             if (App.DEBUG) console.info("Track Page View:", route);
             for (let adapter of this.adapter) {
