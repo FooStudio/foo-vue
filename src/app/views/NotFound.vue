@@ -1,6 +1,6 @@
 <style src="styles/views/NotFound.styl" lang="stylus"></style>
 
-<script type="text/babel">
+<script>
     import MainTransition from "app/transitions/GSAP";
 
     export default {

@@ -1,6 +1,6 @@
 <style src="styles/components/AppHeader.styl" lang="stylus" scoped></style>
 
-<script type="text/babel">
+<script>
     import {mapActions} from "vuex";
     import {LOADING} from "app/store/modules/loader";
 

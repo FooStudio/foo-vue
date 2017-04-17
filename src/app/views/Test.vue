@@ -1,6 +1,6 @@
 <style src="styles/views/Test.styl" lang="stylus"></style>
 
-<script type="text/babel">
+<script>
     import MainTransition from "app/transitions/GSAP";
     import AuthManager from "foo/core/AuthManager";
     import Xeerpa from "foo/net/api/Xeerpa";

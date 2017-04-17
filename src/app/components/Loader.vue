@@ -1,6 +1,6 @@
 <style src="styles/components/Loader.styl" lang="stylus" scoped></style>
 
-<script type="text/babel">
+<script>
     import LoaderTransition from "app/transitions/LoaderTransition";
     import {mapActions, mapGetters} from "vuex";
     import {LOADING} from "app/store/modules/loader";
