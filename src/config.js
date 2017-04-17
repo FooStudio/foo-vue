@@ -52,7 +52,7 @@ const config = {
                 "fb": "144062099411527",
                 "ga": "ua2423423",
                 "gp": "1015126163676-t0vmcvjts8t11vb85k0gs1u3e5lj2hfe.apps.googleusercontent.com",
-                "xeerpa": "https://indio.com.mx/agegate/socialLogin/socialLoginCallback.php",
+                "xeerpa": "",
             }
         },
         "staging": {
@@ -70,7 +70,7 @@ const config = {
                 "fb": "144062099411527",
                 "ga": "ua2423423",
                 "gp": "1015126163676-t0vmcvjts8t11vb85k0gs1u3e5lj2hfe.apps.googleusercontent.com",
-                "xeerpa": "https://indio.com.mx/agegate/socialLogin/socialLoginCallback.php",
+                "xeerpa": "",
             }
         },
         "qa": {
@@ -88,7 +88,7 @@ const config = {
                 "fb": "144062099411527",
                 "ga": "ua2423423",
                 "gp": "1015126163676-t0vmcvjts8t11vb85k0gs1u3e5lj2hfe.apps.googleusercontent.com",
-                "xeerpa": "https://indio.com.mx/agegate/socialLogin/socialLoginCallback.php",
+                "xeerpa": "",
             }
         },
         "development": {
@@ -106,7 +106,7 @@ const config = {
                 "fb": "144062099411527",
                 "ga": "ua2423423",
                 "gp": "1015126163676-t0vmcvjts8t11vb85k0gs1u3e5lj2hfe.apps.googleusercontent.com",
-                "xeerpa": "https://indio.com.mx/agegate/socialLogin/socialLoginCallback.php",
+                "xeerpa": "",
             }
         }
     }

@@ -46,21 +46,6 @@ export default class ArrayUtils {
     }
 
     /**
-     * Returns a random element from the Array
-     * @method randomElement
-     * @static
-     * @param {Array} array The Array to extract a random element
-     * @returns {Object} The extracted element
-     * @public
-     */
-    static randomElement(array) {
-        if (array.length > 0) {
-            return array[Math.floor(Math.random * array.length)];
-        }
-        return null;
-    }
-
-    /**
      * Shuffles an array (sort random)
      * @static
      * @public

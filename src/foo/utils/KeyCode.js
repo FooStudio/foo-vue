@@ -438,7 +438,6 @@ export default class KeyCode {
      */
     static NUMPAD = 21;
 
-
     /**
      * @property A
      * @static
@@ -621,7 +620,6 @@ export default class KeyCode {
      * @default 90
      */
     static Z = 90;
-
 
     /**
      * @property NUM_0

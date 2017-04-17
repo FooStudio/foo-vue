@@ -33,31 +33,12 @@ export default class MathUtils {
     }
 
     /**
-     * The <code>getRandomInt</code> method returns an int value between a Minimum and a Maximum int
-     * @method getRandomInt
-     * @static
-     * @public
-     * @param {number} min The min integer
-     * @param {number} max The max integer
-     * @returns {number} The random integer
+     *
+     * @param probability specified probability (0 to 1) that the random "event" occurs
+     * @return {boolean}
      */
-    static getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return min + Math.floor(Math.random() * (max + 1 - min));
-    }
-
-    /**
-     * The <code>getRandomNumber</code> method returns Number value between a Minimum and a Maximum Number
-     * @method getRandomNumber
-     * @static
-     * @public
-     * @param {number} min The min number
-     * @param {number} max The max number
-     * @returns {number} the random number
-     */
-    static getRandomNumber(min, max) {
-        return min + (Math.random() * (max - min));
+    static chance(probability) {
+        return (Math.random() <= probability);
     }
 
     /**
