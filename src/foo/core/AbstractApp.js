@@ -224,41 +224,27 @@ export default class AbstractApp {
      * @private
      * @method _initSDKs
      * @returns {Promise}
+     * @todo Setup twitter API
      */
     _initSDKs() {
-        return new Promise((resolve) => {
-            const {apis} = this.config;
-            let count = 0;
-            let loaded = 0;
-            if (apis.facebook) {
-                count++;
-                Facebook.setup().then(() => {
-                    defer();
-                });
-            }
-            if (apis.google) {
-                count++;
-                Google.setup().then(() => {
-                    defer();
-                });
-            }
-            if (apis.twitter) {
-                // TODO: Setup twitter api
-            }
-            if (apis.xeerpa) {
-                count++;
-                Xeerpa.setup().then(() => {
-                    defer();
-                });
-            }
-            let defer = () => {
-                loaded++;
-                if (loaded === count) {
-                    resolve();
-                }
-            };
-            if (count === 0) resolve();
-        });
+        const { apis } = this.config;
+        const promiseArr = [];
+        // Setup requested APIs
+        if (apis.facebook) {
+            promiseArr.push(Facebook.setup());
+        }
+        if (apis.google) {
+            promiseArr.push(Google.setup());
+        }
+        if (apis.xeerpa) {
+            promiseArr.push(Xeerpa.setup());
+        }
+        // Return a single Promise that resolves when all APIs have loaded
+        if (promiseArr.length) {
+            return Promise.all(promiseArr);
+        }
+        // If no APIs were requested just return a resolved promise
+        return Promise.resolve();
     }
 
     /**
