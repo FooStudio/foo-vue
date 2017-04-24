@@ -207,7 +207,7 @@ export default class AbstractApp {
      * @returns {void}
      */
     _addListeners() {
-        if (this.config.vars.resize) window.addEventListener("resize", throttle(this._onResizeHandler, 16));
+        if (this.config.vars.resize) window.addEventListener("resize", this._onResize);
         if (this.config.vars.animate) this._animate();
     }
 
@@ -243,14 +243,14 @@ export default class AbstractApp {
      * Window resize event handler
      * @param {Event} e The event object
      * @protected
-     * @method _onResizeHandler
+     * @method _onResize
      * @returns {void}
      */
-    _onResizeHandler() {
+    _onResize = throttle(() => {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
         this.resized.dispatch({ width: this.width, height: this.height });
-    }
+    }, 16);
 
     /**
      * Method that loops animation frameworks
