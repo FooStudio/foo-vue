@@ -4,14 +4,14 @@ import request from "superagent";
 import preloader from 'preloader';
 import throttle from "lodash/throttle";
 import store from "app/store";
-import {mainLoaderDisappear} from "app/transitions/loader";
+import { mainLoaderDisappear } from "app/transitions/loader";
 import Analytics from "foo/utils/Analytics";
 import Facebook from "foo/net/api/Facebook";
 import Google from "foo/net/api/Google";
 import Xeerpa from "foo/net/api/Xeerpa";
 
-import {LOADING, PROGRESS} from "app/store/modules/loader";
-import {LOCALE_CHANGED, LOCALE_LOADING} from "app/store/modules/app";
+import { LOADING, PROGRESS } from "app/store/modules/loader";
+import { LOCALE_CHANGED, LOCALE_LOADING } from "app/store/modules/app";
 
 export default class AbstractApp {
     /**
@@ -153,19 +153,11 @@ export default class AbstractApp {
      */
     init() {
         this._addListeners();
-        this._initSDKs().then(() => {
-            if (this.config.asset_loading) {
-                request.get("static/data/preload.json")
-                    .then((response) => {
-                        this.loadAssets(response.body);
-                    })
-                    .catch((error) => {
-                        throw new Error(`Unable to load preload.json file!:${error}`);
-                    });
-            } else {
-                this.start();
-            }
-        });
+        this._initSDKs()
+            .then(this._loadManifest)
+            .catch(this._logManifestError)
+            .then(this._loadAssets)
+            .then(this.start);
     }
 
     /**
@@ -257,7 +249,7 @@ export default class AbstractApp {
     _onResizeHandler() {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
-        this.resized.dispatch({width: this.width, height: this.height});
+        this.resized.dispatch({ width: this.width, height: this.height });
     }
 
     /**
@@ -274,21 +266,53 @@ export default class AbstractApp {
     }
 
     /**
+     * Loads preload.json if requested
+     * @private
+     * @method _loadManifest
+     * @return {Promise}
+     */
+    _loadManifest = () => {
+        const { config } = this;
+        if (config.asset_loading) {
+            return request.get("static/data/preload.json");
+        }
+        return Promise.resolve();
+    };
+
+    /**
+     * Logs `_loadManifest` Promise errors
+     * @private
+     * @method _logManifestError
+     * @return {void}
+     */
+    _logManifestError = error => {
+        console.error("Unable to load preload.json:", error);
+    };
+
+    /**
      * Method to load all assets
      * @private
      * @param assets
-     * @method loadAssets
+     * @method _loadAssets
      * @return {void}
      */
-    loadAssets(assets) {
-        store.commit(LOADING, true);
-        assets.map((item) => {
-            this.loader.add(item);
-        });
-        this.loader.on("progress", this.loaderProgress.bind(this));
-        this.loader.on("complete", this.loaderComplete.bind(this));
-        this.loader.load();
-    }
+    _loadAssets = manifest => {
+        if (typeof manifest !== 'undefined' && Array.isArray(manifest.body)) {
+            return new Promise(resolve => {
+                const { loader } = this;
+                // Add assets to loader
+                manifest.body.forEach(asset => loader.add(asset));
+                // Publish
+                this.onLoadStart();
+                loader.on("progress", this.onLoadProgress);
+                loader.on("complete", this.onLoadComplete);
+                loader.on("complete", resolve);
+                // Init load
+                loader.load();
+            });
+        }
+        return Promise.resolve();
+    };
 
     /**
      * Starts App, override if needed custom initialization.
@@ -296,7 +320,7 @@ export default class AbstractApp {
      * @method start
      * @returns {void}
      */
-    start() {
+    start = () => {
         this.started = true;
         this.renderApp();
         mainLoaderDisappear().then(() => {
@@ -305,25 +329,34 @@ export default class AbstractApp {
     }
 
     /**
-     * Loader Progress
+     * On load start callback
      * @override
-     * @method loaderProgress
-     * @returns {void}
+     * @method onLoadStart
+     * @return {void}
      */
-    loaderProgress(prog) {
-        store.commit(PROGRESS, prog);
-    }
+    onLoadStart = () => {
+        store.commit(LOADING, true);
+    };
 
     /**
-     * Loader Complete
+     * On load progress callback
+     * @override
+     * @method onLoadProgress
+     * @returns {void}
+     */
+    onLoadProgress = (prog) => {
+        store.commit(PROGRESS, prog);
+    };
+
+    /**
+     * On load complete callback
      * @override
      * @method loaderComplete
      * @returns {void}
      */
-    loaderComplete() {
+    onLoadComplete = () => {
         store.commit(LOADING, false);
-        this.start();
-    }
+    };
 
     /**
      * Method to be overridden, render logic
