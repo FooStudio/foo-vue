@@ -103,7 +103,14 @@ export default class AbstractApp {
          * @property locale
          * @type {string}
          */
-        this.locale = config.locale;
+        this.activeLocale = config.locale;
+
+        /**
+         * App locales loaded
+         * @type {Array}
+         */
+        this.loadedLocaleArr = [];
+
         /**
          * Loader
          * @property loader
@@ -114,9 +121,22 @@ export default class AbstractApp {
             loadFullAudio: true,
             loadFullVideo: true
         });
-        this.setLocale = this.setLocale.bind(this);
+
         window.App = this;
-        this._setupAnalytics();
+
+        Promise
+            .all([
+                this._setupAnalytics(),
+                this._setupSDK('facebook', Facebook),
+                this._setupSDK('google', Google),
+                this._setupSDK('xeerpa', Xeerpa),
+                this._loadLocale(),
+                this._loadManifest()
+            ])
+            .then(() => {
+                this._addListeners();
+                this.start();
+            });
     }
 
     /**
@@ -124,80 +144,69 @@ export default class AbstractApp {
      * @protected
      * @override
      * @method _setupAnalytics
-     * @returns {void}
+     * @returns {Promise}
      */
     _setupAnalytics() {
-        this.analytics = new Analytics("static/data/tracking.json", this.config.analytics, this._setupPolyglot());
-    }
-
-    /**
-     * Method that setups Polyglot, loads default locale
-     * @private
-     * @override
-     * @method _setupPolyglot
-     * @returns {void}
-     */
-    _setupPolyglot() {
-        /**
-         * App locales loaded
-         * @type {Array}
-         */
-        this.locales = [];
-        this.setLocale(this.locale);
-    }
-
-    /**
-     * Method called when the App will initialize, setup initial data at override
-     * @method init
-     * @override
-     */
-    init() {
-        this._addListeners();
-        this._initSDKs()
-            .then(this._loadManifest)
-            .catch(this._logManifestError)
-            .then(this._loadAssets)
-            .then(this.start);
+        const { config } = this;
+        return new Promise(resolve => {
+            this.analytics = new Analytics(
+                "static/data/tracking.json",
+                config.analytics,
+                resolve);
+        });
     }
 
     /**
      * Method that loads the current locale and (re)renders the App
-     * @private
-     * @override
-     * @method _loadLocale
-     * @returns {void}
+     * @protected
+     * @param {string=} localeId - locale to load
+     * @returns {Promise}
      */
-    _loadLocale() {
-        request.get(`static/data/locale/${this.locale}.json`)
-            .then((response) => {
-                this.locales.push(this.locale);
-                Vue.locale(this.locale, response.body);
-                Vue.config.lang = this.locale;
-                store.commit(LOCALE_CHANGED, this.locale);
-                if (!this.started) {
-                    this.init();
-                }
-            })
-            .catch((error) => {
-                console.error("Error: The provided locale was not found in the locales directory.", error);
-            });
+    _loadLocale(localeId = this.config.locale) {
+        const { loadedLocaleArr } = this;
+        let promise;
+        if (loadedLocaleArr.includes(localeId)) {
+            // If locale is already loaded just resolve
+            promise = Promise.resolve();
+        } else {
+            // Update store
+            store.commit(LOCALE_LOADING);
+            // Load requested json
+            promise = request
+                .get(`static/data/locale/${localeId}.json`)
+                .catch(error => console.error("Failed to load locale:", error))
+                .then(response => {
+                    // Save locale in loaded arr
+                    this.loadedLocaleArr.push(localeId);
+                    // Save locale in vue
+                    Vue.locale(localeId, response.body);
+                });
+        }
+        // Return promise, update locale when resolved.
+        return promise
+            .then(() => this._updateLocale(localeId));
+    }
+
+    /**
+     * Updates active locale
+     * @protected
+     * @param {string} localeId The locale to set as active
+     * @return {void}
+     */
+    _updateLocale(localeId) {
+        this.activeLocale = localeId;
+        Vue.config.lang = localeId;
+        store.commit(LOCALE_CHANGED, localeId);
     }
 
     /**
      * Method that set the current locale
      * @method setLocale
-     * @param {string} locale The locale to set as current
+     * @param {string} localeId The locale to set as active
      * @returns {void}
      */
-    setLocale(locale) {
-        this.locale = locale;
-        if (this.locales.includes(this.locale)) {
-            Vue.config.lang = this.locale;
-            store.commit(LOCALE_CHANGED, this.locale);
-        } else {
-            store.commit(LOCALE_LOADING);
-            this._loadLocale();
-        }
+    setLocale = localeId => {
+        this._loadLocale(localeId);
     }
 
     /**
@@ -211,33 +220,16 @@ export default class AbstractApp {
         if (this.config.vars.animate) this._animate();
     }
 
-    /**
-     * Method that initialize SDKs and APIs depending on the App config
-     * @private
-     * @method _initSDKs
-     * @returns {Promise}
-     * @todo Setup twitter API
-     */
-    _initSDKs() {
-        const { apis } = this.config;
-        const promiseArr = [];
-        // Setup requested APIs
-        if (apis.facebook) {
-            promiseArr.push(Facebook.setup());
+    _setupSDK(id, sdkManager) {
+        const { config } = this;
+        if (config.apis[id]) {
+            return sdkManager
+                .setup()
+                .catch(error => console.error(`Failed to setup ${id}:`, error));
+        } else {
+            return Promise.resolve();
         }
-        if (apis.google) {
-            promiseArr.push(Google.setup());
-        }
-        if (apis.xeerpa) {
-            promiseArr.push(Xeerpa.setup());
-        }
-        // Return a single Promise that resolves when all APIs have loaded
-        if (promiseArr.length) {
-            return Promise.all(promiseArr);
-        }
-        // If no APIs were requested just return a resolved promise
-        return Promise.resolve();
-    }
+    };
 
     /**
      * Window resize event handler
@@ -271,22 +263,15 @@ export default class AbstractApp {
      * @method _loadManifest
      * @return {Promise}
      */
-    _loadManifest = () => {
+    _loadManifest() {
         const { config } = this;
         if (config.asset_loading) {
-            return request.get("static/data/preload.json");
+            return request
+                .get("static/data/preload.json")
+                .catch(error => console.error("Unable to load preload.json:", error))
+                .then(response => this._loadAssets(response));
         }
         return Promise.resolve();
-    };
-
-    /**
-     * Logs `_loadManifest` Promise errors
-     * @private
-     * @method _logManifestError
-     * @return {void}
-     */
-    _logManifestError = error => {
-        console.error("Unable to load preload.json:", error);
     };
 
     /**
@@ -296,7 +281,7 @@ export default class AbstractApp {
      * @method _loadAssets
      * @return {void}
      */
-    _loadAssets = manifest => {
+    _loadAssets(manifest) {
         if (typeof manifest !== 'undefined' && Array.isArray(manifest.body)) {
             return new Promise(resolve => {
                 const { loader } = this;
@@ -309,7 +294,8 @@ export default class AbstractApp {
                 loader.on("complete", resolve);
                 // Init load
                 loader.load();
-            });
+            })
+                .catch(error => console.error('Failed to load assets:', error));
         }
         return Promise.resolve();
     };
@@ -320,7 +306,7 @@ export default class AbstractApp {
      * @method start
      * @returns {void}
      */
-    start = () => {
+    start() {
         this.started = true;
         this.renderApp();
         mainLoaderDisappear().then(() => {
