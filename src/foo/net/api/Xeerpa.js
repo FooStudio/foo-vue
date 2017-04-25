@@ -71,7 +71,7 @@ export default class Xeerpa {
 
     static setup() {
         return new Promise((resolve) => {
-            if (!config.xeerpa_presist) return;
+            if (!config.xeerpa_persist) return;
             const data = JSON.parse(window.sessionStorage.getItem("xeerpa"));
             if (data) {
                 // const expireDate = new Date(data.auth.expires);
@@ -153,7 +153,7 @@ export default class Xeerpa {
         // TODO: Conditionally remove listener, IE doesn't use it.
         window.removeEventListener("message", this._messageHandler);
         this.cb(data);
-        if (config.xeerpa_presist) window.sessionStorage.setItem("xeerpa", JSON.stringify(data));
+        if (config.xeerpa_persist) window.sessionStorage.setItem("xeerpa", JSON.stringify(data));
     }
 
 }
