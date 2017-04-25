@@ -283,7 +283,7 @@ export default class AbstractApp {
      */
     _loadAssets(manifest) {
         if (typeof manifest !== 'undefined' && Array.isArray(manifest.body)) {
-            return new Promise(resolve => {
+            const promise = new Promise(resolve => {
                 const { loader } = this;
                 // Add assets to loader
                 manifest.body.forEach(asset => loader.add(asset));
@@ -294,8 +294,9 @@ export default class AbstractApp {
                 loader.on("complete", resolve);
                 // Init load
                 loader.load();
-            })
-                .catch(error => console.error('Failed to load assets:', error));
+            });
+            // Return load promise and catch errors
+            return promise.catch(error => console.error('Failed to load assets:', error));
         }
         return Promise.resolve();
     };
