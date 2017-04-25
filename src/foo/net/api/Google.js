@@ -1,3 +1,4 @@
+import { environment } from "../../../config";
 import loadJS from "load-script";
 
 /**
@@ -95,7 +96,7 @@ export default class Google {
         if (this.loaded) return;
         gapi.load("auth2", () => {
             this.loaded = true;
-            this.GoogleAuth = gapi.auth2.init({client_id: App.environment.properties.gp});
+            this.GoogleAuth = gapi.auth2.init({client_id: environment.properties.gp});
             this.GoogleAuth.then(() => {
                 this.inited = true;
                 this.resolve();

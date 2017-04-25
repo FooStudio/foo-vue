@@ -1,3 +1,4 @@
+import { environment } from "../../config";
 import request from "superagent";
 import GoogleAnalytics from "foo/utils/tracking/GoogleAnalytics";
 import store from "app/store";
@@ -86,7 +87,7 @@ export default class Analytics {
         if (param) {
             const v = this.tags[param];
             if (v) {
-                if (App.DEBUG) console.info("Track Event:", v);
+                if (environment.vars.debug) console.info("Track Event:", v);
                 for (let adapter of this.adapter) {
                     switch (adapter) {
                         case Analytics.GOOGLE:
@@ -108,7 +109,7 @@ export default class Analytics {
     trackPage(route) {
         if (!this.loaded) return;
         if (route) {
-            if (App.DEBUG) console.info("Track Page View:", route);
+            if (environment.vars.debug) console.info("Track Page View:", route);
             for (let adapter of this.adapter) {
                 switch (adapter) {
                     case Analytics.GOOGLE:

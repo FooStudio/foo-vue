@@ -1,3 +1,4 @@
+import { environment } from "../config";
 import request from "superagent";
 
 /**
@@ -68,6 +69,6 @@ export default class Api {
     }
 
     static apiURL(endpoint) {
-        return `${App.environment.urls.api}${endpoint}`;
+        return `${environment.urls.api}${endpoint}`;
     }
 }

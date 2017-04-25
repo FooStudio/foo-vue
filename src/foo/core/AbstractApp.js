@@ -122,7 +122,6 @@ export default class AbstractApp {
      * @param {object} [data={}] App initial load data
      */
     constructor(config, environment, data = {}) {
-        window.App = this;
         this.DEBUG = environment.vars.debug;
         this.config = config;
         this.environment = environment;
