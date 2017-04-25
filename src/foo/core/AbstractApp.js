@@ -122,6 +122,7 @@ export default class AbstractApp {
      * @param {object} [data={}] App initial load data
      */
     constructor(config, environment, data = {}) {
+        // Define props from arguments
         this.DEBUG = environment.vars.debug;
         this.config = config;
         this.environment = environment;
@@ -144,8 +145,7 @@ export default class AbstractApp {
 
     /**
      * Method that init the Analytics helper
-     * @protected
-     * @override
+     * @private
      * @method _setupAnalytics
      * @returns {Promise}
      */
@@ -161,7 +161,7 @@ export default class AbstractApp {
 
     /**
      * Method that loads the current locale and (re)renders the App
-     * @protected
+     * @private
      * @param {string=} localeId - locale to load
      * @returns {Promise}
      */
@@ -192,8 +192,8 @@ export default class AbstractApp {
 
     /**
      * Updates active locale
-     * @protected
-     * @param {string} localeId The locale to set as active
+     * @private
+     * @param {string} localeId - The locale to set as active
      * @return {void}
      */
     _updateLocale(localeId) {
@@ -204,8 +204,9 @@ export default class AbstractApp {
 
     /**
      * Method that set the current locale
+     * @protected
      * @method setLocale
-     * @param {string} localeId The locale to set as active
+     * @param {string} localeId - The locale to set as active
      * @returns {void}
      */
     setLocale = localeId => {
@@ -223,6 +224,13 @@ export default class AbstractApp {
         if (this.config.vars.animate) this._animate();
     }
 
+    /**
+     * Setups an SDK Manager if specified in the config
+     * @private
+     * @param {string} id
+     * @param {Object} sdkManager
+     * @returns {Promise}
+     */
     _setupSDK(id, sdkManager) {
         const { config } = this;
         if (config.apis[id]) {
@@ -237,7 +245,7 @@ export default class AbstractApp {
     /**
      * Window resize event handler
      * @param {Event} e The event object
-     * @protected
+     * @private
      * @method _onResize
      * @returns {void}
      */
@@ -282,7 +290,7 @@ export default class AbstractApp {
      * @private
      * @param assets
      * @method _loadAssets
-     * @return {void}
+     * @return {Promise}
      */
     _loadAssets(manifest) {
         if (typeof manifest !== 'undefined' && Array.isArray(manifest.body)) {
@@ -306,7 +314,7 @@ export default class AbstractApp {
 
     /**
      * Starts App, override if needed custom initialization.
-     * @override
+     * @protected
      * @method start
      * @returns {void}
      */
@@ -320,7 +328,7 @@ export default class AbstractApp {
 
     /**
      * On load start callback
-     * @override
+     * @protected
      * @method onLoadStart
      * @return {void}
      */
@@ -330,7 +338,7 @@ export default class AbstractApp {
 
     /**
      * On load progress callback
-     * @override
+     * @protected
      * @method onLoadProgress
      * @returns {void}
      */
@@ -340,7 +348,7 @@ export default class AbstractApp {
 
     /**
      * On load complete callback
-     * @override
+     * @protected
      * @method loaderComplete
      * @returns {void}
      */
@@ -351,7 +359,6 @@ export default class AbstractApp {
     /**
      * Method to be overridden, render logic
      * @abstract
-     * @override
      * @method renderApp
      * @returns {void}
      */
