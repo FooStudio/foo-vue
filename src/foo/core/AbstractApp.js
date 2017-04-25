@@ -15,6 +15,103 @@ import { LOCALE_CHANGED, LOCALE_LOADING } from "app/store/modules/app";
 
 export default class AbstractApp {
     /**
+     * Signal dispatching on app animationFrame
+     * @property rendered
+     * @type {Signal}
+     */
+    rendered = new Signal();
+
+    /**
+     * Signal dispatching on ap resize
+     * @property resized
+     * @type {Signal}
+     */
+    resized = new Signal();
+
+    /**
+     * The app debug flag
+     * @property DEBUG
+     * @type {boolean}
+     */
+    DEBUG;
+
+    /**
+     * The app config object
+     * @property config
+     * @type {Object}
+     */
+    config;
+
+    /**
+     * The app analytics util
+     * @property analytics
+     * @type {Analytics}
+     */
+    analytics;
+
+    /**
+     * App environment object
+     * @property environment
+     * @type {Object}
+     */
+    environment;
+
+    /**
+     * App initial load data
+     * @default {}
+     * @property data
+     * @type {Object}
+     */
+    data;
+
+    /**
+     *  Defines if the App has started
+     *  @property started
+     *  @default false
+     *  @type {boolean}
+     */
+    started = false;
+
+    /**
+     * The app window width
+     * @property width
+     * @type {Number}
+     */
+    width = window.innerWidth;
+
+    /**
+     * The app window height
+     * @property height
+     * @type {Number}
+     */
+    height = window.innerHeight;
+
+    /**
+     * The current locale
+     * @default "es-MX"
+     * @property locale
+     * @type {string}
+     */
+    activeLocale;
+
+    /**
+     * App locales loaded
+     * @type {Array}
+     */
+    loadedLocaleArr = [];
+
+    /**
+     * Loader
+     * @property loader
+     * @type {preloader}
+     */
+    loader = preloader({
+        xhrImages: false,
+        loadFullAudio: true,
+        loadFullVideo: true
+    });
+
+    /**
      * @module foo
      * @namespace core
      * @class AbstractApp
@@ -25,105 +122,12 @@ export default class AbstractApp {
      * @param {object} [data={}] App initial load data
      */
     constructor(config, environment, data = {}) {
-        /**
-         * Signal dispatching on app animationFrame
-         * @property rendered
-         * @type {Signal}
-         */
-        this.rendered = new Signal();
-
-        /**
-         * Signal dispatching on ap resize
-         * @property resized
-         * @type {Signal}
-         */
-        this.resized = new Signal();
-
-        /**
-         * The app debug flasg
-         * @property DEBUG
-         * @type {boolean}
-         */
-        this.DEBUG = environment.vars.debug;
-
-        /**
-         * The app config object
-         * @property config
-         * @type {Object}
-         */
-        this.config = config;
-
-        /**
-         * The app analytics util
-         * @property analytics
-         * @type {Analytics}
-         */
-        this.analytics = null;
-
-        /**
-         * App environment object
-         * @property environment
-         * @type {Object}
-         */
-        this.environment = environment;
-
-        /**
-         * App initial load data
-         * @default {}
-         * @property data
-         * @type {Object}
-         */
-        this.data = data;
-
-        /**
-         *  Defines if the App has started
-         *  @property started
-         *  @default false
-         *  @type {boolean}
-         */
-        this.started = false;
-
-        /**
-         * The app window width
-         * @property width
-         * @type {Number}
-         */
-        this.width = window.innerWidth;
-
-        /**
-         * The app window height
-         * @property height
-         * @type {Number}
-         */
-        this.height = window.innerHeight;
-
-        /**
-         * The current locale
-         * @default "es-MX"
-         * @property locale
-         * @type {string}
-         */
-        this.activeLocale = config.locale;
-
-        /**
-         * App locales loaded
-         * @type {Array}
-         */
-        this.loadedLocaleArr = [];
-
-        /**
-         * Loader
-         * @property loader
-         * @type {preloader}
-         */
-        this.loader = preloader({
-            xhrImages: false,
-            loadFullAudio: true,
-            loadFullVideo: true
-        });
-
         window.App = this;
-
+        this.DEBUG = environment.vars.debug;
+        this.config = config;
+        this.environment = environment;
+        this.data = data;
+        this.activeLocale = config.locale;
         Promise
             .all([
                 this._setupAnalytics(),
