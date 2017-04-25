@@ -144,6 +144,39 @@ export default class AbstractApp {
     }
 
     /**
+     * Method that set the current locale
+     * @protected
+     * @method setLocale
+     * @param {string} localeId - The locale to set as active
+     * @returns {void}
+     */
+    setLocale = localeId => {
+        this._loadLocale(localeId);
+    }
+
+    /**
+     * Starts App, override if needed custom initialization.
+     * @protected
+     * @method start
+     * @returns {void}
+     */
+    start() {
+        this.started = true;
+        this.renderApp();
+        mainLoaderDisappear().then(() => {
+            // TODO: Defer app rendering to loader out transition complete? ¿Maybe? Or defer first view animation?
+        });
+    }
+
+    /**
+     * Method to be overridden, render logic
+     * @abstract
+     * @method renderApp
+     * @returns {void}
+     */
+    renderApp() { }
+
+    /**
      * Method that init the Analytics helper
      * @private
      * @method _setupAnalytics
@@ -158,6 +191,24 @@ export default class AbstractApp {
                 resolve);
         });
     }
+
+    /**
+     * Setups an SDK Manager if specified in the config
+     * @private
+     * @param {string} id
+     * @param {Object} sdkManager
+     * @returns {Promise}
+     */
+    _setupSDK(id, sdkManager) {
+        const { config } = this;
+        if (config.apis[id]) {
+            return sdkManager
+                .setup()
+                .catch(error => console.error(`Failed to setup ${id}:`, error));
+        } else {
+            return Promise.resolve();
+        }
+    };
 
     /**
      * Method that loads the current locale and (re)renders the App
@@ -200,72 +251,6 @@ export default class AbstractApp {
         this.activeLocale = localeId;
         Vue.config.lang = localeId;
         store.commit(LOCALE_CHANGED, localeId);
-    }
-
-    /**
-     * Method that set the current locale
-     * @protected
-     * @method setLocale
-     * @param {string} localeId - The locale to set as active
-     * @returns {void}
-     */
-    setLocale = localeId => {
-        this._loadLocale(localeId);
-    }
-
-    /**
-     * Method that init listeners depending on the App config
-     * @private
-     * @method _addListeners
-     * @returns {void}
-     */
-    _addListeners() {
-        if (this.config.vars.resize) window.addEventListener("resize", this._onResize);
-        if (this.config.vars.animate) this._animate();
-    }
-
-    /**
-     * Setups an SDK Manager if specified in the config
-     * @private
-     * @param {string} id
-     * @param {Object} sdkManager
-     * @returns {Promise}
-     */
-    _setupSDK(id, sdkManager) {
-        const { config } = this;
-        if (config.apis[id]) {
-            return sdkManager
-                .setup()
-                .catch(error => console.error(`Failed to setup ${id}:`, error));
-        } else {
-            return Promise.resolve();
-        }
-    };
-
-    /**
-     * Window resize event handler
-     * @param {Event} e The event object
-     * @private
-     * @method _onResize
-     * @returns {void}
-     */
-    _onResize = throttle(() => {
-        this.width = window.innerWidth;
-        this.height = window.innerHeight;
-        this.resized.dispatch({ width: this.width, height: this.height });
-    }, 16);
-
-    /**
-     * Method that loops animation frameworks
-     * @private
-     * @method _animate
-     * @returns {void}
-     */
-    _animate() {
-        requestAnimationFrame(() => {
-            this.rendered.dispatch();
-            this._animate();
-        });
     }
 
     /**
@@ -313,20 +298,6 @@ export default class AbstractApp {
     };
 
     /**
-     * Starts App, override if needed custom initialization.
-     * @protected
-     * @method start
-     * @returns {void}
-     */
-    start() {
-        this.started = true;
-        this.renderApp();
-        mainLoaderDisappear().then(() => {
-            // TODO: Defer app rendering to loader out transition complete? ¿Maybe? Or defer first view animation?
-        });
-    }
-
-    /**
      * On load start callback
      * @protected
      * @method onLoadStart
@@ -357,12 +328,39 @@ export default class AbstractApp {
     };
 
     /**
-     * Method to be overridden, render logic
-     * @abstract
-     * @method renderApp
+     * Method that init listeners depending on the App config
+     * @private
+     * @method _addListeners
      * @returns {void}
      */
-    renderApp() {
+    _addListeners() {
+        if (this.config.vars.resize) window.addEventListener("resize", this._onResize);
+        if (this.config.vars.animate) this._animate();
+    }
 
+    /**
+     * Window resize event handler
+     * @param {Event} e The event object
+     * @private
+     * @method _onResize
+     * @returns {void}
+     */
+    _onResize = throttle(() => {
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.resized.dispatch({ width: this.width, height: this.height });
+    }, 16);
+
+    /**
+     * Method that loops animation frameworks
+     * @private
+     * @method _animate
+     * @returns {void}
+     */
+    _animate() {
+        requestAnimationFrame(() => {
+            this.rendered.dispatch();
+            this._animate();
+        });
     }
 }
