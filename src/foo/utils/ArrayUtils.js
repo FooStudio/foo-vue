@@ -53,19 +53,30 @@ export default class ArrayUtils {
      * @param {Array} array The Array to be shuffled
      * @returns {void}
      */
-    static shuffle(array) {
-        let i = array.length;
-        if (i === 0) {
-            return;
+    /**
+     * Shuffles an array (sort random)
+     * @static
+     * @public
+     * @method shuffle
+     * @param {Array} array Array to shuffle
+     * @param {boolean} modify[default=false] Modify passed array
+     * @return {Array}
+     */
+    static shuffle(array, modify = false) {
+        let isView = ArrayBuffer && ArrayBuffer.isView && ArrayBuffer.isView(array);
+        array = modify || isView ? array : array.slice();
+
+        let rnd = array.length;
+        let tmp = array.length;
+        let idx = array.length;
+        while (idx > 1) {
+            rnd = Math.random() * idx | 0;
+            tmp = array[--idx];
+            array[idx] = array[rnd];
+            array[rnd] = tmp;
         }
-        let j;
-        let temp;
-        while (--i) {
-            j = Math.floor(Math.random() * (i + 1));
-            temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
-        }
+
+        return array;
     }
 
     /**
@@ -79,8 +90,8 @@ export default class ArrayUtils {
      * @returns {void}
      */
     static copy(array, target) {
-        let leni = target.length = array.length;
-        for (let i = 0; i < leni; i++) {
+        const length = target.length = array.length;
+        for (let i = 0; i < length; i++) {
             target[i] = array[i];
         }
     }
