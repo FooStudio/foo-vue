@@ -41,8 +41,6 @@ const config = {
             "vars": {
                 "base": productionURL,
                 "route": productionRoute,
-                "routerMode": "history",
-                "sentry": true,
                 "debug": false
             },
             "urls": {
@@ -59,8 +57,6 @@ const config = {
             "vars": {
                 "base": stagingURL,
                 "route": stagingRoute,
-                "routerMode": "history",
-                "sentry": true,
                 "debug": true
             },
             "urls": {
@@ -77,8 +73,6 @@ const config = {
             "vars": {
                 "base": qaURL,
                 "route": qaRoute,
-                "routerMode": "history",
-                "sentry": true,
                 "debug": true
             },
             "urls": {
@@ -95,8 +89,6 @@ const config = {
             "vars": {
                 "base": developmentURL,
                 "route": developmentRoute,
-                "routerMode": "history",
-                "sentry": false,
                 "debug": true
             },
             "urls": {

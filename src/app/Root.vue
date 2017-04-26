@@ -6,6 +6,7 @@
     import MainContainer from "app/components/MainContainer.vue";
 
     export default {
+        name: "App",
         data(){
             return {};
         },

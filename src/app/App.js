@@ -19,6 +19,8 @@ import {sync} from "vuex-router-sync";
 
 import Root from "app/Root.vue";
 
+Vue.config.productionTip = false;
+
 export default class App extends AbstractApp {
     constructor(config, environment, data = {}) {
         super(config, environment, data);
