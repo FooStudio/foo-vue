@@ -24,7 +24,7 @@ const config = {
     "asset_loading": true,
     "facebook_permissions": "email",
     "google_scopes": "https://www.googleapis.com/auth/plus.login",
-    "xeerpa_presist": true,
+    "xeerpa_persist": true,
     "apis": {
         "facebook": true,
         "google": true,

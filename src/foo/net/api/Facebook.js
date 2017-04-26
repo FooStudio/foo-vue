@@ -1,3 +1,4 @@
+import { config, environment } from "../../../config";
 import loadJS from "load-script";
 import Requester from "foo/net/Requester";
 
@@ -64,8 +65,8 @@ export default class Facebook {
     static setup() {
         return new Promise((resolve) => {
             this.resolve = resolve;
-            this.permissions = App.config.facebook_permissions;
-            this.appID = App.environment.properties.fb;
+            this.permissions = config.facebook_permissions;
+            this.appID = environment.properties.fb;
             this.load();
         });
     }
@@ -143,11 +144,11 @@ export default class Facebook {
         };
 
         FB.api("/me?fields=email,first_name,gender,id,locale,last_name,middle_name,name", (res) => {
-            userData.profile = {profile_pic: userData.profile.profile_pic, ...res};
+            userData.profile = { profile_pic: userData.profile.profile_pic, ...res };
             solve();
         });
 
-        FB.api("me/picture", {"width": "200"}, (res) => {
+        FB.api("me/picture", { "width": "200" }, (res) => {
             userData.profile["profile_pic"] = res.data;
             solve();
         });
@@ -202,7 +203,7 @@ export default class Facebook {
      */
     static getUserLocations(token = null, limit = 20) {
         return new Promise((resolve, reject) => {
-            FB.api("/me/tagged_places", {token, limit}, (response) => {
+            FB.api("/me/tagged_places", { token, limit }, (response) => {
                 resolve(response.data);
             });
         });
@@ -217,7 +218,7 @@ export default class Facebook {
     static getUserLikes(token = null, limit = 100) {
         let likes = [];
         return new Promise((resolve, reject) => {
-            FB.api("/me/likes", {token, limit}, (response) => {
+            FB.api("/me/likes", { token, limit }, (response) => {
                 likes = likes.concat(response.data);
                 if (response.paging.next) {
                     nextPage(response.paging.next);

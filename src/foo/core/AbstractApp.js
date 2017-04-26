@@ -4,16 +4,113 @@ import request from "superagent";
 import preloader from 'preloader';
 import throttle from "lodash/throttle";
 import store from "app/store";
-import {mainLoaderDisappear} from "app/transitions/loader";
+import { mainLoaderDisappear } from "app/transitions/loader";
 import Analytics from "foo/utils/Analytics";
 import Facebook from "foo/net/api/Facebook";
 import Google from "foo/net/api/Google";
 import Xeerpa from "foo/net/api/Xeerpa";
 
-import {LOADING, PROGRESS} from "app/store/modules/loader";
-import {LOCALE_CHANGED, LOCALE_LOADING} from "app/store/modules/app";
+import { LOADING, PROGRESS } from "app/store/modules/loader";
+import { LOCALE_CHANGED, LOCALE_LOADING } from "app/store/modules/app";
 
 export default class AbstractApp {
+    /**
+     * Signal dispatching on app animationFrame
+     * @property rendered
+     * @type {Signal}
+     */
+    rendered = new Signal();
+
+    /**
+     * Signal dispatching on ap resize
+     * @property resized
+     * @type {Signal}
+     */
+    resized = new Signal();
+
+    /**
+     * The app debug flag
+     * @property DEBUG
+     * @type {boolean}
+     */
+    DEBUG;
+
+    /**
+     * The app config object
+     * @property config
+     * @type {Object}
+     */
+    config;
+
+    /**
+     * The app analytics util
+     * @property analytics
+     * @type {Analytics}
+     */
+    analytics;
+
+    /**
+     * App environment object
+     * @property environment
+     * @type {Object}
+     */
+    environment;
+
+    /**
+     * App initial load data
+     * @default {}
+     * @property data
+     * @type {Object}
+     */
+    data;
+
+    /**
+     *  Defines if the App has started
+     *  @property started
+     *  @default false
+     *  @type {boolean}
+     */
+    started = false;
+
+    /**
+     * The app window width
+     * @property width
+     * @type {Number}
+     */
+    width = window.innerWidth;
+
+    /**
+     * The app window height
+     * @property height
+     * @type {Number}
+     */
+    height = window.innerHeight;
+
+    /**
+     * The current locale
+     * @default "es-MX"
+     * @property locale
+     * @type {string}
+     */
+    activeLocale;
+
+    /**
+     * App locales loaded
+     * @type {Array}
+     */
+    loadedLocaleArr = [];
+
+    /**
+     * Loader
+     * @property loader
+     * @type {preloader}
+     */
+    loader = preloader({
+        xhrImages: false,
+        loadFullAudio: true,
+        loadFullVideo: true
+    });
+
     /**
      * @module foo
      * @namespace core
@@ -25,288 +122,41 @@ export default class AbstractApp {
      * @param {object} [data={}] App initial load data
      */
     constructor(config, environment, data = {}) {
-        /**
-         * Signal dispatching on app animationFrame
-         * @property rendered
-         * @type {Signal}
-         */
-        this.rendered = new Signal();
-
-        /**
-         * Signal dispatching on ap resize
-         * @property resized
-         * @type {Signal}
-         */
-        this.resized = new Signal();
-
-        /**
-         * The app debug flasg
-         * @property DEBUG
-         * @type {boolean}
-         */
+        // Define props from arguments
         this.DEBUG = environment.vars.debug;
-
-        /**
-         * The app config object
-         * @property config
-         * @type {Object}
-         */
         this.config = config;
-
-        /**
-         * The app analytics util
-         * @property analytics
-         * @type {Analytics}
-         */
-        this.analytics = null;
-
-        /**
-         * App environment object
-         * @property environment
-         * @type {Object}
-         */
         this.environment = environment;
-
-        /**
-         * App initial load data
-         * @default {}
-         * @property data
-         * @type {Object}
-         */
         this.data = data;
-
-        /**
-         *  Defines if the App has started
-         *  @property started
-         *  @default false
-         *  @type {boolean}
-         */
-        this.started = false;
-
-        /**
-         * The app window width
-         * @property width
-         * @type {Number}
-         */
-        this.width = window.innerWidth;
-
-        /**
-         * The app window height
-         * @property height
-         * @type {Number}
-         */
-        this.height = window.innerHeight;
-
-        /**
-         * The current locale
-         * @default "es-MX"
-         * @property locale
-         * @type {string}
-         */
-        this.locale = config.locale;
-        /**
-         * Loader
-         * @property loader
-         * @type {preloader}
-         */
-        this.loader = preloader({
-            xhrImages: false,
-            loadFullAudio: true,
-            loadFullVideo: true
-        });
-        this.setLocale = this.setLocale.bind(this);
-        window.App = this;
-        this._setupAnalytics();
-    }
-
-    /**
-     * Method that init the Analytics helper
-     * @protected
-     * @override
-     * @method _setupAnalytics
-     * @returns {void}
-     */
-    _setupAnalytics() {
-        this.analytics = new Analytics("static/data/tracking.json", this.config.analytics, this._setupPolyglot());
-    }
-
-    /**
-     * Method that setups Polyglot, loads default locale
-     * @private
-     * @override
-     * @method _setupPolyglot
-     * @returns {void}
-     */
-    _setupPolyglot() {
-        /**
-         * App locales loaded
-         * @type {Array}
-         */
-        this.locales = [];
-        this.setLocale(this.locale);
-    }
-
-    /**
-     * Method called when the App will initialize, setup initial data at override
-     * @method init
-     * @override
-     */
-    init() {
-        this._addListeners();
-        this._initSDKs().then(() => {
-            if (this.config.asset_loading) {
-                request.get("static/data/preload.json")
-                    .then((response) => {
-                        this.loadAssets(response.body);
-                    })
-                    .catch((error) => {
-                        throw new Error(`Unable to load preload.json file!:${error}`);
-                    });
-            } else {
+        this.activeLocale = config.locale;
+        Promise
+            .all([
+                this._setupAnalytics(),
+                this._setupSDK('facebook', Facebook),
+                this._setupSDK('google', Google),
+                this._setupSDK('xeerpa', Xeerpa),
+                this._loadLocale(),
+                this._loadManifest()
+            ])
+            .then(() => {
+                this._addListeners();
                 this.start();
-            }
-        });
-    }
-
-    /**
-     * Method that loads the current locale and (re)renders the App
-     * @private
-     * @override
-     * @method _loadLocale
-     * @returns {void}
-     */
-    _loadLocale() {
-        request.get(`static/data/locale/${this.locale}.json`)
-            .then((response) => {
-                this.locales.push(this.locale);
-                Vue.locale(this.locale, response.body);
-                Vue.config.lang = this.locale;
-                store.commit(LOCALE_CHANGED, this.locale);
-                if (!this.started) {
-                    this.init();
-                }
-            })
-            .catch((error) => {
-                console.error("Error: The provided locale was not found in the locales directory.", error);
             });
     }
 
     /**
      * Method that set the current locale
-     * @method setLocale
-     * @param {string} locale The locale to set as current
-     * @returns {void}
-     */
-    setLocale(locale) {
-        this.locale = locale;
-        if (this.locales.includes(this.locale)) {
-            Vue.config.lang = this.locale;
-            store.commit(LOCALE_CHANGED, this.locale);
-        } else {
-            store.commit(LOCALE_LOADING);
-            this._loadLocale();
-        }
-    }
-
-    /**
-     * Method that init listeners depending on the App config
-     * @private
-     * @method _addListeners
-     * @returns {void}
-     */
-    _addListeners() {
-        if (this.config.vars.resize) window.addEventListener("resize", throttle(this._onResizeHandler, 16));
-        if (this.config.vars.animate) this._animate();
-    }
-
-    /**
-     * Method that initialize SDKs and APIs depending on the App config
-     * @private
-     * @method _initSDKs
-     * @returns {Promise}
-     */
-    _initSDKs() {
-        return new Promise((resolve) => {
-            const {apis} = this.config;
-            let count = 0;
-            let loaded = 0;
-            if (apis.facebook) {
-                count++;
-                Facebook.setup().then(() => {
-                    defer();
-                });
-            }
-            if (apis.google) {
-                count++;
-                Google.setup().then(() => {
-                    defer();
-                });
-            }
-            if (apis.twitter) {
-                // TODO: Setup twitter api
-            }
-            if (apis.xeerpa) {
-                count++;
-                Xeerpa.setup().then(() => {
-                    defer();
-                });
-            }
-            let defer = () => {
-                loaded++;
-                if (loaded === count) {
-                    resolve();
-                }
-            };
-            if (count === 0) resolve();
-        });
-    }
-
-    /**
-     * Window resize event handler
-     * @param {Event} e The event object
      * @protected
-     * @method _onResizeHandler
+     * @method setLocale
+     * @param {string} localeId - The locale to set as active
      * @returns {void}
      */
-    _onResizeHandler() {
-        this.width = window.innerWidth;
-        this.height = window.innerHeight;
-        this.resized.dispatch({width: this.width, height: this.height});
-    }
-
-    /**
-     * Method that loops animation frameworks
-     * @private
-     * @method _animate
-     * @returns {void}
-     */
-    _animate() {
-        requestAnimationFrame(() => {
-            this.rendered.dispatch();
-            this._animate();
-        });
-    }
-
-    /**
-     * Method to load all assets
-     * @private
-     * @param assets
-     * @method loadAssets
-     * @return {void}
-     */
-    loadAssets(assets) {
-        store.commit(LOADING, true);
-        assets.map((item) => {
-            this.loader.add(item);
-        });
-        this.loader.on("progress", this.loaderProgress.bind(this));
-        this.loader.on("complete", this.loaderComplete.bind(this));
-        this.loader.load();
+    setLocale = localeId => {
+        this._loadLocale(localeId);
     }
 
     /**
      * Starts App, override if needed custom initialization.
-     * @override
+     * @protected
      * @method start
      * @returns {void}
      */
@@ -319,34 +169,198 @@ export default class AbstractApp {
     }
 
     /**
-     * Loader Progress
-     * @override
-     * @method loaderProgress
-     * @returns {void}
-     */
-    loaderProgress(prog) {
-        store.commit(PROGRESS, prog);
-    }
-
-    /**
-     * Loader Complete
-     * @override
-     * @method loaderComplete
-     * @returns {void}
-     */
-    loaderComplete() {
-        store.commit(LOADING, false);
-        this.start();
-    }
-
-    /**
      * Method to be overridden, render logic
      * @abstract
-     * @override
      * @method renderApp
      * @returns {void}
      */
-    renderApp() {
+    renderApp() { }
 
+    /**
+     * Method that init the Analytics helper
+     * @private
+     * @method _setupAnalytics
+     * @returns {Promise}
+     */
+    _setupAnalytics() {
+        const { config } = this;
+        return new Promise(resolve => {
+            this.analytics = new Analytics(
+                "static/data/tracking.json",
+                config.analytics,
+                resolve);
+        });
+    }
+
+    /**
+     * Setups an SDK Manager if specified in the config
+     * @private
+     * @param {string} id
+     * @param {Object} sdkManager
+     * @returns {Promise}
+     */
+    _setupSDK(id, sdkManager) {
+        const { config } = this;
+        if (config.apis[id]) {
+            return sdkManager
+                .setup()
+                .catch(error => console.error(`Failed to setup ${id}:`, error));
+        } else {
+            return Promise.resolve();
+        }
+    };
+
+    /**
+     * Method that loads the current locale and (re)renders the App
+     * @private
+     * @param {string=} localeId - locale to load
+     * @returns {Promise}
+     */
+    _loadLocale(localeId = this.config.locale) {
+        const { loadedLocaleArr } = this;
+        let promise;
+        if (loadedLocaleArr.includes(localeId)) {
+            // If locale is already loaded just resolve
+            promise = Promise.resolve();
+        } else {
+            // Update store
+            store.commit(LOCALE_LOADING);
+            // Load requested json
+            promise = request
+                .get(`static/data/locale/${localeId}.json`)
+                .catch(error => console.error("Failed to load locale:", error))
+                .then(response => {
+                    // Save locale in loaded arr
+                    this.loadedLocaleArr.push(localeId);
+                    // Save locale in vue
+                    Vue.locale(localeId, response.body);
+                });
+        }
+        // Return promise, update locale when resolved.
+        return promise
+            .then(() => this._updateLocale(localeId));
+    }
+
+    /**
+     * Updates active locale
+     * @private
+     * @param {string} localeId - The locale to set as active
+     * @return {void}
+     */
+    _updateLocale(localeId) {
+        this.activeLocale = localeId;
+        Vue.config.lang = localeId;
+        store.commit(LOCALE_CHANGED, localeId);
+    }
+
+    /**
+     * Loads preload.json if requested
+     * @private
+     * @method _loadManifest
+     * @return {Promise}
+     */
+    _loadManifest() {
+        const { config } = this;
+        if (config.asset_loading) {
+            return request
+                .get("static/data/preload.json")
+                .catch(error => console.error("Unable to load preload.json:", error))
+                .then(response => this._loadAssets(response));
+        }
+        return Promise.resolve();
+    };
+
+    /**
+     * Method to load all assets
+     * @private
+     * @param assets
+     * @method _loadAssets
+     * @return {Promise}
+     */
+    _loadAssets(manifest) {
+        if (typeof manifest !== 'undefined' && Array.isArray(manifest.body)) {
+            const promise = new Promise(resolve => {
+                const { loader } = this;
+                // Add assets to loader
+                manifest.body.forEach(asset => loader.add(asset));
+                // Publish
+                this.onLoadStart();
+                loader.on("progress", this.onLoadProgress);
+                loader.on("complete", this.onLoadComplete);
+                loader.on("complete", resolve);
+                // Init load
+                loader.load();
+            });
+            // Return load promise and catch errors
+            return promise.catch(error => console.error('Failed to load assets:', error));
+        }
+        return Promise.resolve();
+    };
+
+    /**
+     * On load start callback
+     * @protected
+     * @method onLoadStart
+     * @return {void}
+     */
+    onLoadStart = () => {
+        store.commit(LOADING, true);
+    };
+
+    /**
+     * On load progress callback
+     * @protected
+     * @method onLoadProgress
+     * @returns {void}
+     */
+    onLoadProgress = (prog) => {
+        store.commit(PROGRESS, prog);
+    };
+
+    /**
+     * On load complete callback
+     * @protected
+     * @method loaderComplete
+     * @returns {void}
+     */
+    onLoadComplete = () => {
+        store.commit(LOADING, false);
+    };
+
+    /**
+     * Method that init listeners depending on the App config
+     * @private
+     * @method _addListeners
+     * @returns {void}
+     */
+    _addListeners() {
+        if (this.config.vars.resize) window.addEventListener("resize", this._onResize);
+        if (this.config.vars.animate) this._animate();
+    }
+
+    /**
+     * Window resize event handler
+     * @param {Event} e The event object
+     * @private
+     * @method _onResize
+     * @returns {void}
+     */
+    _onResize = throttle(() => {
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.resized.dispatch({ width: this.width, height: this.height });
+    }, 16);
+
+    /**
+     * Method that loops animation frameworks
+     * @private
+     * @method _animate
+     * @returns {void}
+     */
+    _animate() {
+        requestAnimationFrame(() => {
+            this.rendered.dispatch();
+            this._animate();
+        });
     }
 }

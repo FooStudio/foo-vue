@@ -39,7 +39,7 @@ const startApp = (data = null) => {
         //CREATE APP
         if (environment.vars.debug) console.info("Foo: Start App");
         const App = require("app/App").default;
-        new App(config, environment, data); // eslint-disable-line no-new
+        window['App'] = new App(config, environment, data); // eslint-disable-line no-new
     }, "bundle");
 };
 

@@ -19,7 +19,7 @@ VueFoo.install = function (Vue, options) {
     Vue.prototype.$patch = request.patch;
 
     // ANALYTICS
-    Vue.prototype.$trackEvent = App.analytics.trackEvent;
+    Vue.prototype.$trackEvent = options.analytics.trackEvent;
 };
 
 export default VueFoo;
