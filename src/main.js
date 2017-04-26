@@ -22,6 +22,8 @@ import {load as LoadGA} from "foo/utils/tracking/GoogleAnalytics";
 import domready from "domready";
 import request from "superagent";
 import Breakpoints from "foo/utils/Breakpoint";
+import App from "app/App";
+import "gsap";
 
 //IMPORT APP CONFIG
 import {config, environment} from "./config";
@@ -32,15 +34,9 @@ import Acknowledgements from "foo/utils/Acknowledgments";
  * @param {Object} data
  */
 const startApp = (data = null) => {
-    require.ensure([], () => {
-        //IMPORT TWEENMAX/CREATE/THREE/PLUGINS/ETC
-        require("gsap").TweenMax;
-
-        //CREATE APP
-        if (environment.vars.debug) console.info("Foo: Start App");
-        const App = require("app/App").default;
-        window['App'] = new App(config, environment, data); // eslint-disable-line no-new
-    }, "bundle");
+    //CREATE APP
+    if (environment.vars.debug) console.info("Foo: Start App");
+    window['App'] = new App(config, environment, data); // eslint-disable-line no-new
 };
 
 /**
