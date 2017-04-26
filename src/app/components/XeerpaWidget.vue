@@ -1,6 +1,6 @@
 <style src="styles/components/XeerpaWidget.styl" lang="stylus" scoped></style>
 
-<script type="text/babel">
+<script>
     import Facebook from "foo/net/api/Facebook";
     import filter from "lodash/filter";
     import find from "lodash/find";
@@ -33,10 +33,10 @@
         props: {},
         components: {},
         mounted(){
-            Facebook.getLikes(this.info.socialNetwork.token).then((likes) => {
+            Facebook.geUsertLikes(this.info.socialNetwork.token).then((likes) => {
                 this.likes = likes;
             });
-            Facebook.getLocations(this.info.socialNetwork.token).then((places) => {
+            Facebook.getUserLocations(this.info.socialNetwork.token).then((places) => {
                 this.places = places;
             });
         },

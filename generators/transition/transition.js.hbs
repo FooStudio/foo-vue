@@ -1,6 +1,6 @@
 import Vue from "vue";
 
-export default  Vue.component( "{{#camelize}}{{name}}{{/camelize}}", {
+export default Vue.component( "{{#camelize}}{{name}}{{/camelize}}", {
     functional: true,
     render    : function ( h, ctx ) {
         let vm = ctx.parent;

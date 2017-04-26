@@ -1,4 +1,5 @@
-import Requester from "foo/net/Requester";
+import { environment } from "../config";
+import request from "superagent";
 
 /**
  * @class Api
@@ -12,15 +13,17 @@ export default class Api {
      * @static
      * @param {Object} data
      */
-    static login (data) {
+    static login(data) {
         return new Promise((resolve, reject) => {
-            Requester.postJSON(this.apiURL("login"), data).then((response) => {
-                console.log("Login API success!");
-                resolve(response.body);
-            }).then(undefined, (error) => {
-                console.log("Login API error!");
-                reject(error);
-            });
+            request.post(this.apiURL("login")).send(data)
+                .then((response) => {
+                    console.log("Login API success!");
+                    resolve(response.body);
+                })
+                .catch((error) => {
+                    console.log("Login API error!");
+                    reject(error);
+                });
         });
     }
 
@@ -30,15 +33,17 @@ export default class Api {
      * @static
      * @return Promise
      */
-    static logout () {
+    static logout() {
         return new Promise((resolve, reject) => {
-            Requester.postJSON(this.apiURL("logout")).then((response) => {
-                console.log("Login API success!");
-                resolve(response.body);
-            }).then(undefined, (error) => {
-                console.log("Login API error!");
-                reject(error);
-            });
+            request.post(this.apiURL("logout"))
+                .then((response) => {
+                    console.log("Login API success!");
+                    resolve(response.body);
+                })
+                .catch((error) => {
+                    console.log("Login API error!");
+                    reject(error);
+                });
         });
     }
 
@@ -49,19 +54,21 @@ export default class Api {
      * @static
      * @return Promise
      */
-    static register (data) {
+    static register(data) {
         return new Promise((resolve, reject) => {
-            Requester.postJSON(this.apiURL("register"), data).then((response) => {
-                console.log("Register API success.");
-                resolve(response.body);
-            }).then(undefined, (error) => {
-                console.error("Register API error!");
-                reject(error);
-            });
+            request.post(this.apiURL("register")).send(data)
+                .then((response) => {
+                    console.log("Register API success.");
+                    resolve(response.body);
+                })
+                .catch((error) => {
+                    console.error("Register API error!");
+                    reject(error);
+                });
         });
     }
 
-    static apiURL (endpoint) {
-        return `${App.environment.urls.api}${endpoint}`;
+    static apiURL(endpoint) {
+        return `${environment.urls.api}${endpoint}`;
     }
 }

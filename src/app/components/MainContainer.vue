@@ -1,6 +1,6 @@
 <style src="styles/components/MainContainer.styl" lang="stylus" scoped></style>
 
-<script type="text/babel">
+<script>
     export default {
         name: "MainContainer",
         data(){

@@ -1,6 +1,6 @@
 <style src="styles/views/Root.styl" lang="stylus" scoped></style>
 
-<script type="text/babel">
+<script>
     import Loader from "app/components/Loader.vue";
     import AppHeader from "app/components/AppHeader.vue";
     import MainContainer from "app/components/MainContainer.vue";

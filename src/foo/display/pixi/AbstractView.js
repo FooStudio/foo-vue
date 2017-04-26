@@ -1,4 +1,4 @@
-import AbstractContainer from "foo/core/pixi/AbstractContainer";
+import AbstractContainer from "foo/display/pixi/AbstractContainer";
 import Signal from "signals";
 
 export default class AbstractView extends AbstractContainer {

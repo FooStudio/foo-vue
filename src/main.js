@@ -1,6 +1,6 @@
-/*!
+/**!
  * Foo (Studio)
- */
+ **/
 
 //IMPORT GLOBAL CSS
 import "sanitize.css/sanitize.css";
@@ -20,8 +20,8 @@ import {load as LoadGA} from "foo/utils/tracking/GoogleAnalytics";
 
 //IMPORT APP UTILS
 import domready from "domready";
+import request from "superagent";
 import Breakpoints from "foo/utils/Breakpoint";
-import Requester from "foo/net/Requester";
 
 //IMPORT APP CONFIG
 import {config, environment} from "./config";
@@ -39,7 +39,7 @@ const startApp = (data = null) => {
         //CREATE APP
         if (environment.vars.debug) console.info("Foo: Start App");
         const App = require("app/App").default;
-        new App(config, environment, data); // eslint-disable-line no-new
+        window['App'] = new App(config, environment, data); // eslint-disable-line no-new
     }, "bundle");
 };
 
@@ -47,25 +47,21 @@ const startApp = (data = null) => {
  * Load the initial App data || Starts the app
  */
 const loadData = () => {
-    //SETUP CSS BREAKPOINTS AND BROWSER MEDIA QUERIES
     Breakpoints.setup();
-
-    //DO INITIAL DATA/ASSET LOADING || START APP
     if (config.data_loading) {
         if (environment.vars.debug) console.info("Foo: Load App Data");
-        Requester.getJSON("static/data/data.json").then((response) => {
-            startApp(response.body);
-        }).then(undefined, (error) => {
-            throw new Error(`Foo start error: ${error}`);
-        });
+        request.get("static/data/data.json")
+            .then((response) => {
+                startApp(response.body);
+            })
+            .catch((error) => {
+                throw new Error(`Foo start error: ${error}`);
+            });
     } else {
         startApp();
     }
 };
 
-/**
- * Load the analytics adapters based on config
- */
 const loadAnalyticsAdapters = () => {
     for (let adapter of config.analytics) {
         switch (adapter) {

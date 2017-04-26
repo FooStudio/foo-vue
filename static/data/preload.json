@@ -1,20 +1,4 @@
 [
-  "static/data/locale/en-US.json",
-  "static/data/locale/es-MX.json",
-  "static/img/favicons/android-chrome-192x192.png",
-  "static/img/favicons/android-chrome-384x384.png",
-  "static/img/favicons/apple-touch-icon-precomposed.png",
-  "static/img/favicons/apple-touch-icon.png",
-  "static/img/favicons/browserconfig.xml",
-  "static/img/favicons/favicon-16x16.png",
-  "static/img/favicons/favicon-32x32.png",
-  "static/img/favicons/favicon.ico",
-  "static/img/favicons/manifest.json",
-  "static/img/favicons/mstile-144x144.png",
-  "static/img/favicons/mstile-150x150.png",
-  "static/img/favicons/mstile-310x150.png",
-  "static/img/favicons/mstile-310x310.png",
-  "static/img/favicons/mstile-70x70.png",
-  "static/img/favicons/safari-pinned-tab.svg",
+  "static/img/logo.gif",
   "static/img/unsupported/unsupported.jpg"
 ]

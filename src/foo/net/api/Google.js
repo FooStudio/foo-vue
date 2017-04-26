@@ -1,3 +1,4 @@
+import { environment } from "../../../config";
 import loadJS from "load-script";
 
 /**
@@ -95,7 +96,7 @@ export default class Google {
         if (this.loaded) return;
         gapi.load("auth2", () => {
             this.loaded = true;
-            this.GoogleAuth = gapi.auth2.init({client_id: App.environment.properties.gp});
+            this.GoogleAuth = gapi.auth2.init({client_id: environment.properties.gp});
             this.GoogleAuth.then(() => {
                 this.inited = true;
                 this.resolve();
@@ -106,9 +107,10 @@ export default class Google {
 
     /**
      * Login method.
-     * @method login
-     * @public
+     * @param {function} resolve
+     * @param {function} reject
      * @static
+     * @public
      */
     static login(resolve, reject) {
         if (!this.inited) throw new Error("Google SDK not loaded! call Google.setup() before login. You should enable the Google from the config file.");
@@ -135,9 +137,11 @@ export default class Google {
 
     /**
      * The logout method.
+     * @param {function} resolve
+     * @param {function} reject
+     * @static
      * @method logout
      * @public
-     * @static
      */
     static logout(resolve, reject) {
         this.GoogleUser.disconnect();

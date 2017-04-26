@@ -16,48 +16,6 @@
 export default class ArrayUtils {
 
     /**
-     * @static
-     * @public
-     * @property CASEINSENSITIVE
-     * @type {number}
-     * @default 1
-     */
-    static CASEINSENSITIVE = 1;
-    /**
-     * @static
-     * @public
-     * @property DESCENDING
-     * @type {number}
-     * @default 2
-     */
-    static DESCENDING = 2;
-    /**
-     * @static
-     * @public
-     * @property UNIQUESORT
-     * @type {number}
-     * @default 4
-     */
-    static UNIQUESORT = 4;
-    /**
-     * @static
-     * @public
-     * @property RETURNINDEXEDARRAY
-     * @type {number}
-     * @default 8
-     */
-    static RETURNINDEXEDARRAY = 8;
-    /**
-     * @static
-     * @public
-     * @property NUMERIC
-     * @type {number}
-     * @default 16
-     */
-    static NUMERIC = 16;
-
-
-    /**
      * Checks if an array contains a specific value
      * @param {Array} array The Array to be searched
      * @param {object} value The value to be looked for
@@ -67,12 +25,12 @@ export default class ArrayUtils {
      * @static
      */
     static contains(array, value) {
-        return (array.indexOf(value) != -1);
+        return (array.indexOf(value) !== -1);
     }
 
     /**
      * Checks if an element in the array has a field with a specific value
-     * @param {array} array The array to be searched
+     * @param {Array} array The array to be searched
      * @param {string} field The field on the Array to be searched
      * @param {Object} value The value the field must have
      * @return {boolean} A boolean determining if the value is in the Array
@@ -82,24 +40,9 @@ export default class ArrayUtils {
      */
     static inArrayField(array, field, value) {
         for (let i = 0; i < array.length; i++) {
-            if (array[i][field] == value) return true;
+            if (array[i][field] === value) return true;
         }
         return false;
-    }
-
-    /**
-     * Returns a random element from the Array
-     * @method randomElement
-     * @static
-     * @param {array} array The Array to extract a random element
-     * @returns {Object} The extracted element
-     * @public
-     */
-    static randomElement(array) {
-        if (array.length > 0) {
-            return array[Math.floor(Math.random * array.length)];
-        }
-        return null;
     }
 
     /**
@@ -107,22 +50,33 @@ export default class ArrayUtils {
      * @static
      * @public
      * @method shuffle
-     * @param {array} array The Array to be shuffled
+     * @param {Array} array The Array to be shuffled
      * @returns {void}
      */
-    static shuffle(array) {
-        let i = array.length;
-        if (i == 0) {
-            return;
+    /**
+     * Shuffles an array (sort random)
+     * @static
+     * @public
+     * @method shuffle
+     * @param {Array} array Array to shuffle
+     * @param {boolean} modify[default=false] Modify passed array
+     * @return {Array}
+     */
+    static shuffle(array, modify = false) {
+        let isView = ArrayBuffer && ArrayBuffer.isView && ArrayBuffer.isView(array);
+        array = modify || isView ? array : array.slice();
+
+        let rnd = array.length;
+        let tmp = array.length;
+        let idx = array.length;
+        while (idx > 1) {
+            rnd = Math.random() * idx | 0;
+            tmp = array[--idx];
+            array[idx] = array[rnd];
+            array[rnd] = tmp;
         }
-        let j;
-        let temp;
-        while (--i) {
-            j = Math.floor(Math.random() * (i + 1));
-            temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
-        }
+
+        return array;
     }
 
     /**
@@ -131,13 +85,13 @@ export default class ArrayUtils {
      * @method copy
      * @static
      * @public
-     * @param {array} array The Array to be copied
-     * @param {array} target The Array to copy the supplied Array
+     * @param {Array} array The Array to be copied
+     * @param {Array} target The Array to copy the supplied Array
      * @returns {void}
      */
     static copy(array, target) {
-        let leni = target.length = array.length;
-        for (let i = 0; i < leni; i++) {
+        const length = target.length = array.length;
+        for (let i = 0; i < length; i++) {
             target[i] = array[i];
         }
     }
@@ -147,8 +101,8 @@ export default class ArrayUtils {
      * @method deepArrayClone
      * @static
      * @public
-     * @param {array} array The Array to be cloned
-     * @return {array} the cloned Array
+     * @param {Array} array The Array to be cloned
+     * @return {Array} the cloned Array
      */
     static deepArrayClone(array) {
         let ret = array.concat();
@@ -166,11 +120,11 @@ export default class ArrayUtils {
      * @method average
      * @static
      * @public
-     * @param {array} array The array to get the average value
+     * @param {Array} array The array to get the average value
      * @return {number} The average value
      */
     static average(array) {
-        if (array == null || array.length == 0) return NaN;
+        if (array === null || array.length === 0) return NaN;
         let total = 0;
         for (let i = 0; i < array.length; i++) {
             total += array[i];
@@ -183,7 +137,7 @@ export default class ArrayUtils {
      * @method removeValueFromArray
      * @static
      * @public
-     * @param {array} array The Array t removed elements from
+     * @param {Array} array The Array t removed elements from
      * @param {object} value The value to be removed
      * @return {number} The number of removed items
      */
@@ -203,7 +157,7 @@ export default class ArrayUtils {
      * @method removeValueFromArrayOnce
      * @static
      * @public
-     * @param {array} array The array to remove the element
+     * @param {Array} array The array to remove the element
      * @param {object} value The value to be removed
      * @returns {boolean} A boolean which indicates if a value was removed
      */
@@ -219,29 +173,6 @@ export default class ArrayUtils {
     }
 
     /**
-     * Creates a new array that only contains unique instances of objects
-     * @method createUniqueCopy
-     * @static
-     * @public
-     * @param {array} array The Array to be processed
-     * @return {Array} The array with unique instances
-     */
-    static createUniqueCopy(array) {
-        let newArray = [];
-        let len = array.length;
-        let item;
-
-        for (let i = 0; i < len; i++) {
-            item = array[i];
-            if (ArrayUtils.inArray(newArray, item)) {
-                continue;
-            }
-            newArray.push(item);
-        }
-        return newArray;
-    }
-
-    /**
      * Creates a copy of the specified Array.
      *
      * Note that the array returned is a new array but the items are not copies of the items in the original array,
@@ -249,8 +180,8 @@ export default class ArrayUtils {
      * @method clone
      * @static
      * @public
-     * @param {array} array The Array to be cloned
-     * @return {array} The cloned Array
+     * @param {Array} array The Array to be cloned
+     * @return {Array} The cloned Array
      */
     static clone(array) {
         return array.slice(0, array.length);
@@ -261,20 +192,20 @@ export default class ArrayUtils {
      * @method areEqual
      * @static
      * @public
-     * @param {array} array1 An Array to compare
-     * @param {array} array2 An Array to compare
+     * @param {Array} array1 An Array to compare
+     * @param {Array} array2 An Array to compare
      * @return {boolean} A boolean determining if the two Arrays were equal
      */
     static areEqual(array1, array2) {
-        if (array1 == array2) {
+        if (array1 === array2) {
             return true;
         }
-        if (array1.length != array2.length) {
+        if (array1.length !== array2.length) {
             return false;
         }
 
         for (let i = array1.length - 1; i >= 0; i--) {
-            if (array1[i] != array2[i]) {
+            if (array1[i] !== array2[i]) {
                 return false;
             }
         }
@@ -286,14 +217,14 @@ export default class ArrayUtils {
      * @method filledLength
      * @static
      * @public
-     * @param {array} array The Array to be evaluated
+     * @param {Array} array The Array to be evaluated
      * @return {number} The amount of not empty items
      */
     static filledLength(array) {
         let length = 0;
         let leni = array.length;
         for (let i = 0; i < leni; i++) {
-            if (array[i] != undefined) length++;
+            if (array[i] !== undefined) length++;
         }
         return length;
     }
@@ -303,14 +234,14 @@ export default class ArrayUtils {
      * @method getUniqueFirst
      * @static
      * @public
-     * @param {array} array1 The array to be evaluated
-     * @param {array} array2 The second array to be evaluated
+     * @param {Array} array1 The array to be evaluated
+     * @param {Array} array2 The second array to be evaluated
      * @return {Array} The resulting array with the items unique in first array
      */
     static getUniqueFirst(array1, array2) {
         let ret = [];
         for (let i = 0; i < array1.length; i++) {
-            if (array2.indexOf(array1[i]) == -1) ret.push(array1[i]);
+            if (array2.indexOf(array1[i]) === -1) ret.push(array1[i]);
         }
         return ret;
     }
@@ -320,8 +251,8 @@ export default class ArrayUtils {
      * @method intersect
      * @static
      * @public
-     * @param {array} array1 The Array to be evaluated
-     * @param {array} array2 The array to be evaluated
+     * @param {Array} array1 The Array to be evaluated
+     * @param {Array} array2 The array to be evaluated
      * @return {Array} The resulting array
      */
     static intersect(array1, array2) {
@@ -329,10 +260,10 @@ export default class ArrayUtils {
         let i;
 
         for (i = 0; i < array1.length; i++) {
-            if (array2.indexOf(array1[i]) != -1) ret.push(array1[i]);
+            if (array2.indexOf(array1[i]) !== -1) ret.push(array1[i]);
         }
         for (i = 0; i < array2.length; i++) {
-            if (array1.indexOf(array2[i]) != -1) ret.push(array2[i]);
+            if (array1.indexOf(array2[i]) !== -1) ret.push(array2[i]);
         }
 
         ret = ArrayUtils.createUniqueCopy(ret);
@@ -347,7 +278,7 @@ export default class ArrayUtils {
      * @public
      * @param {object} element The element to be added
      * @param {number} [amount=1] The amount of times to be added
-     * @param {array} [array] The Array to add elements
+     * @param {Array} [array] The Array to add elements
      * @return {Array} The Array with the added elements
      */
     static addElements(element, amount = 1, array = []) {
@@ -362,117 +293,15 @@ export default class ArrayUtils {
      * @method removeEmptyElements
      * @static
      * @public
-     * @param {array} array The Array to remove empty elements from
+     * @param {Array} array The Array to remove empty elements from
      * @return {Array} The new Array without empty elements
      */
     static removeEmptyElements(array) {
         let results = [];
         for (let i = 0; i < array.length; i++) {
-            if (array[i] != "" && array[i] != null && array[i] != undefined) results.push(array[i]);
+            if (array[i] !== "" && array[i] !== null && array[i] !== undefined) results.push(array[i]);
         }
         return results;
     }
-
-    /**
-     * script: Array.sortOn.js
-
-     description: Adds Array.sortOn function and related constants that works like in ActionScript for sorting arrays of objects (applying all same strict rules)
-
-     license: MIT-style license.
-
-     authors:
-     - gonchuki
-
-     github: https://github.com/gonchuki/mootools-Array.sortOn/blob/master/Source/Array.sortOn.js
-     docs: http://www.adobe.com/livedocs/flash/9.0/ActionScriptLangRefV3/Array.html#sortOn()
-
-     requires:
-     - core/1.2.4: [Array]
-
-     provides:
-     - [sortOn, CASEINSENSITIVE, DESCENDING, UNIQUESORT, RETURNINDEXEDARRAY, NUMERIC]
-
-     * @method sortOn
-     * @static
-     * @public
-     * @param {array} array The array to be sorted
-     * @param {array} fields The fields to take into account
-     * @param {object} options The sort options
-     * @return {*} The array sorted
-     */
-    static sortOn(array, fields, options) {
-        let dupFn = function (field, fieldOptions) {
-            let filtered = (fieldOptions & ArrayUtils.NUMERIC)
-                ? this.map(function (item) {
-                return item[field].toFloat();
-            })
-                : (fieldOptions & ArrayUtils.CASEINSENSITIVE)
-                ? this.map(function (item) {
-                return item[field].toLowerCase();
-            })
-                : this.map(function (item) {
-                return item[field];
-            });
-            return filtered.length !== []["combine"](filtered).length;
-        };
-
-        let sortFn = function (itemA, itemB, fields, options) {
-            return (function sortBy(fields, options) {
-                let ret, a, b,
-                    opts = options[0],
-                    subFields = fields[0].match(/[^.]+/g);
-
-                (function getValues(sFields, sA, sB) {
-                    let field = sFields[0];
-                    if (sFields.length > 1) {
-                        getValues(sFields.slice(1), sA[field], sB[field]);
-                    } else {
-                        a = sA[field].toString();
-                        b = sB[field].toString();
-                    }
-                })(subFields, itemA, itemB);
-
-                if (opts && ArrayUtils.NUMERIC) {
-                    ret = (a.toFloat() - b.toFloat());
-                } else {
-                    if (opts && ArrayUtils.CASEINSENSITIVE) {
-                        a = a.toLowerCase();
-                        b = b.toLowerCase();
-                    }
-
-                    ret = (a > b) ? 1 : (a < b) ? -1 : 0;
-                }
-
-                if ((ret === 0) && (fields.length > 1)) {
-                    ret = sortBy(fields.slice(1), options.slice(1));
-                } else if (opts && ArrayUtils.DESCENDING) {
-                    ret *= -1;
-                }
-
-                return ret;
-            })(fields, options);
-        };
-
-        fields = Array["from"](fields);
-        options = Array["from"](options);
-
-        if (options.length !== fields.length) options = [];
-
-        if ((options[0] & ArrayUtils.UNIQUESORT) && (fields.some(function (field, i) {
-                return dupFn(field, options[i]);
-            }))) return 0;
-
-        let currySort = function (itemA, itemB) {
-            return sortFn(itemA, itemB, fields, options);
-        };
-
-        if (options[0] && ArrayUtils.RETURNINDEXEDARRAY) {
-            return array.concat().sort(currySort);
-        }
-        else {
-            return array.sort(currySort);
-        }
-    }
-
 }
 

@@ -63,7 +63,7 @@ if (!module.parent) {
     var spinner = ora('Generating favicons');
     spinner.start();
 
-    var fav = new Favicon(path.join(__dirname, 'faviconDescription.json'), path.join(__dirname, 'faviconData.json'), path.join(raw, 'img/favicons'));
+    var fav = new Favicon(path.join(__dirname, 'faviconDescription.json'), path.join(__dirname, 'faviconData.json'), path.join(raw, 'favicons'));
 
     fav.generate(function () {
         fav.inject(path.join("./src/", 'index.html'));

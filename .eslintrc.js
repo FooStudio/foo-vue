@@ -1,12 +1,12 @@
 module.exports = {
-    root         : true,
-    parser       : 'babel-eslint',
-    extends      : 'standard',
+    root: true,
+    parser: 'babel-eslint',
+    extends: 'standard',
     parserOptions: {
         sourceType: 'module'
     },
     // required to lint *.vue files
-    plugins      : [
+    plugins: [
         'html'
     ],
     'globals': {
@@ -30,7 +30,7 @@ module.exports = {
         'requestAnimationFrame': true
     },
     // add your custom rules here
-    'rules'      : {
+    'rules': {
         'comma-dangle': ['off'],
         'no-unused-vars': ['warn'],
         'no-undef': ['warn'],
@@ -43,7 +43,7 @@ module.exports = {
         'camelcase': ['warn'],
         'comma-style': ['warn', 'last'],
         'spaced-comment': ['off'],
-        'indent': [1, 4, { 'SwitchCase': 1 }],
+        'indent': [1, 4, {'SwitchCase': 1}],
         'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
     }
-}
+};

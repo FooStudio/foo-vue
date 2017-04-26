@@ -1,4 +1,4 @@
-import StringUtils from "foo/utils/StringUtils"
+import StringUtils from "foo/utils/StringUtils";
 /**
  * Helper Class to work with Time
  * @class TimeUtils
@@ -21,28 +21,24 @@ export default class TimeUtils {
     static stringToSeconds(value, delimiter = ":") {
         let arr = value.split(delimiter);
         let sec = 0;
-        if (value.substr(-1) == "s") {
+        if (value.substr(-1) === "s") {
             sec = parseFloat(value.substr(0, value.length - 1));
-        }
-        else if (value.substr(-1) == "m") {
+        } else if (value.substr(-1) === "m") {
             sec = parseFloat(value.substr(0, value.length - 1)) * 60;
-        }
-        else if (value.substr(-1) == "h") {
+        } else if (value.substr(-1) === "h") {
             sec = parseFloat(value.substr(0, value.length - 1)) * 3600;
-        }
-        else if (arr.length > 1) {
-            if (arr[2] && arr[2].toString().indexOf(",") != -1) {
+        } else if (arr.length > 1) {
+            if (arr[2] && arr[2].toString().indexOf(",") !== -1) {
                 arr[2] = arr[2].toString().replace(/\,/, ".");
             }
 
             sec = parseFloat(arr[arr.length - 1]);
             sec += parseFloat(arr[arr.length - 2]) * 60;
 
-            if (arr.length == 3) {
+            if (arr.length === 3) {
                 sec += parseFloat(arr[arr.length - 3]) * 3600;
             }
-        }
-        else {
+        } else {
             sec = parseFloat(value);
         }
         return sec;
@@ -116,6 +112,5 @@ export default class TimeUtils {
     static formatMinutesSecondsAlt(milliseconds, delimiter = ":") {
         return (Math.floor(milliseconds / 60000)).toString() + delimiter + StringUtils.padLeft((Math.floor(milliseconds / 1000) % 60).toString(), 2, "0");
     }
-
 
 }

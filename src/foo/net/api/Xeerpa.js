@@ -1,3 +1,4 @@
+import { config, environment } from "../../../config";
 import bowser from "bowser";
 import {LOGIN} from "app/store/modules/user";
 import store from "app/store";
@@ -70,7 +71,7 @@ export default class Xeerpa {
 
     static setup() {
         return new Promise((resolve) => {
-            if (!App.config.xeerpa_presist) return;
+            if (!config.xeerpa_persist) return;
             const data = JSON.parse(window.sessionStorage.getItem("xeerpa"));
             if (data) {
                 // const expireDate = new Date(data.auth.expires);
@@ -92,9 +93,8 @@ export default class Xeerpa {
     static login(sn, data = {}, resolve, reject, save = false) {
         this.cb = resolve;
         this.save = save;
-        const url = App.environment.properties.xeerpa;
+        const url = environment.properties.xeerpa;
         const apiURL = `${url}?socialNetwork=${sn}&data=${data}`;
-
         window.addEventListener("message", this._messageHandler.bind(this), false);
 
         window.open(apiURL, "Login", "width=" + (500) + ", height=" + (475) + ", scrollbars=yes");
@@ -153,7 +153,7 @@ export default class Xeerpa {
         // TODO: Conditionally remove listener, IE doesn't use it.
         window.removeEventListener("message", this._messageHandler);
         this.cb(data);
-        if (App.config.xeerpa_presist) window.sessionStorage.setItem("xeerpa", JSON.stringify(data));
+        if (config.xeerpa_persist) window.sessionStorage.setItem("xeerpa", JSON.stringify(data));
     }
 
 }

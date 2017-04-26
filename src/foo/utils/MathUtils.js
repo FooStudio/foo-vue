@@ -8,43 +8,37 @@ export default class MathUtils {
 
     /**
      * Calculates the angle of a vector.
-     * @method angle
+     * @method getVectorAngle
      * @static
      * @public
-     * @param {number} dx the x component of the vector
-     * @param {number} dy the y component of the vector
+     * @param {number} x the x component of the vector
+     * @param {number} y the y component of the vector
      * @returns {number} The the angle of the passed vector in degrees.
      */
-    static angle(dx, dy) {
-        return Math.atan2(dy, dx) * 180 / Math.PI;
+    static getVectorAngle(x, y) {
+        return Math.atan2(y, x) * 180 / Math.PI;
     }
 
     /**
-     * The <code>getRandomInt</code> method returns an int value between a Minimum and a Maximum int
-     * @method getRandomInt
+     * Calculates the angle between two points.
+     * @method getPointsAngle
      * @static
      * @public
-     * @param {number} min The min integer
-     * @param {number} max The max integer
-     * @returns {number} The random integer
+     * @param {object} p1
+     * @param {object} p2
+     * @return {number}
      */
-    static getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return min + Math.floor(Math.random() * (max + 1 - min));
+    static getPointsAngle(p1 = {x: 0, y: 0}, p2 = {x: 0, y: 0}) {
+        return Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
     }
 
     /**
-     * The <code>getRandomNumber</code> method returns Number value between a Minimum and a Maximum Number
-     * @method getRandomNumber
-     * @static
-     * @public
-     * @param {number} min The min number
-     * @param {number} max The max number
-     * @returns {number} the random number
+     *
+     * @param probability specified probability (0 to 1) that the random "event" occurs
+     * @return {boolean}
      */
-    static getRandomNumber(min, max) {
-        return min + (Math.random() * (max - min));
+    static chance(probability) {
+        return (Math.random() <= probability);
     }
 
     /**

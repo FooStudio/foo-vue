@@ -22,7 +22,7 @@ export default class DateUtils {
     static DAYS_IN_LEAP_YEAR = 366;
 
     /**
-     * The number of days appearing in each month. May be used for easy index lookups.
+     * The number of days appearing in each month. May be used for easy index lookup.
      * The stored value for February corresponds to a standard year--not a leap year.
      * @type {number[]}
      * @property DAYS_IN_MONTHS
@@ -47,7 +47,7 @@ export default class DateUtils {
      * @static
      * @property _MONDAY_STARTING_WEEK
      */
-    static _MONDAY_STARTING_WEEK = [7, 1, 2, 3, 4, 5, 6];
+    static MONDAY_STARTING_WEEK = [7, 1, 2, 3, 4, 5, 6];
 
     /**
      * Parse a SQL-DATETIME (YYYY-MM-DD HH:MM:SS) to a Date
@@ -55,7 +55,7 @@ export default class DateUtils {
      * @static
      * @public
      * @param {string} dateTime an SQL-DATETIME (YYYY-MM-DD HH:MM:SS)
-     * @returns {date} The date of the supplied string
+     * @returns {Date} The date of the supplied string
      */
     static parseFromSqlDateTime(dateTime) {
         if (dateTime === null) {
@@ -79,7 +79,7 @@ export default class DateUtils {
      * @method getShortYear
      * @static
      * @public
-     * @param {date} date The date to be parsed
+     * @param {Date} date The date to be parsed
      * @returns {string} The resulting string
      */
     static getShortYear(date) {
@@ -100,11 +100,11 @@ export default class DateUtils {
      * @method compareDate
      * @static
      * @public
-     * @param {date} date1 The date that will be compared to the second date.
-     * @param {date} date2 The date that will be compared to the first date.
+     * @param {Date} date1 The date that will be compared to the second date.
+     * @param {Date} date2 The date that will be compared to the first date.
      * @returns {number} The number of the result
      */
-    static compareDate(date1, date2) {
+    static compareDates(date1, date2) {
         let d1ms = date1.getTime();
         let d2ms = date2.getTime();
 
@@ -124,7 +124,7 @@ export default class DateUtils {
      * @method getShortHour
      * @static
      * @public
-     * @param {date} date The date to be parsed
+     * @param {Date} date The date to be parsed
      * @returns {number} The hours parsed from date
      */
     static getShortHour(date) {
@@ -144,8 +144,8 @@ export default class DateUtils {
      * @method countDays
      * @static
      * @public
-     * @param {date} start The start date
-     * @param {date} end The end date
+     * @param {Date} start The start date
+     * @param {Date} end The end date
      * @returns {number} The number of days between
      */
     static countDays(start, end) {
@@ -157,7 +157,7 @@ export default class DateUtils {
      * @method isLeapYear
      * @static
      * @public
-     * @param {*} year the year value as stored in a Date object.
+     * @param {number} year the year value as stored in a Date object.
      * @returns {boolean} A boolean determining if the year is leap
      */
     static isLeapYear(year) {
@@ -169,8 +169,8 @@ export default class DateUtils {
 
     /**
      * Determines if the dates are the same
-     * @param {date} compare The first Date to compare
-     * @param {date} to The seconds Date to compare
+     * @param {Date} compare The first Date to compare
+     * @param {Date} to The seconds Date to compare
      * @returns {boolean} A boolean determining if the two days are the same
      */
     static isSameDay(compare, to) {
@@ -191,8 +191,8 @@ export default class DateUtils {
      * @method age
      * @static
      * @public
-     * @param {date} birthdate The birthdate to calculate the age for
-     * @param {date} [on] Date on which the age is calculated. If null, the current date is used.
+     * @param {Date} birthdate The birthdate to calculate the age for
+     * @param {Date} [on] Date on which the age is calculated. If null, the current date is used.
      * @returns {number} The age in number of the supplied Date
      */
     static age(birthdate, on = null) {
@@ -217,7 +217,7 @@ export default class DateUtils {
      * @method ageCheck
      * @static
      * @public
-     * @param {date} date The Date to be validated
+     * @param {Date} date The Date to be validated
      * @param {number} years The minimum years
      * @returns {boolean} A boolean determining if the Date is valid
      */
@@ -230,10 +230,10 @@ export default class DateUtils {
      * @method getDaysOfMonth
      * @static
      * @public
-     * @param {date} date The Date to be evaluated
+     * @param {Date} date The Date to be evaluated
      * @returns {number} the number of days in month
      */
-    static getDaysOfMonth(date) {
+    static getDaysInMonth(date) {
         return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
     }
 
@@ -242,7 +242,7 @@ export default class DateUtils {
      * @method getAMPM
      * @static
      * @public
-     * @param {date} date The date to ve evaluated
+     * @param {Date} date The date to ve evaluated
      * @returns {string} The resulting string of hours
      */
     static getAMPM(date) {
@@ -254,14 +254,14 @@ export default class DateUtils {
      * @method getWeekOfYear
      * @static
      * @public
-     * @param {date} date The date to be evaluated
+     * @param {Date} date The date to be evaluated
      * @returns {number} The number of week of the current date
      */
     static getWeekOfYear(date) {
         let dayOfYear = DateUtils.getDayOfYear(date);
         let firstDay = new Date(date.getFullYear(), 0, 1);
-        let fullWeeks = (dayOfYear - (DateUtils._MONDAY_STARTING_WEEK[date.getDay()] + (7 - DateUtils._MONDAY_STARTING_WEEK[firstDay.getDay()])) ) / 7;
-        if (DateUtils._MONDAY_STARTING_WEEK[firstDay.getDay()] <= 4) {
+        let fullWeeks = (dayOfYear - (DateUtils.MONDAY_STARTING_WEEK[date.getDay()] + (7 - DateUtils.MONDAY_STARTING_WEEK[firstDay.getDay()])) ) / 7;
+        if (DateUtils.MONDAY_STARTING_WEEK[firstDay.getDay()] <= 4) {
             fullWeeks++;
         }
         fullWeeks++;
@@ -273,13 +273,13 @@ export default class DateUtils {
      * @method getDayOfYear
      * @static
      * @public
-     * @param {date} date The date to be evaluated
+     * @param {Date} date The date to be evaluated
      * @returns {number} The day number in current year of the current Date
      */
     static getDayOfYear(date) {
         let firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-        let milliseondsOffset = date.getTime() - firstDayOfYear.getTime();
-        return Math.floor(milliseondsOffset / 86400000);
+        let millisecondsOffset = date.getTime() - firstDayOfYear.getTime();
+        return Math.floor(millisecondsOffset / 86400000);
     }
 
     /**
@@ -290,33 +290,15 @@ export default class DateUtils {
      * @param {number} seconds The seconds of the time
      * @returns {Date} The resulting Date
      */
-    static getNextInWeekDateFor(day, hours, minutes, seconds) {
+    static getNextDayInWeek(day, hours, minutes, seconds) {
         let d = new Date();
         let targetDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), hours, minutes, seconds);
-        if (targetDate.getDay() != day) {
+        if (targetDate.getDay() !== day) {
             targetDate.setDate(targetDate.getDate() + (((day + 7) - targetDate.getDay()) % 7));
-        }
-        else if (d.getTime() > targetDate.getTime()) {
+        } else if (d.getTime() > targetDate.getTime()) {
             targetDate.setDate(targetDate.getDate() + 7);
         }
         return targetDate;
     }
-
-    /**
-     * Returns the difference in days between to days. Useful for displaying a date like "today", "tomorrow" or "yesterday"
-     * @method getDayDifference
-     * @static
-     * @public
-     * @param {date} date1 The first date
-     * @param {date} date2 the second date
-     * @returns {number} The difference of days in number
-     */
-    static getDayDifference(date1, date2) {
-        if (!date2) {
-            date2 = new Date();
-        }
-
-        return (new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()).getTime() - new Date(date2.getFullYear(), date2.getMonth(), date2.getDate()).getTime()) / 86400000;
-    }
-
+    
 }

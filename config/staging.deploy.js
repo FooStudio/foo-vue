@@ -3,9 +3,9 @@
  */
 
 module.exports = {
-    username: "adminjedy@fooprojects.com",
-    password: "Mendieta8911_",
-    host: "ftp.fooprojects.com",
+    username: "user",
+    password: "pass",
+    host: "ftp",
     port: 21,
     localRoot: __dirname + "/../dist",
     remoteRoot: "/html/clients/foo/boilerplate",

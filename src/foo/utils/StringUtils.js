@@ -86,7 +86,6 @@ export default class StringUtils {
         return text.substr(0, Math.max(0, prevIndex)) + postText;
     }
 
-
     /**
      * Returns everything after the first occurrence of the provided character in the string.
      * @method afterFirst
@@ -107,7 +106,6 @@ export default class StringUtils {
         idx += pchar.length;
         return pstring.substr(idx);
     }
-
 
     /**
      * Returns everything after the last occurrence of the provided character in pstring.
@@ -229,6 +227,54 @@ export default class StringUtils {
     }
 
     /**
+     * @method isAlpha
+     * @static
+     * @public
+     * @param {string} string
+     * @return {boolean}
+     */
+    static isAlpha(string) {
+        const re = /^[a-zA-Z]+$/;
+        return re.test(string);
+    }
+
+    /**
+     * @isLatinAlpha
+     * @static
+     * @public
+     * @param {string} string
+     * @return {boolean}
+     */
+    static isLatinAlpha(string) {
+        const re = /^[a-zA-Z\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da\u00f1\u00d1\u00FC\u00DC]+$/;
+        return re.test(string);
+    }
+
+    /**
+     * @method isAlphaNumeric
+     * @static
+     * @public
+     * @param {string} string
+     * @return {boolean}
+     */
+    static isAlphaNumeric(string) {
+        const re = /^[a-zA-Z0-9]+$/;
+        return re.test(string);
+    }
+
+    /**
+     * @method isLatinAlphaNumeric
+     * @static
+     * @public
+     * @param {string} string
+     * @return {boolean}
+     */
+    static isLatinAlphaNumeric(string) {
+        const re = /^[a-zA-Z0-9\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da\u00f1\u00d1\u00FC\u00DC]+$/;
+        return re.test(string);
+    }
+
+    /**
      * Determines whether the specified string ends with the specified suffix.
      * @method endsWith
      * @static
@@ -246,14 +292,14 @@ export default class StringUtils {
      * @method isEmpty
      * @static
      * @public
-     * @param {string} pstring The string to be validated
+     * @param {string} string The string to be validated
      * @returns {boolean} A boolean determining if the string was empty
      */
-    static isEmpty(pstring) {
-        if (pstring === null) {
+    static isEmpty(string) {
+        if (string === null) {
             return true;
         }
-        return !pstring.length;
+        return !string.length;
     }
 
     /**
@@ -261,15 +307,46 @@ export default class StringUtils {
      * @method isNumeric
      * @static
      * @public
-     * @param {string} pstring The string to ve validated
+     * @param {string} string The string to ve validated
      * @returns {boolean} A boolean determining if the string is numeric
      */
-    static isNumeric(pstring) {
-        if (pstring === null) {
+    static isNumeric(string) {
+        if (string === null) {
             return false;
         }
-        let regx = /^[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?$/;
-        return regx.test(pstring);
+        const re = /^[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?$/;
+        return re.test(string);
+    }
+
+    /**
+     * check if is valid phone of ten digits
+     * @method isPhone
+     * @static
+     * @public
+     * @param {string} string
+     * @return {boolean}
+     */
+    static isPhone(string) {
+        const re = /^([0-9]{10})/;
+        return re.test(string);
+    }
+
+    /**
+     * check if is valid syntax phone like (11) 1111-1111
+     * @method isPhoneWithSpecialCharacters
+     * @static
+     * @public
+     * @param {string} string
+     * @return {boolean}
+     */
+    static isPhoneWithSpecialCharacters(string) {
+        const re = /^[0-9()\- ]+$/;
+        if (re.test(string)) {
+            const n = string.replace(/[^\d]/g, '');
+            return !!(n && n.length === 10);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -300,8 +377,8 @@ export default class StringUtils {
      * @returns {string} The string with the padding
      */
     static padLeft(string, length, fillChar = " ") {
-        if (fillChar == null || fillChar.length == 0) {
-            throw "invalid value for fillChar: '" + fillChar + "'";
+        if (fillChar === null || fillChar.length === 0) {
+            throw new Error("invalid value for fillChar: '" + fillChar + "'");
         }
 
         if (string.length < length) {
@@ -324,8 +401,8 @@ export default class StringUtils {
      * @returns {string} The string with the padding
      */
     static padRight(string, length, fillChar = " ") {
-        if (fillChar == null || fillChar.length == 0) {
-            throw "invalid value for fillChar: '" + fillChar + "'";
+        if (fillChar === null || fillChar.length === 0) {
+            throw new Error("invalid value for fillChar: '" + fillChar + "'");
         }
         if (string.length < length) {
             let lim = length - string.length;
@@ -349,6 +426,15 @@ export default class StringUtils {
     }
 
     /**
+     * Removes whitespaces from string
+     * @param {string} string
+     * @return {string}
+     */
+    static removeWiteSpace(string) {
+        return string.replace(/\s+/g, '');
+    }
+
+    /**
      * Slugs the given string
      * @param {string} replace The string to be replaced
      * @returns {string} The slugged string
@@ -368,7 +454,7 @@ export default class StringUtils {
     }
 
     /**
-     *  Returns a string that replaces '\n' for 'b' html tags
+     *  Returns a string that replaces '\n' for break html tags
      * @param {string} str The string to add line breaks form \n
      * @returns {string}
      */
