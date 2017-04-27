@@ -1,0 +1,8 @@
+{
+    "test": [
+        "eventCategory",
+        "eventAction",
+        "eventLabel",
+        "eventValue"
+    ]
+}

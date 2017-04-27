@@ -1,4 +1,4 @@
-import {config, environment} from "src/config";
+import {environment} from "src/config/index";
 import bowser from "bowser";
 
 /**
@@ -145,7 +145,6 @@ export default class Xeerpa {
         // TODO: Conditionally remove listener, IE doesn't use it.
         window.removeEventListener("message", this._messageHandler);
         this.cb(data);
-        if (config.xeerpa_persist) window.sessionStorage.setItem("xeerpa", JSON.stringify(data));
     }
 
 }

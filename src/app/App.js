@@ -3,6 +3,7 @@
  */
 
 // BASE APP IMPORTS
+import {environment} from "src/config/";
 import Vue from "vue";
 import AbstractApp from "foo/core/AbstractApp";
 import store from "app/store";
@@ -11,6 +12,7 @@ import store from "app/store";
 import VueI18n from "vue-i18n";
 import VueMediaQuery from "v-media-query";
 import VueFoo from "foo/core/vue/VueFoo";
+import VueAnalytics from "foo/tracking/VueAnalytics";
 
 // VUE ROUTER
 import VueRouter from "vue-router";
@@ -20,6 +22,9 @@ import {sync} from "vuex-router-sync";
 import Root from "app/Root.vue";
 
 Vue.config.productionTip = false;
+
+routes.base = environment.vars.route;
+const router = new VueRouter(routes);
 
 export default class App extends AbstractApp {
     constructor(config, environment, data = {}) {
@@ -37,6 +42,9 @@ export default class App extends AbstractApp {
             app: this,
             analytics: this.analytics
         });
+        Vue.use(VueAnalytics, {
+            adapters: environment.analytics,
+        });
         Vue.use(VueRouter);
     }
 
@@ -49,8 +57,6 @@ export default class App extends AbstractApp {
     }
 
     renderApp() {
-        routes.base = this.environment.vars.route;
-        let router = new VueRouter(routes);
         this.router = router;
 
         router.beforeEach((to, from, next) => next());

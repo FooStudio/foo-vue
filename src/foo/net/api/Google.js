@@ -1,4 +1,4 @@
-import {environment} from "src/config";
+import {environment} from "src/config/index";
 import SDKManager from "./SDKManager";
 
 /**

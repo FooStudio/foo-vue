@@ -1,4 +1,4 @@
-import {config, environment} from "src/config";
+import {config, environment} from "src/config/index";
 import Requester from "foo/net/Requester";
 import SDKManager from "./SDKManager";
 

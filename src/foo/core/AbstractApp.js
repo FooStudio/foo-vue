@@ -3,7 +3,6 @@ import Signal from "signals";
 import request from "superagent";
 import throttle from "lodash/throttle";
 import store from "app/store";
-import Analytics from "foo/utils/Analytics";
 
 import {LOCALE_CHANGED, LOCALE_LOADING} from "app/store/modules/app";
 
@@ -35,13 +34,6 @@ export default class AbstractApp {
      * @type {Object}
      */
     config;
-
-    /**
-     * The app analytics util
-     * @property analytics
-     * @type {Analytics}
-     */
-    analytics;
 
     /**
      * App environment object
@@ -113,7 +105,6 @@ export default class AbstractApp {
         this.activeLocale = config.locale;
         Promise
             .all([
-                this._setupAnalytics(),
                 this._loadLocale(),
             ])
             .then(() => {
@@ -131,7 +122,7 @@ export default class AbstractApp {
      */
     setLocale = localeId => {
         this._loadLocale(localeId);
-    }
+    };
 
     /**
      * Starts App, override if needed custom initialization.
@@ -151,22 +142,6 @@ export default class AbstractApp {
      * @returns {void}
      */
     renderApp() {
-    }
-
-    /**
-     * Method that init the Analytics helper
-     * @private
-     * @method _setupAnalytics
-     * @returns {Promise}
-     */
-    _setupAnalytics() {
-        const {config} = this;
-        return new Promise(resolve => {
-            this.analytics = new Analytics(
-                "static/data/tracking.json",
-                config.analytics,
-                resolve);
-        });
     }
 
     /**

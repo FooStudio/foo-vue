@@ -19,7 +19,6 @@ const apiEndPoint = "/endpoint/";
 // CONFIG
 const config = {
     "locale": "es-MX",
-    "analytics": ["google"],
     "data_loading": true,
     "asset_loading": true,
     "facebook_permissions": "email",
@@ -40,9 +39,14 @@ const config = {
             "urls": {
                 "api": productionURL + apiEndPoint
             },
+            "analytics": [
+                {
+                    "adapter": "google",
+                    "id": "ua2423423"
+                }
+            ],
             "properties": {
                 "fb": "144062099411527",
-                "ga": "ua2423423",
                 "gp": "1015126163676-t0vmcvjts8t11vb85k0gs1u3e5lj2hfe.apps.googleusercontent.com",
                 "xeerpa": "",
             }
@@ -56,9 +60,14 @@ const config = {
             "urls": {
                 "api": stagingURL + apiEndPoint
             },
+            "analytics": [
+                {
+                    "adapter": "google",
+                    "id": "ua2423423"
+                }
+            ],
             "properties": {
                 "fb": "144062099411527",
-                "ga": "ua2423423",
                 "gp": "1015126163676-t0vmcvjts8t11vb85k0gs1u3e5lj2hfe.apps.googleusercontent.com",
                 "xeerpa": "",
             }
@@ -72,9 +81,14 @@ const config = {
             "urls": {
                 "api": qaURL + apiEndPoint
             },
+            "analytics": [
+                {
+                    "adapter": "google",
+                    "id": "ua2423423"
+                }
+            ],
             "properties": {
                 "fb": "144062099411527",
-                "ga": "ua2423423",
                 "gp": "1015126163676-t0vmcvjts8t11vb85k0gs1u3e5lj2hfe.apps.googleusercontent.com",
                 "xeerpa": "",
             }
@@ -88,9 +102,14 @@ const config = {
             "urls": {
                 "api": developmentURL + apiEndPoint
             },
+            "analytics": [
+                {
+                    "adapter": "google",
+                    "id": "ua2423423"
+                }
+            ],
             "properties": {
                 "fb": "144062099411527",
-                "ga": "ua2423423",
                 "gp": "1015126163676-t0vmcvjts8t11vb85k0gs1u3e5lj2hfe.apps.googleusercontent.com",
                 "xeerpa": "",
             }
