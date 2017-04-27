@@ -23,7 +23,7 @@ const config = {
     "asset_loading": true,
     "facebook_permissions": "email",
     "google_scopes": "https://www.googleapis.com/auth/plus.login",
-    "sdks": ["facebook", "google", "xeerpa", "twitter"],
+    "sdks": ["facebook", "google", "xeerpa"],
     "vars": {
         "animate": true,
         "resize": true

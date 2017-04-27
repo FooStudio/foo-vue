@@ -9,4 +9,5 @@
 import SDKManager from "./SDKManager";
 
 export default class Twitter extends SDKManager {
+    static sdkName = "Twitter";
 }

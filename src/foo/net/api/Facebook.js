@@ -10,6 +10,8 @@ import SDKManager from "./SDKManager";
  */
 export default class Facebook extends SDKManager {
 
+    static sdkName = "Facebook";
+
     /**
      * The Facebook SDK url
      * @property url

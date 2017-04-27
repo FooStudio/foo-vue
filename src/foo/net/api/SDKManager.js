@@ -6,6 +6,15 @@ import loadJS from "load-script";
 export default class SDKManager {
 
     /**
+     * @property name
+     * @default "AbstractSDKManager
+     * @static
+     * @public
+     * @type {string}
+     */
+    static sdkName = "AbstractSDKManager";
+
+    /**
      * The SDK url;
      * @property url
      * @default ""
@@ -67,7 +76,7 @@ export default class SDKManager {
         if (this.url) {
             loadJS(this.url, this._init.bind(this));
         } else {
-            console.warn('SdkManager: no sdk url has been set.');
+            console.warn(`SdkManager: no sdk url has been set for ${this.sdkName}.`);
         }
     }
 

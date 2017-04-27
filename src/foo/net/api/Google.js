@@ -8,6 +8,9 @@ import SDKManager from "./SDKManager";
  * @author Mendieta
  */
 export default class Google extends SDKManager {
+
+    static sdkName = "Google";
+
     /**
      * The Google SDK url;
      * @property url
