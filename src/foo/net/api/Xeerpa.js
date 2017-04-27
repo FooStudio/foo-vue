@@ -1,7 +1,5 @@
-import { config, environment } from "../../../config";
+import {config, environment} from "src/config";
 import bowser from "bowser";
-import {LOGIN} from "app/store/modules/user";
-import store from "app/store";
 
 /**
  * Xeerpa social login helper class.
@@ -71,12 +69,6 @@ export default class Xeerpa {
 
     static setup() {
         return new Promise((resolve) => {
-            if (!config.xeerpa_persist) return;
-            const data = JSON.parse(window.sessionStorage.getItem("xeerpa"));
-            if (data) {
-                // const expireDate = new Date(data.auth.expires);
-                store.commit(LOGIN, {network: "xeerpa", response: data});
-            }
             resolve();
         });
     }
