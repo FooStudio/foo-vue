@@ -25,6 +25,7 @@ const config = {
     "facebook_permissions": "email",
     "google_scopes": "https://www.googleapis.com/auth/plus.login",
     "xeerpa_persist": true,
+    "sdks": ["facebook", "google", "xeerpa", "twitter"],
     "apis": {
         "facebook": true,
         "google": true,

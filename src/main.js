@@ -69,10 +69,10 @@ const loadAnalyticsAdapters = () => {
                 break;
         }
     }
-    loadData();
 };
 
 domready(() => {
     Acknowledgements.show();
     loadAnalyticsAdapters();
+    loadData();
 });

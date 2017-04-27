@@ -50,7 +50,6 @@ export default class App extends AbstractApp {
 
     renderApp() {
         routes.base = this.environment.vars.route;
-        routes.mode = this.environment.vars.routerMode;
         let router = new VueRouter(routes);
         this.router = router;
 

@@ -7,7 +7,7 @@ import Test from "app/views/Test.vue";
 import NotFound from "app/views/NotFound.vue";
 
 const routes = {
-    mode: "hash",
+    mode: "history",
     base: "/",
     routes: [
         {
