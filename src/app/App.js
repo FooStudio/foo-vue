@@ -22,13 +22,12 @@ import {sync} from "vuex-router-sync";
 import Root from "app/Root.vue";
 
 Vue.config.productionTip = false;
-
 routes.base = environment.vars.route;
 const router = new VueRouter(routes);
 
 export default class App extends AbstractApp {
-    constructor(config, environment, data = {}) {
-        super(config, environment, data);
+    constructor() {
+        super();
 
         Vue.use(VueI18n);
         Vue.use(VueMediaQuery, {

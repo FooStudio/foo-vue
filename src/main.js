@@ -16,23 +16,17 @@ require("raf").polyfill();
 
 //IMPORT APP UTILS
 import domready from "domready";
-import Breakpoints from "foo/utils/Breakpoint";
+
 import App from "app/App";
 import "gsap";
 
 //IMPORT APP CONFIG
-import data from "src/config/data.json";
-import {config, environment} from "src/config/index";
-import Acknowledgements from "foo/utils/Acknowledgments";
+import {environment} from "src/config/index";
 
 const startApp = () => {
     //CREATE APP
     if (environment.vars.debug) console.info("Foo: Start App");
-    window['App'] = new App(config, environment, data); // eslint-disable-line no-new
+    window['App'] = new App();
 };
 
-domready(() => {
-    Acknowledgements.show();
-    Breakpoints.setup();
-    startApp();
-});
+domready(() => startApp());

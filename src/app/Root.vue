@@ -25,7 +25,7 @@
             MainContainer
         },
         mounted(){
-            App.resized.add(this.onResize);
+            App.resize.add(this.onResize);
         },
         methods: {
             onResize(size){

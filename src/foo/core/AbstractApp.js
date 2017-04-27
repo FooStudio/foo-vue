@@ -1,6 +1,10 @@
+import {environment, config} from "src/config/";
+import data from "src/config/data.json";
 import Signal from "signals";
 import throttle from "lodash/throttle";
 import LocaleManager from "foo/core/locale/LocaleManager";
+import Breakpoints from "foo/utils/Breakpoint";
+import Acknowledgements from "foo/utils/Acknowledgments";
 
 export default class AbstractApp {
     /**
@@ -8,35 +12,21 @@ export default class AbstractApp {
      * @property rendered
      * @type {Signal}
      */
-    rendered = new Signal();
+    render = new Signal();
 
     /**
      * Signal dispatching on ap resize
      * @property resized
      * @type {Signal}
      */
-    resized = new Signal();
+    resize = new Signal();
 
     /**
      * The app debug flag
      * @property DEBUG
      * @type {boolean}
      */
-    DEBUG;
-
-    /**
-     * The app config object
-     * @property config
-     * @type {Object}
-     */
-    config;
-
-    /**
-     * App environment object
-     * @property environment
-     * @type {Object}
-     */
-    environment;
+    DEBUG = environment.vars.debug;
 
     /**
      * App initial load data
@@ -74,17 +64,17 @@ export default class AbstractApp {
      * @class AbstractApp
      * @author Mendieta
      * @constructor
-     * @param {object} config App config object
-     * @param {object} environment App environment object
-     * @param {object} [data={}] App initial load data
      */
-    constructor(config, environment, data = {}) {
+    constructor() {
         // Define props from arguments
         this.DEBUG = environment.vars.debug;
-        this.config = config;
-        this.environment = environment;
         this.data = data;
-        this.activeLocale = config.locale;
+        if (this.DEBUG) {
+            this.config = config;
+            this.environment = environment;
+        }
+        Acknowledgements.show();
+        Breakpoints.setup();
         Promise
             .all([
                 LocaleManager.loadLocale(),
@@ -122,8 +112,8 @@ export default class AbstractApp {
      * @returns {void}
      */
     _addListeners() {
-        if (this.config.vars.resize) window.addEventListener("resize", this._onResize);
-        if (this.config.vars.animate) this._animate();
+        if (config.vars.resize) window.addEventListener("resize", this._onResize);
+        if (config.vars.animate) this._animate();
     }
 
     /**
@@ -136,7 +126,7 @@ export default class AbstractApp {
     _onResize = throttle(() => {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
-        this.resized.dispatch({width: this.width, height: this.height});
+        this.resize.dispatch({width: this.width, height: this.height});
     }, 16);
 
     /**
@@ -147,7 +137,7 @@ export default class AbstractApp {
      */
     _animate() {
         requestAnimationFrame(() => {
-            this.rendered.dispatch();
+            this.render.dispatch();
             this._animate();
         });
     }
