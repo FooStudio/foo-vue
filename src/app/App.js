@@ -38,10 +38,7 @@ export default class App extends AbstractApp {
                 hd: 1440
             }
         });
-        Vue.use(VueFoo, {
-            app: this,
-            analytics: this.analytics
-        });
+        Vue.use(VueFoo);
         Vue.use(VueAnalytics, {
             adapters: environment.analytics,
         });

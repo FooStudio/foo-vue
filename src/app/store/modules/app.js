@@ -12,7 +12,14 @@ const state = {
     loading: true
 };
 
-const actions = {};
+const actions = {
+    [LOCALE_LOADING]({commit}){
+        commit(LOCALE_LOADING, true);
+    },
+    [LOCALE_CHANGED]({commit}, locale){
+        commit(LOCALE_CHANGED, locale);
+    }
+};
 
 const mutations = {
     [LOCALE_CHANGED](state, locale){
