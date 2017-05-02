@@ -37,7 +37,7 @@ export default class LocaleManager {
      */
     static loadLocale(localeId = config.locale) {
         let promise;
-        if (this.loadedLocales.includes(localeId)) {
+        if (LocaleManager.loadedLocales.includes(localeId)) {
             promise = Promise.resolve();
         } else {
             store.dispatch(LOCALE_LOADING);
@@ -45,13 +45,13 @@ export default class LocaleManager {
                 .get(`static/data/locale/${localeId}.json`)
                 .catch(error => console.error(`Failed to load locale: ${error}`))
                 .then(response => {
-                    this.loadedLocales.push(localeId);
+                    LocaleManager.loadedLocales.push(localeId);
                     Vue.locale(localeId, response.body);
                 });
         }
         return promise
             .then(() => {
-                this.updateLocale(localeId);
+                LocaleManager.updateLocale(localeId);
             });
     }
 
@@ -62,7 +62,7 @@ export default class LocaleManager {
      * @param {string} localeId
      */
     static updateLocale(localeId) {
-        this.activeLocale = localeId;
+        LocaleManager.activeLocale = localeId;
         Vue.config.lang = localeId;
         store.dispatch(LOCALE_CHANGED, localeId);
     }
