@@ -43,14 +43,6 @@ export default class App extends AbstractApp {
         Vue.use(VueRouter);
     }
 
-    /**
-     * CALLED JUST BEFORE THE RENDER METHOD
-     */
-    start() {
-        // DO BEFORE START APP CONFIGURATION/INITIALIZATION
-        super.start();
-    }
-
     renderApp() {
         this.router = router;
 

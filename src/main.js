@@ -21,13 +21,10 @@ import App from "app/App";
 import "gsap";
 
 //IMPORT APP CONFIG
-import {environment} from "src/config/index";
 import Acknowledgements from "foo/utils/Acknowledgments";
 
 const startApp = () => {
-    Acknowledgements.show();
-    //CREATE APP
-    if (environment.vars.debug) console.info("Foo: Start App");
+    if (process.env.NODE_ENV === "production") Acknowledgements.show();
     window['App'] = new App();
 };
 

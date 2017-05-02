@@ -69,6 +69,7 @@ export default class AbstractApp {
         this.DEBUG = environment.vars.debug;
         this.data = data;
         if (this.DEBUG) {
+            console.info("Foo: Start App");
             this.config = config;
             this.environment = environment;
         }
@@ -92,6 +93,7 @@ export default class AbstractApp {
     start() {
         this.started = true;
         this.renderApp();
+        if (this.DEBUG) console.info("Foo: App Rendered");
     }
 
     /**
