@@ -4,7 +4,6 @@ import Signal from "signals";
 import throttle from "lodash/throttle";
 import LocaleManager from "foo/core/locale/LocaleManager";
 import Breakpoints from "foo/utils/Breakpoint";
-import Acknowledgements from "foo/utils/Acknowledgments";
 
 export default class AbstractApp {
     /**
@@ -73,7 +72,6 @@ export default class AbstractApp {
             this.config = config;
             this.environment = environment;
         }
-        Acknowledgements.show();
         Breakpoints.setup();
         Promise
             .all([

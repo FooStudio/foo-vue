@@ -35,7 +35,7 @@
         },
         computed: {
             ...mapState({
-                preloading: state => state.app.loading,
+                started: state => !state.app.loading,
             }),
             isPhone(){
                 return isMobile.phone;
@@ -46,10 +46,12 @@
 
 <template>
     <div id="app">
-        <loader></loader>
-        <preloader v-if="preloading"></preloader>
-        <app-header></app-header>
-        <main-container v-if="!preloading"></main-container>
-        <rotate-screen v-if="isPhone" :width="width" :height="height"></rotate-screen>
+        <preloader v-if="!started" transitionMode="out-in"></preloader>
+        <template v-if="started">
+            <loader></loader>
+            <app-header></app-header>
+            <main-container></main-container>
+            <rotate-screen v-if="isPhone" :width="width" :height="height"></rotate-screen>
+        </template>
     </div>
 </template>

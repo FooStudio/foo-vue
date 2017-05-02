@@ -6,7 +6,7 @@ import LocaleManager from "foo/core/locale/LocaleManager";
 
 const VueFoo = {};
 
-VueFoo.install = function (Vue, options) {
+VueFoo.install = function (Vue) {
     // LOCALE
     Vue.prototype.$setLocale = LocaleManager.loadLocale;
     Vue.setLocale = LocaleManager.loadLocale;

@@ -18,6 +18,9 @@ const actions = {
     },
     [LOCALE_CHANGED]({commit}, locale){
         commit(LOCALE_CHANGED, locale);
+    },
+    [ASSET_LOADING]({commit}, payload){
+        commit(ASSET_LOADING, payload);
     }
 };
 
