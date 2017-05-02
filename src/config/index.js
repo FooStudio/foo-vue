@@ -119,7 +119,8 @@ const config = {
 
 // ENVIRONMENT
 let env = "development";
-const host = document.location.host;
+const hostArray = document.location.host.split("www.");
+const host = hostArray.length === 1 ? hostArray[0] : hostArray[1];
 
 switch (host.split(":").shift()) {
     case "localhost": {
