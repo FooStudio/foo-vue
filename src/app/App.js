@@ -28,7 +28,6 @@ const router = new VueRouter(routes);
 export default class App extends AbstractApp {
     constructor() {
         super();
-
         Vue.use(VueI18n);
         Vue.use(VueMediaQuery, {
             variables: {

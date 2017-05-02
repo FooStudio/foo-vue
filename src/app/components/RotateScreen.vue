@@ -3,14 +3,19 @@
 <script>
     export default{
         name: "RotateScreen",
-        props: {
-            width: {
-                type: Number,
-                required: true
-            },
-            height: {
-                type: Number,
-                required: true
+        data(){
+            return {
+                width: App.width,
+                height: App.height
+            };
+        },
+        mounted(){
+            App.resize.add(this.onResize);
+        },
+        methods: {
+            onResize(size){
+                this.width = size.width;
+                this.height = size.height;
             }
         },
         computed: {

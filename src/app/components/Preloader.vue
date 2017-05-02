@@ -64,6 +64,9 @@
             add(url, options = {}){
                 this.loader.add(url, options);
             },
+            load(){
+                this.loader.load();
+            },
             onProgress(val){
                 this.progress = val;
             },
