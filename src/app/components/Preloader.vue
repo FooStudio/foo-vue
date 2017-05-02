@@ -64,12 +64,6 @@
             add(url, options = {}){
                 this.loader.add(url, options);
             },
-            get(url){
-                return this.loader.get(url);
-            },
-            load(){
-                this.loader.load();
-            },
             onProgress(val){
                 this.progress = val;
             },

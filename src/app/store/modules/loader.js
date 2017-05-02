@@ -1,6 +1,9 @@
 /**
  * Created by mendieta on 11/4/16.
  */
+import Preloader from "preloader";
+import request from "superagent";
+
 export const LOADING = "loader/loading";
 export const LOADED = "loader/loaded";
 export const PROGRESS = "loader/progress";
@@ -23,8 +26,33 @@ const actions = {
         commit(PROGRESS, progress);
     },
     [LOAD]({commit}, assets){
-        commit(LOADING, true);
-        commit(LOAD, assets);
+        return new Promise((resolve, reject) => {
+            commit(PROGRESS, 0);
+            commit(LOAD, assets);
+            commit(LOADING, true);
+            if (typeof assets === "object") {
+                let loader = new Preloader();
+                assets.foreach(file => loader.add(file));
+                loader.on("progress", (val) => commit(PROGRESS, val));
+                loader.on("complete", () => {
+                    commit(PROGRESS, 1);
+                    commit(LOADED);
+                    resolve();
+                });
+                loader.load();
+            } else if (typeof assets === "string") {
+                request.get(assets)
+                    .then((response) => {
+                        commit(LOADED);
+                        resolve(response.body);
+                    })
+                    .catch((error) => {
+                        console.error(`Error Loading asset: ${assets} with error - ${error}`);
+                        commit(LOADED);
+                        reject();
+                    });
+            }
+        });
     }
 };
 
@@ -49,6 +77,9 @@ const getters = {
     },
     progress: state => {
         return state.progress;
+    },
+    loaderAssets: state => {
+        return state.assets;
     }
 };
 
