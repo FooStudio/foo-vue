@@ -3,6 +3,7 @@
  */
 
 // BASE APP IMPORTS
+import {environment} from "src/config/";
 import Vue from "vue";
 import AbstractApp from "foo/core/AbstractApp";
 import store from "app/store";
@@ -11,6 +12,7 @@ import store from "app/store";
 import VueI18n from "vue-i18n";
 import VueMediaQuery from "v-media-query";
 import VueFoo from "foo/core/vue/VueFoo";
+import VueAnalytics from "foo/tracking/VueAnalytics";
 
 // VUE ROUTER
 import VueRouter from "vue-router";
@@ -19,10 +21,13 @@ import {sync} from "vuex-router-sync";
 
 import Root from "app/Root.vue";
 
-export default class App extends AbstractApp {
-    constructor(config, environment, data = {}) {
-        super(config, environment, data);
+Vue.config.productionTip = false;
+routes.base = environment.vars.route;
+const router = new VueRouter(routes);
 
+export default class App extends AbstractApp {
+    constructor() {
+        super();
         Vue.use(VueI18n);
         Vue.use(VueMediaQuery, {
             variables: {
@@ -31,25 +36,14 @@ export default class App extends AbstractApp {
                 hd: 1440
             }
         });
-        Vue.use(VueFoo, {
-            app: this,
-            analytics: this.analytics
+        Vue.use(VueFoo);
+        Vue.use(VueAnalytics, {
+            adapters: environment.analytics,
         });
         Vue.use(VueRouter);
     }
 
-    /**
-     * CALLED JUST BEFORE THE RENDER METHOD
-     */
-    start() {
-        // DO BEFORE START APP CONFIGURATION/INITIALIZATION
-        super.start();
-    }
-
     renderApp() {
-        routes.base = this.environment.vars.route;
-        routes.mode = this.environment.vars.routerMode;
-        let router = new VueRouter(routes);
         this.router = router;
 
         router.beforeEach((to, from, next) => next());

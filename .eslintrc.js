@@ -5,6 +5,9 @@ module.exports = {
     parserOptions: {
         sourceType: 'module'
     },
+    env: {
+        browser: true,
+    },
     // required to lint *.vue files
     plugins: [
         'html'

@@ -1,6 +1,8 @@
 <style src="styles/components/MainContainer.styl" lang="stylus" scoped></style>
 
 <script>
+    import AppHeader from "app/components/AppHeader.vue";
+
     export default {
         name: "MainContainer",
         data(){
@@ -9,7 +11,7 @@
         created(){
         },
         props: {},
-        components: {},
+        components: {AppHeader},
         methods: {},
         computed: {}
     };
@@ -17,6 +19,7 @@
 
 <template>
     <div class="MainContainer">
+        <app-header></app-header>
         <keep-alive>
             <router-view></router-view>
         </keep-alive>

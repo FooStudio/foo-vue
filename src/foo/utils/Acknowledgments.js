@@ -1,7 +1,7 @@
 /**
  * Created by mendieta on 1/3/17.
  */
-import {developers, designers, producers} from "../../config";
+import {developers, designers, producers} from "../../config/index";
 
 export default class Acknowledgements {
 

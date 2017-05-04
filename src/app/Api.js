@@ -1,4 +1,4 @@
-import { environment } from "../config";
+import {environment} from "../config/index";
 import request from "superagent";
 
 /**

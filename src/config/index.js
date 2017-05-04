@@ -19,18 +19,11 @@ const apiEndPoint = "/endpoint/";
 // CONFIG
 const config = {
     "locale": "es-MX",
-    "analytics": ["google"],
     "data_loading": true,
     "asset_loading": true,
     "facebook_permissions": "email",
     "google_scopes": "https://www.googleapis.com/auth/plus.login",
-    "xeerpa_persist": true,
-    "apis": {
-        "facebook": true,
-        "google": true,
-        "twitter": false,
-        "xeerpa": true,
-    },
+    "sdks": ["facebook", "google", "xeerpa"],
     "vars": {
         "animate": true,
         "resize": true
@@ -41,16 +34,19 @@ const config = {
             "vars": {
                 "base": productionURL,
                 "route": productionRoute,
-                "routerMode": "history",
-                "sentry": true,
                 "debug": false
             },
             "urls": {
                 "api": productionURL + apiEndPoint
             },
+            "analytics": [
+                {
+                    "adapter": "google",
+                    "id": "ua2423423"
+                }
+            ],
             "properties": {
                 "fb": "144062099411527",
-                "ga": "ua2423423",
                 "gp": "1015126163676-t0vmcvjts8t11vb85k0gs1u3e5lj2hfe.apps.googleusercontent.com",
                 "xeerpa": "",
             }
@@ -59,16 +55,19 @@ const config = {
             "vars": {
                 "base": stagingURL,
                 "route": stagingRoute,
-                "routerMode": "history",
-                "sentry": true,
                 "debug": true
             },
             "urls": {
                 "api": stagingURL + apiEndPoint
             },
+            "analytics": [
+                {
+                    "adapter": "google",
+                    "id": "ua2423423"
+                }
+            ],
             "properties": {
                 "fb": "144062099411527",
-                "ga": "ua2423423",
                 "gp": "1015126163676-t0vmcvjts8t11vb85k0gs1u3e5lj2hfe.apps.googleusercontent.com",
                 "xeerpa": "",
             }
@@ -77,16 +76,19 @@ const config = {
             "vars": {
                 "base": qaURL,
                 "route": qaRoute,
-                "routerMode": "history",
-                "sentry": true,
                 "debug": true
             },
             "urls": {
                 "api": qaURL + apiEndPoint
             },
+            "analytics": [
+                {
+                    "adapter": "google",
+                    "id": "ua2423423"
+                }
+            ],
             "properties": {
                 "fb": "144062099411527",
-                "ga": "ua2423423",
                 "gp": "1015126163676-t0vmcvjts8t11vb85k0gs1u3e5lj2hfe.apps.googleusercontent.com",
                 "xeerpa": "",
             }
@@ -95,16 +97,19 @@ const config = {
             "vars": {
                 "base": developmentURL,
                 "route": developmentRoute,
-                "routerMode": "history",
-                "sentry": false,
                 "debug": true
             },
             "urls": {
                 "api": developmentURL + apiEndPoint
             },
+            "analytics": [
+                {
+                    "adapter": "google",
+                    "id": "ua2423423"
+                }
+            ],
             "properties": {
                 "fb": "144062099411527",
-                "ga": "ua2423423",
                 "gp": "1015126163676-t0vmcvjts8t11vb85k0gs1u3e5lj2hfe.apps.googleusercontent.com",
                 "xeerpa": "",
             }
@@ -114,7 +119,8 @@ const config = {
 
 // ENVIRONMENT
 let env = "development";
-const host = document.location.host;
+const hostArray = document.location.host.split("www.");
+const host = hostArray.length === 1 ? hostArray[0] : hostArray[1];
 
 switch (host.split(":").shift()) {
     case "localhost": {

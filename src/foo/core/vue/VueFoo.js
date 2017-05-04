@@ -2,13 +2,14 @@
  * Created by mendieta on 7/17/16.
  */
 import request from "superagent";
+import LocaleManager from "foo/core/locale/LocaleManager";
 
 const VueFoo = {};
 
-VueFoo.install = function (Vue, options) {
+VueFoo.install = function (Vue) {
     // LOCALE
-    Vue.prototype.$setLocale = options.app.setLocale;
-    Vue.setLocale = options.app.setLocale;
+    Vue.prototype.$setLocale = LocaleManager.loadLocale;
+    Vue.setLocale = LocaleManager.loadLocale;
 
     // SUPERAGENT || HTTP
     Vue.prototype.$get = request.get;
@@ -17,9 +18,6 @@ VueFoo.install = function (Vue, options) {
     Vue.prototype.$head = request.head;
     Vue.prototype.$put = request.put;
     Vue.prototype.$patch = request.patch;
-
-    // ANALYTICS
-    Vue.prototype.$trackEvent = options.analytics.trackEvent;
 };
 
 export default VueFoo;

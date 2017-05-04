@@ -1,17 +1,9 @@
-import Vue from "vue";
+import {environment, config} from "src/config/";
+import data from "src/config/data.json";
 import Signal from "signals";
-import request from "superagent";
-import preloader from 'preloader';
 import throttle from "lodash/throttle";
-import store from "app/store";
-import { mainLoaderDisappear } from "app/transitions/loader";
-import Analytics from "foo/utils/Analytics";
-import Facebook from "foo/net/api/Facebook";
-import Google from "foo/net/api/Google";
-import Xeerpa from "foo/net/api/Xeerpa";
-
-import { LOADING, PROGRESS } from "app/store/modules/loader";
-import { LOCALE_CHANGED, LOCALE_LOADING } from "app/store/modules/app";
+import LocaleManager from "foo/core/locale/LocaleManager";
+import Breakpoints from "foo/utils/Breakpoint";
 
 export default class AbstractApp {
     /**
@@ -19,42 +11,21 @@ export default class AbstractApp {
      * @property rendered
      * @type {Signal}
      */
-    rendered = new Signal();
+    render = new Signal();
 
     /**
      * Signal dispatching on ap resize
      * @property resized
      * @type {Signal}
      */
-    resized = new Signal();
+    resize = new Signal();
 
     /**
      * The app debug flag
      * @property DEBUG
      * @type {boolean}
      */
-    DEBUG;
-
-    /**
-     * The app config object
-     * @property config
-     * @type {Object}
-     */
-    config;
-
-    /**
-     * The app analytics util
-     * @property analytics
-     * @type {Analytics}
-     */
-    analytics;
-
-    /**
-     * App environment object
-     * @property environment
-     * @type {Object}
-     */
-    environment;
+    DEBUG = environment.vars.debug;
 
     /**
      * App initial load data
@@ -87,71 +58,30 @@ export default class AbstractApp {
     height = window.innerHeight;
 
     /**
-     * The current locale
-     * @default "es-MX"
-     * @property locale
-     * @type {string}
-     */
-    activeLocale;
-
-    /**
-     * App locales loaded
-     * @type {Array}
-     */
-    loadedLocaleArr = [];
-
-    /**
-     * Loader
-     * @property loader
-     * @type {preloader}
-     */
-    loader = preloader({
-        xhrImages: false,
-        loadFullAudio: true,
-        loadFullVideo: true
-    });
-
-    /**
      * @module foo
      * @namespace core
      * @class AbstractApp
      * @author Mendieta
      * @constructor
-     * @param {object} config App config object
-     * @param {object} environment App environment object
-     * @param {object} [data={}] App initial load data
      */
-    constructor(config, environment, data = {}) {
+    constructor() {
         // Define props from arguments
         this.DEBUG = environment.vars.debug;
-        this.config = config;
-        this.environment = environment;
         this.data = data;
-        this.activeLocale = config.locale;
+        if (this.DEBUG) {
+            console.info("Foo: Start App");
+            this.config = config;
+            this.environment = environment;
+        }
+        Breakpoints.setup();
         Promise
             .all([
-                this._setupAnalytics(),
-                this._setupSDK('facebook', Facebook),
-                this._setupSDK('google', Google),
-                this._setupSDK('xeerpa', Xeerpa),
-                this._loadLocale(),
-                this._loadManifest()
+                LocaleManager.loadLocale(),
             ])
             .then(() => {
                 this._addListeners();
                 this.start();
             });
-    }
-
-    /**
-     * Method that set the current locale
-     * @protected
-     * @method setLocale
-     * @param {string} localeId - The locale to set as active
-     * @returns {void}
-     */
-    setLocale = localeId => {
-        this._loadLocale(localeId);
     }
 
     /**
@@ -163,9 +93,7 @@ export default class AbstractApp {
     start() {
         this.started = true;
         this.renderApp();
-        mainLoaderDisappear().then(() => {
-            // TODO: Defer app rendering to loader out transition complete? ¿Maybe? Or defer first view animation?
-        });
+        if (this.DEBUG) console.info("Foo: App Rendered");
     }
 
     /**
@@ -174,158 +102,8 @@ export default class AbstractApp {
      * @method renderApp
      * @returns {void}
      */
-    renderApp() { }
-
-    /**
-     * Method that init the Analytics helper
-     * @private
-     * @method _setupAnalytics
-     * @returns {Promise}
-     */
-    _setupAnalytics() {
-        const { config } = this;
-        return new Promise(resolve => {
-            this.analytics = new Analytics(
-                "static/data/tracking.json",
-                config.analytics,
-                resolve);
-        });
+    renderApp() {
     }
-
-    /**
-     * Setups an SDK Manager if specified in the config
-     * @private
-     * @param {string} id
-     * @param {Object} sdkManager
-     * @returns {Promise}
-     */
-    _setupSDK(id, sdkManager) {
-        const { config } = this;
-        if (config.apis[id]) {
-            return sdkManager
-                .setup()
-                .catch(error => console.error(`Failed to setup ${id}:`, error));
-        } else {
-            return Promise.resolve();
-        }
-    };
-
-    /**
-     * Method that loads the current locale and (re)renders the App
-     * @private
-     * @param {string=} localeId - locale to load
-     * @returns {Promise}
-     */
-    _loadLocale(localeId = this.config.locale) {
-        const { loadedLocaleArr } = this;
-        let promise;
-        if (loadedLocaleArr.includes(localeId)) {
-            // If locale is already loaded just resolve
-            promise = Promise.resolve();
-        } else {
-            // Update store
-            store.commit(LOCALE_LOADING);
-            // Load requested json
-            promise = request
-                .get(`static/data/locale/${localeId}.json`)
-                .catch(error => console.error("Failed to load locale:", error))
-                .then(response => {
-                    // Save locale in loaded arr
-                    this.loadedLocaleArr.push(localeId);
-                    // Save locale in vue
-                    Vue.locale(localeId, response.body);
-                });
-        }
-        // Return promise, update locale when resolved.
-        return promise
-            .then(() => this._updateLocale(localeId));
-    }
-
-    /**
-     * Updates active locale
-     * @private
-     * @param {string} localeId - The locale to set as active
-     * @return {void}
-     */
-    _updateLocale(localeId) {
-        this.activeLocale = localeId;
-        Vue.config.lang = localeId;
-        store.commit(LOCALE_CHANGED, localeId);
-    }
-
-    /**
-     * Loads preload.json if requested
-     * @private
-     * @method _loadManifest
-     * @return {Promise}
-     */
-    _loadManifest() {
-        const { config } = this;
-        if (config.asset_loading) {
-            return request
-                .get("static/data/preload.json")
-                .catch(error => console.error("Unable to load preload.json:", error))
-                .then(response => this._loadAssets(response));
-        }
-        return Promise.resolve();
-    };
-
-    /**
-     * Method to load all assets
-     * @private
-     * @param assets
-     * @method _loadAssets
-     * @return {Promise}
-     */
-    _loadAssets(manifest) {
-        if (typeof manifest !== 'undefined' && Array.isArray(manifest.body)) {
-            const promise = new Promise(resolve => {
-                const { loader } = this;
-                // Add assets to loader
-                manifest.body.forEach(asset => loader.add(asset));
-                // Publish
-                this.onLoadStart();
-                loader.on("progress", this.onLoadProgress);
-                loader.on("complete", this.onLoadComplete);
-                loader.on("complete", resolve);
-                // Init load
-                loader.load();
-            });
-            // Return load promise and catch errors
-            return promise.catch(error => console.error('Failed to load assets:', error));
-        }
-        return Promise.resolve();
-    };
-
-    /**
-     * On load start callback
-     * @protected
-     * @method onLoadStart
-     * @return {void}
-     */
-    onLoadStart = () => {
-        store.commit(LOADING, true);
-    };
-
-    /**
-     * On load progress callback
-     * @protected
-     * @method onLoadProgress
-     * @returns {void}
-     */
-    onLoadProgress = (prog) => {
-        store.commit(PROGRESS, prog);
-    };
-
-    /**
-     * On load complete callback
-     * @protected
-     * @method loaderComplete
-     * @returns {void}
-     */
-    onLoadComplete = () => {
-        store.commit(LOADING, false);
-    };
 
     /**
      * Method that init listeners depending on the App config
@@ -334,8 +112,8 @@ export default class AbstractApp {
      * @returns {void}
      */
     _addListeners() {
-        if (this.config.vars.resize) window.addEventListener("resize", this._onResize);
-        if (this.config.vars.animate) this._animate();
+        if (config.vars.resize) window.addEventListener("resize", this._onResize);
+        if (config.vars.animate) this._animate();
     }
 
     /**
@@ -348,7 +126,7 @@ export default class AbstractApp {
     _onResize = throttle(() => {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
-        this.resized.dispatch({ width: this.width, height: this.height });
+        this.resize.dispatch({width: this.width, height: this.height});
     }, 16);
 
     /**
@@ -359,7 +137,7 @@ export default class AbstractApp {
      */
     _animate() {
         requestAnimationFrame(() => {
-            this.rendered.dispatch();
+            this.render.dispatch();
             this._animate();
         });
     }

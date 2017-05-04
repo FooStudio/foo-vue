@@ -18,10 +18,10 @@
         props: {},
         components: {MainTransition, XeerpaWidget},
         mounted(){
-            App.resized.add(this.appResized);
+            App.resize.add(this.appResized);
         },
         destroyed(){
-            App.resized.remove(this.appResized);
+            App.resize.remove(this.appResized);
         },
         methods: {
             appResized(size){
