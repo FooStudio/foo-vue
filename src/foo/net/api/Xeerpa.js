@@ -1,7 +1,5 @@
-import { config, environment } from "../../../config";
+import {environment} from "src/config/index";
 import bowser from "bowser";
-import {LOGIN} from "app/store/modules/user";
-import store from "app/store";
 
 /**
  * Xeerpa social login helper class.
@@ -71,12 +69,6 @@ export default class Xeerpa {
 
     static setup() {
         return new Promise((resolve) => {
-            if (!config.xeerpa_persist) return;
-            const data = JSON.parse(window.sessionStorage.getItem("xeerpa"));
-            if (data) {
-                // const expireDate = new Date(data.auth.expires);
-                store.commit(LOGIN, {network: "xeerpa", response: data});
-            }
             resolve();
         });
     }
@@ -153,7 +145,6 @@ export default class Xeerpa {
         // TODO: Conditionally remove listener, IE doesn't use it.
         window.removeEventListener("message", this._messageHandler);
         this.cb(data);
-        if (config.xeerpa_persist) window.sessionStorage.setItem("xeerpa", JSON.stringify(data));
     }
 
 }

@@ -1,9 +1,13 @@
 /**
  * Helper class for working with Twitter API
  *
- *      TODO: ALL
+ *      TODO: IMPLEMENT ALL
  * @class Twitter
  * @namespace net.api
  */
-export default class Twitter {
+
+import SDKManager from "./SDKManager";
+
+export default class Twitter extends SDKManager {
+    static sdkName = "Twitter";
 }

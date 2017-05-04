@@ -1,6 +1,6 @@
-import { config, environment } from "../../../config";
-import loadJS from "load-script";
+import {config, environment} from "src/config/index";
 import Requester from "foo/net/Requester";
+import SDKManager from "./SDKManager";
 
 /**
  * Helper static class for working with Facebook API
@@ -8,7 +8,9 @@ import Requester from "foo/net/Requester";
  * @namespace net.api
  * @author Mendieta
  */
-export default class Facebook {
+export default class Facebook extends SDKManager {
+
+    static sdkName = "Facebook";
 
     /**
      * The Facebook SDK url
@@ -36,72 +38,16 @@ export default class Facebook {
      */
     static appID = "";
 
-    /**
-     * Flag determining if the SDK is loaded
-     * @property loaded
-     * @default false
-     * @static
-     * @type {boolean}
-     */
-    static loaded = false;
-
-    /**
-     * The User Data Object
-     * @property userData
-     * @default null
-     * @static
-     * @type {Object}
-     */
-    static userData = null;
-
-    static resolve = null;
-
-    /**
-     * Setups the Facebook sdk
-     * @method setup
-     * @static
-     * @return {Promise}
-     */
-    static setup() {
-        return new Promise((resolve) => {
-            this.resolve = resolve;
-            this.permissions = config.facebook_permissions;
-            this.appID = environment.properties.fb;
-            this.load();
-        });
-    }
-
-    /**
-     * Load the SDK
-     * @private
-     * @static
-     * @method load
-     * @return {void}
-     */
-    static load() {
-        loadJS(this.url, this.init.bind(this));
-    }
-
-    /**
-     * Initialize the Facebook API
-     * @param {Object} error The error if loading was unsuccessful
-     * @private
-     * @static
-     * @method init
-     * @returns {void}
-     */
-    static init(error) {
-        if (error) throw new Error(error);
-        if (this.loaded) return;
-        this.loaded = true;
+    static configSDK() {
+        this.permissions = config.facebook_permissions;
+        this.appID = environment.properties.fb;
         FB.init({
             appId: this.appID,
             status: false,
             xfbml: true,
             version: "2.8"
         });
-        this.resolve();
-        this.resolve = null;
+        this.sdkConfigured();
     }
 
     /**
@@ -144,11 +90,11 @@ export default class Facebook {
         };
 
         FB.api("/me?fields=email,first_name,gender,id,locale,last_name,middle_name,name", (res) => {
-            userData.profile = { profile_pic: userData.profile.profile_pic, ...res };
+            userData.profile = {profile_pic: userData.profile.profile_pic, ...res};
             solve();
         });
 
-        FB.api("me/picture", { "width": "200" }, (res) => {
+        FB.api("me/picture", {"width": "200"}, (res) => {
             userData.profile["profile_pic"] = res.data;
             solve();
         });
@@ -203,7 +149,7 @@ export default class Facebook {
      */
     static getUserLocations(token = null, limit = 20) {
         return new Promise((resolve, reject) => {
-            FB.api("/me/tagged_places", { token, limit }, (response) => {
+            FB.api("/me/tagged_places", {token, limit}, (response) => {
                 resolve(response.data);
             });
         });
@@ -218,7 +164,7 @@ export default class Facebook {
     static getUserLikes(token = null, limit = 100) {
         let likes = [];
         return new Promise((resolve, reject) => {
-            FB.api("/me/likes", { token, limit }, (response) => {
+            FB.api("/me/likes", {token, limit}, (response) => {
                 likes = likes.concat(response.data);
                 if (response.paging.next) {
                     nextPage(response.paging.next);

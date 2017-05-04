@@ -18,6 +18,8 @@
         },
         props: {},
         components: {MainTransition},
+        mounted(){
+        },
         methods: {
             fetchData(){
                 this.$get("https://jsonplaceholder.typicode.com/users").then((response) => {

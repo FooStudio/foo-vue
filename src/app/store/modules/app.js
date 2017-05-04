@@ -4,13 +4,25 @@
 
 export const LOCALE_CHANGED = "locale/changed";
 export const LOCALE_LOADING = "locale/loading";
+export const ASSET_LOADING = 'app/loading';
 
 const state = {
     locale: "",
-    locale_loading: false
+    locale_loading: false,
+    loading: true
 };
 
-const actions = {};
+const actions = {
+    [LOCALE_LOADING]({commit}){
+        commit(LOCALE_LOADING, true);
+    },
+    [LOCALE_CHANGED]({commit}, locale){
+        commit(LOCALE_CHANGED, locale);
+    },
+    [ASSET_LOADING]({commit}, payload){
+        commit(ASSET_LOADING, payload);
+    }
+};
 
 const mutations = {
     [LOCALE_CHANGED](state, locale){
@@ -20,6 +32,9 @@ const mutations = {
     [LOCALE_LOADING](state){
         state.locale_loading = true;
     },
+    [ASSET_LOADING](state, payload){
+        state.loading = payload;
+    }
 };
 
 const getters = {

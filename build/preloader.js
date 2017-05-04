@@ -9,8 +9,9 @@ var path = require("path");
 var junk = require('junk');
 var data = require("../config/config_preloader.json");
 
-var ASSET_PATH = "static/"
+var ASSET_PATH = "/static/"
 var raw = "./static/"
+var dist = "./src"
 
 
 function getPreloadList(cb) {
@@ -31,7 +32,7 @@ function getPreloadList(cb) {
             if (cb) {
                 cb(assets);
             } else {
-                fs.writeFile(path.join(raw, 'data/preload.json'), JSON.stringify(assets, null, 2), function (err, data) {
+                fs.writeFile(path.join(dist, 'app/preload.json'), JSON.stringify(assets, null, 2), function (err, data) {
                     if (err){
                         spinner.color = "red";
                         spinner.text = "Cannot write preloader.json";

@@ -1,5 +1,5 @@
-import { environment } from "../../../config";
-import loadJS from "load-script";
+import {environment} from "src/config/index";
+import SDKManager from "./SDKManager";
 
 /**
  * Helper static class for working with Google API
@@ -7,7 +7,10 @@ import loadJS from "load-script";
  * @namespace net.apis
  * @author Mendieta
  */
-export default class Google {
+export default class Google extends SDKManager {
+
+    static sdkName = "Google";
+
     /**
      * The Google SDK url;
      * @property url
@@ -30,77 +33,15 @@ export default class Google {
         "cookiepolicy": "none"
     };
 
-    /**
-     * Variable determining if the SDK has been loaded.
-     * @property loaded
-     * @static
-     * @type {boolean}
-     */
-    static loaded = false;
-
-    /**
-     * Variable determining if the SDK has been inited.
-     * @property inited
-     * @static
-     * @type {boolean}
-     */
-    static inited = false;
-
-    /**
-     * The userData stored on static class.
-     * @property userData
-     * @static
-     * @type {Object}
-     */
-    static userData = null;
-
-    static resolve = null;
-
-    /**
-     * Setups the SDK
-     * @method setup
-     * @public
-     * @static
-     * @return {Promise}
-     */
-    static setup() {
-        return new Promise((resolve) => {
-            this.resolve = resolve;
-            this._load();
-        });
-    }
-
-    /**
-     * Loads the SDK.
-     * @method _load
-     * @private
-     * @static
-     */
-    static _load() {
-        loadJS(this.url, this._init.bind(this));
-    }
-
     static GoogleAuth = null;
     static GoogleUser = null;
 
-    /**
-     * Initialize the SDK.
-     * @param {object} error The error that could occur loading the SDK.
-     * @private
-     * @static
-     */
-    static _init(error) {
-        if (error) {
-            throw new Error(`Google: Error loading SDK! - ${error}`);
-        }
-        if (this.loaded) return;
+    static configSDK() {
         gapi.load("auth2", () => {
             this.loaded = true;
             this.GoogleAuth = gapi.auth2.init({client_id: environment.properties.gp});
             this.GoogleAuth.then(() => {
-                this.inited = true;
-                this.resolve();
-                this.resolve = null;
+                this.sdkConfigured();
             });
         });
     }
