@@ -2,7 +2,7 @@
  * Created by mendieta on 11/7/16.
  */
 
-import AuthManager from "foo/core/AuthManager";
+import AuthManager from "foo/net/AuthManager";
 
 export const LOGIN = "user/login";
 export const REGISTER = "user/register";

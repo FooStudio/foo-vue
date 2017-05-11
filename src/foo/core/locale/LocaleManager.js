@@ -1,22 +1,17 @@
-/**
- * Created by mendieta on 4/27/17.
- */
 import Vue from "vue";
+import VueI18n from "vue-i18n";
 import request from "superagent";
-import {config} from "src/config/";
+import {config} from "src/config";
 import store from "app/store";
 import {LOCALE_CHANGED, LOCALE_LOADING} from "app/store/modules/app";
 
 export default class LocaleManager {
     /**
-     * The current locale
-     * @default "es-MX"
-     * @property activeLocale
-     * @type {string}
+     * @property i18n
+     * @type {VueI18n}
      * @static
-     * @public
      */
-    static activeLocale = "es-MX";
+    static i18n;
 
     /**
      * App locales loaded
@@ -27,6 +22,18 @@ export default class LocaleManager {
      * @static
      */
     static loadedLocales = [];
+
+    /**
+     * @method setup
+     * @static
+     * @return {void}
+     */
+    static setup() {
+        Vue.use(VueI18n);
+        this.i18n = new VueI18n({
+            locale: config.locale
+        })
+    }
 
     /**
      * Method that loads the current locale and (re)renders the App
@@ -46,7 +53,7 @@ export default class LocaleManager {
                 .catch(error => console.error(`Failed to load locale: ${error}`))
                 .then(response => {
                     LocaleManager.loadedLocales.push(localeId);
-                    Vue.locale(localeId, response.body);
+                    LocaleManager.i18n.setLocaleMessage(localeId, response.body);
                 });
         }
         return promise
@@ -62,8 +69,19 @@ export default class LocaleManager {
      * @param {string} localeId
      */
     static updateLocale(localeId) {
-        LocaleManager.activeLocale = localeId;
-        Vue.config.lang = localeId;
+        LocaleManager.i18n.locale = localeId;
         store.dispatch(LOCALE_CHANGED, localeId);
+    }
+
+    /**
+     * The current locale
+     * @default "es-MX"
+     * @property activeLocale
+     * @type {string}
+     * @static
+     * @public
+     */
+    static get activeLocale() {
+        return LocaleManager.i18n.locale;
     }
 }

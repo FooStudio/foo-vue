@@ -1,6 +1,6 @@
 import {config, environment} from "src/config/index";
-import Requester from "foo/net/Requester";
-import SDKManager from "./SDKManager";
+import request from "superagent";
+import AbstractApi from "./AbstractApi";
 
 /**
  * Helper static class for working with Facebook API
@@ -8,9 +8,9 @@ import SDKManager from "./SDKManager";
  * @namespace net.api
  * @author Mendieta
  */
-export default class Facebook extends SDKManager {
+export default class Facebook extends AbstractApi {
 
-    static sdkName = "Facebook";
+    static apiName = "Facebook";
 
     /**
      * The Facebook SDK url
@@ -174,7 +174,7 @@ export default class Facebook extends SDKManager {
             });
 
             let nextPage = (url) => {
-                Requester.getJSON(url).then((response) => {
+                request.get(url).then((response) => {
                     likes = likes.concat(response.body.data);
                     if (response.body.paging.next) {
                         nextPage(response.body.paging.next);

@@ -184,4 +184,3 @@ const producers = [
 ];
 
 module.exports = {config, environment, developers, designers, producers};
-

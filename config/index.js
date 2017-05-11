@@ -7,6 +7,7 @@ module.exports = {
         index: path.resolve(__dirname, '../dist/index.html'),
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsSubDirectory: 'static',
+        htdocsSubDirectory: '',
         assetsPublicPath: '/',
         productionSourceMap: true,
         // Gzip off by default as many popular static hosts such as
@@ -19,7 +20,7 @@ module.exports = {
         // View the bundle analyzer report after build finishes:
         // `npm run build --report`
         // Set to `true` or `false` to always turn it on or off
-        bundleAnalyzerReport: false
+        bundleAnalyzerReport: process.env.npm_config_report
     },
     dev: {
         env: require('./dev.env'),
@@ -36,4 +37,3 @@ module.exports = {
         cssSourceMap: false
     }
 }
-

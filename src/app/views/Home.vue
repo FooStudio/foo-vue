@@ -60,10 +60,6 @@
             <h1 ref="title">{{$t("home.title")}}</h1>
             <h3>{{$t("home.subtitle")}}</h3>
 
-            <h4 v-if="$mq.resize && $mq.above($mv.hd)">HD</h4>
-            <h4 v-if="$mq.resize && $mq.between([$mv.mobile, $mv.hd])">Desktop</h4>
-            <h4 v-if="$mq.resize && $mq.below($mv.mobile)">Mobile</h4>
-
             <h4 v-if="loading">loading data</h4>
             <h4 v-else-if="error">Error loading</h4>
             <div v-else="!loading && !error" class="users">

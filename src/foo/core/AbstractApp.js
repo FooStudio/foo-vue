@@ -1,22 +1,22 @@
-import {environment, config} from "src/config/";
+import {environment, config} from "src/config";
 import data from "src/config/data.json";
-import Signal from "signals";
+import {Signal} from "signals";
 import throttle from "lodash/throttle";
+import Breakpoints from "foo/utils/Breakpoints";
 import LocaleManager from "foo/core/locale/LocaleManager";
-import Breakpoints from "foo/utils/Breakpoint";
 
 export default class AbstractApp {
     /**
      * Signal dispatching on app animationFrame
      * @property rendered
-     * @type {Signal}
+     * @type {signals.Signal}
      */
     render = new Signal();
 
     /**
      * Signal dispatching on ap resize
-     * @property resized
-     * @type {Signal}
+     * @property resize
+     * @type {signals.Signal}
      */
     resize = new Signal();
 
@@ -58,30 +58,56 @@ export default class AbstractApp {
     height = window.innerHeight;
 
     /**
-     * @module foo
-     * @namespace core
-     * @class AbstractApp
-     * @author Mendieta
+     * @property config
+     * @default null
+     * @type {Object}
+     */
+    config = null;
+
+    /**
+     * @property environment
+     * @default null
+     * @type {Object}
+     */
+    environment = null;
+
+    /**
      * @constructor
      */
     constructor() {
-        // Define props from arguments
-        this.DEBUG = environment.vars.debug;
+        this.setup();
+        Promise.all([
+            LocaleManager.loadLocale(),
+        ])
+            .then(() => {
+                this.start();
+            });
+    }
+
+    /**
+     * @method setup
+     * @private
+     * @return {void}
+     */
+    setup() {
+        this.setupDebug();
+        LocaleManager.setup();
+        Breakpoints.setup();
+    }
+
+    /**
+     * @method setupDebug
+     * @private
+     * @returns {void}
+     */
+    setupDebug() {
+        this.DEBUG = environment.vars.config;
         this.data = data;
         if (this.DEBUG) {
             console.info("Foo: Start App");
             this.config = config;
             this.environment = environment;
         }
-        Breakpoints.setup();
-        Promise
-            .all([
-                LocaleManager.loadLocale(),
-            ])
-            .then(() => {
-                this._addListeners();
-                this.start();
-            });
     }
 
     /**
@@ -92,6 +118,7 @@ export default class AbstractApp {
      */
     start() {
         this.started = true;
+        this._addListeners();
         this.renderApp();
         if (this.DEBUG) console.info("Foo: App Rendered");
     }
@@ -99,6 +126,7 @@ export default class AbstractApp {
     /**
      * Method to be overridden, render logic
      * @abstract
+     * @override
      * @method renderApp
      * @returns {void}
      */

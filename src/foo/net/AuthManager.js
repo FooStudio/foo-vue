@@ -1,7 +1,7 @@
-import Facebook from "foo/net/api/Facebook";
-import Google from "foo/net/api/Google";
-import Xeerpa from "foo/net/api/Xeerpa";
-import Api from "app/Api";
+import Facebook from "foo/net/api/FacebookApi";
+import Google from "foo/net/api/GoogleApi";
+import Xeerpa from "foo/net/api/XeerpaApi";
+import Api from "app/utils/Api";
 
 /**
  * Authentication manager class.
@@ -14,6 +14,7 @@ export default class AuthManager {
     /**
      * Services struct.
      * @property services
+     * @static
      * @default {XE:string,FB: string, GO: string, API: string}
      * @type {Object}
      */
@@ -22,6 +23,19 @@ export default class AuthManager {
         FB: "facebook",
         GO: "google",
         API: "api",
+    };
+
+    /**
+     * @property apis
+     * @static
+     * @private
+     * @type {{xeerpa, facebook, google, api}}
+     */
+    static apis = {
+        "xeerpa": Xeerpa,
+        "facebook": Facebook,
+        "google": Google,
+        "api": Api,
     };
 
     /**
@@ -35,22 +49,12 @@ export default class AuthManager {
      */
     static login(service, data = null, xs = "FB") {
         return new Promise((resolve, reject) => {
-            switch (service) {
-                case AuthManager.services.FB:
-                    Facebook.login(resolve, reject);
-                    break;
-                case AuthManager.services.GO:
-                    Google.login(resolve, reject);
-                    break;
-                case AuthManager.services.XE:
-                    Xeerpa.login(xs, data, resolve, reject);
-                    break;
-                case AuthManager.services.API:
-                    Api.login(data);
-                    break;
-                default:
-                    console.error("AuthManager:", `Supplied service: ${service} is not defined!`);
-                    reject("Error");
+            const staticApi = this.apis[service];
+            if (staticApi) {
+                staticApi.login(resolve, reject, data, xs);
+            } else {
+                console.error("AuthManager:", `Supplied service: ${service} is not defined!`);
+                reject(new Error("Error"));
             }
         });
     }
@@ -70,7 +74,7 @@ export default class AuthManager {
                     break;
                 default:
                     console.error("AuthManager:", `Supplied service: ${service} is not defined for the register action!`);
-                    reject("Error");
+                    reject(new Error("Error"));
             }
         });
     }

@@ -3,10 +3,10 @@
 <script>
     import {mapState} from "vuex";
     import isMobile from "ismobilejs";
-    import Loader from "app/components/Loader.vue";
-    import RotateScreen from "app/components/RotateScreen.vue";
+    import Loader from "app/components/base/Loader.vue";
+    import RotateScreen from "app/components/base/RotateScreen.vue";
     import MainContainer from "app/components/MainContainer.vue";
-    import Preloader from "./components/Preloader";
+    import Preloader from "./components/base/Preloader";
 
     export default {
         name: "App",

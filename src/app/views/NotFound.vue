@@ -10,7 +10,10 @@
         },
         props: {},
         components: {MainTransition},
-        methods: {},
+        methods: {
+            foo(){
+            }
+        },
         computed: {}
     };
 </script>

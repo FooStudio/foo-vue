@@ -1,4 +1,5 @@
-import {environment} from "src/config/index";
+import AbstractApi from "./AbstractApi";
+import {environment} from "src/config";
 import bowser from "bowser";
 
 /**
@@ -7,7 +8,10 @@ import bowser from "bowser";
  * @class Xeerpa
  * @namespace net.api
  */
-export default class Xeerpa {
+export default class Xeerpa extends AbstractApi {
+
+    static apiName = "Xeerpa";
+
     /**
      * Facebook static string ID
      * @default "FB"
@@ -65,12 +69,8 @@ export default class Xeerpa {
      */
     static cb = null;
 
-    static save = false;
-
-    static setup() {
-        return new Promise((resolve) => {
-            resolve();
-        });
+    static _load() {
+        this._init();
     }
 
     /**
@@ -79,12 +79,10 @@ export default class Xeerpa {
      * @param {Object} [data=null] The extra data to be sent, optional.
      * @param {function} resolve
      * @param {function} reject
-     * @param {boolean} save
      * @method login
      */
-    static login(sn, data = {}, resolve, reject, save = false) {
+    static login(resolve, reject, data = {}, sn = "") {
         this.cb = resolve;
-        this.save = save;
         const url = environment.properties.xeerpa;
         const apiURL = `${url}?socialNetwork=${sn}&data=${data}`;
         window.addEventListener("message", this._messageHandler.bind(this), false);

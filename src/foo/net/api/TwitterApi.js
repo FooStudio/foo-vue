@@ -6,8 +6,8 @@
  * @namespace net.api
  */
 
-import SDKManager from "./SDKManager";
+import AbstractApi from "./AbstractApi";
 
-export default class Twitter extends SDKManager {
+export default class Twitter extends AbstractApi {
     static sdkName = "Twitter";
 }

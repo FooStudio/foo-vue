@@ -1,18 +1,14 @@
-/**
- * Created by mendieta on 4/27/17.
- */
-import loadJS from "load-script";
+import loadJs from "load-script";
 
-export default class SDKManager {
-
+export default class AbstactApi {
     /**
      * @property name
-     * @default "AbstractSDKManager
+     * @default "AbstractApi"
      * @static
      * @public
      * @type {string}
      */
-    static sdkName = "AbstractSDKManager";
+    static apiName = "AbstractApi";
 
     /**
      * The SDK url;
@@ -74,9 +70,9 @@ export default class SDKManager {
      */
     static _load() {
         if (this.url) {
-            loadJS(this.url, this._init.bind(this));
+            loadJs(this.url, this._init.bind(this));
         } else {
-            console.warn(`SdkManager: no sdk url has been set for ${this.sdkName}.`);
+            console.warn(`SdkManager: no sdk url has been set for ${this.apiName}.`);
         }
     }
 
@@ -104,5 +100,4 @@ export default class SDKManager {
         this.resolve();
         this.resolve = null;
     }
-
 }

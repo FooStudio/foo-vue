@@ -2,8 +2,8 @@
 
 <script>
     import MainTransition from "app/transitions/GSAP";
-    import AuthManager from "foo/core/AuthManager";
-    import Xeerpa from "foo/net/api/Xeerpa";
+    import AuthManager from "foo/net/AuthManager";
+    import Xeerpa from "foo/net/api/XeerpaApi";
     import {LOGIN} from "app/store/modules/user";
     import XeerpaWidget from "app/components/XeerpaWidget.vue";
     import isEmpty from 'lodash/isEmpty';

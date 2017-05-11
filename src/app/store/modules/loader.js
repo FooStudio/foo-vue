@@ -49,7 +49,7 @@ const actions = {
                     .catch((error) => {
                         console.error(`Error Loading asset: ${assets} with error - ${error}`);
                         commit(LOADED);
-                        reject();
+                        reject(new Error("Error"));
                     });
             }
         });

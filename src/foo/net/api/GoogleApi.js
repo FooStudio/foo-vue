@@ -1,20 +1,19 @@
-import {environment} from "src/config/index";
-import SDKManager from "./SDKManager";
+import {environment} from "src/config";
+import AbstractApi from "./AbstractApi";
 
-/**
- * Helper static class for working with Google API
- * @class Google
- * @namespace net.apis
- * @author Mendieta
- */
-export default class Google extends SDKManager {
+export default class GoogleApi extends AbstractApi {
 
-    static sdkName = "Google";
+    /**
+     * @property apiName
+     * @static
+     * @type {string}
+     */
+    static apiName = "Google";
 
     /**
      * The Google SDK url;
      * @property url
-     * @default "https://apis.google.com/js/client:plusone.js"
+     * @default "https://apis.google.com/js/platform.js"
      * @static
      * @type {string}
      */
@@ -33,7 +32,18 @@ export default class Google extends SDKManager {
         "cookiepolicy": "none"
     };
 
+    /**
+     * @static
+     * @property GoogleAuth
+     * @type {Object}
+     */
     static GoogleAuth = null;
+
+    /**
+     * @static
+     * @property GoogleUser
+     * @type {Object}
+     */
     static GoogleUser = null;
 
     static configSDK() {

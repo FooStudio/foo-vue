@@ -5,7 +5,7 @@
     import {ASSET_LOADING} from "app/store/modules/app";
     import assets from "app/preload.json";
     import preloader from "preloader";
-    import SDKLoader from "foo/net/SDKLoader";
+    import ApiLoader from "foo/net/ApiLoader";
     import PreloaderTransition from "app/transitions/PreloaderTransition";
 
     export default{
@@ -13,7 +13,7 @@
         data(){
             return {
                 progress: 0,
-                loading: true
+                loading: true,
             };
         },
         props: {
@@ -39,7 +39,7 @@
         components: {PreloaderTransition},
         mounted(){
             Promise.all([
-                SDKLoader.load(),
+                ApiLoader.load(),
                 this.setTimer(),
                 this.setLoader(),
             ]).then(this.loadingComplete);

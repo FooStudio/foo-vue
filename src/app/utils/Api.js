@@ -1,4 +1,4 @@
-import {environment} from "../config/index";
+import {environment} from "src/config";
 import request from "superagent";
 
 /**
@@ -11,20 +11,20 @@ export default class Api {
      * Login user
      * @method
      * @static
+     * @param {Function} resolve
+     * @param {Function} reject
      * @param {Object} data
      */
-    static login(data) {
-        return new Promise((resolve, reject) => {
-            request.post(this.apiURL("login")).send(data)
-                .then((response) => {
-                    console.log("Login API success!");
-                    resolve(response.body);
-                })
-                .catch((error) => {
-                    console.log("Login API error!");
-                    reject(error);
-                });
-        });
+    static login(resolve, reject, data) {
+        request.post(this.apiURL("login")).send(data)
+            .then((response) => {
+                console.log("Login API success!");
+                resolve(response.body);
+            })
+            .catch((error) => {
+                console.log("Login API error!");
+                reject(error);
+            });
     }
 
     /**
@@ -68,6 +68,12 @@ export default class Api {
         });
     }
 
+    /**
+     * @private
+     * @static
+     * @param endpoint
+     * @return {string}
+     */
     static apiURL(endpoint) {
         return `${environment.urls.api}${endpoint}`;
     }

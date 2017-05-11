@@ -1,31 +1,18 @@
-/**!
+/*!
  * Foo (Studio)
- **/
-
-//IMPORT GLOBAL CSS
+ * (c) 2013-2017 Foo (Studio)
+ */
 import "sanitize.css/sanitize.css";
 import "./main.styl";
-
-//IMPORT MODERNIZR
-// import Modernizr from "modernizr"
-
-//IMPORT POLYFILLS
-require("foo/utils/Polyfills")();
-require("classlist-polyfill");
-require("raf").polyfill();
-
-//IMPORT APP UTILS
-import domready from "domready";
-
-import App from "app/App";
+import "babel-polyfill";
+import "app/utils/polyfills";
+import "modernizr";
 import "gsap";
-
-//IMPORT APP CONFIG
-import Acknowledgements from "foo/utils/Acknowledgments";
+import domready from "domready";
+import App from "app/App";
 
 const startApp = () => {
-    if (process.env.NODE_ENV === "production") Acknowledgements.show();
-    window['App'] = new App();
+    window["App"] = new App();
 };
 
 domready(() => startApp());

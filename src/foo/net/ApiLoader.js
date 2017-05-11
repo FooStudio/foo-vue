@@ -1,14 +1,15 @@
-/**
- * Created by mendieta on 4/26/17.
- */
-import {config} from "src/config/index";
-import Facebook from "foo/net/api/Facebook";
-import Google from "foo/net/api/Google";
-import Xeerpa from "foo/net/api/Xeerpa";
-import Twitter from "foo/net/api/Twitter";
+import {config} from "src/config";
+import Facebook from "foo/net/api/FacebookApi";
+import Google from "foo/net/api/GoogleApi";
+import Xeerpa from "foo/net/api/XeerpaApi";
+import Twitter from "foo/net/api/TwitterApi";
 
-export default class SDKLoader {
+export default class ApiLoader {
 
+    /**
+     * @static
+     * @type {{facebook, google, xeerpa, twitter}}
+     */
     static sdks = {
         "facebook": Facebook,
         "google": Google,
@@ -16,6 +17,10 @@ export default class SDKLoader {
         "twitter": Twitter
     };
 
+    /**
+     * @static
+     * @return {Promise}
+     */
     static load() {
         let promises = [];
         for (const sdk of config.sdks) {

@@ -1,10 +1,10 @@
 {
-    "minify": true,
-    "options": [
-        "setClasses"
-    ],
-    "feature-detects": [
-        "eventlistener",
-        "canvas"
-    ]
+  "minify": true,
+  "options": [
+    "setClasses"
+  ],
+  "feature-detects": [
+    "canvas",
+    "eventlistener"
+  ]
 }

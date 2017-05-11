@@ -22,7 +22,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     output: {
         path: config.build.assetsRoot,
         filename: utils.assetsPath('js/[name].[chunkhash].js'),
-        chunkFilename: utils.assetsPath('js/[name].[chunkhash].js')
+        chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
     },
     plugins: [
         // http://vuejs.github.io/vue-loader/en/workflow/production.html
@@ -33,7 +33,7 @@ var webpackConfig = merge(baseWebpackConfig, {
             compress: {
                 warnings: false
             },
-            sourceMap: config.build.productionSourceMap
+            sourceMap: true
         }),
         // extract css into its own file
         new ExtractTextPlugin({
@@ -90,6 +90,13 @@ var webpackConfig = merge(baseWebpackConfig, {
                 to: config.build.assetsSubDirectory,
                 ignore: ['.*']
             }
+        ]),
+        new CopyWebpackPlugin([
+            {
+                from: path.resolve(__dirname, '../htdocs'),
+                to: config.build.htdocsSubDirectory,
+                ignore: []
+            }
         ])
     ]
 })
@@ -118,4 +125,3 @@ if (config.build.bundleAnalyzerReport) {
 }
 
 module.exports = webpackConfig
-

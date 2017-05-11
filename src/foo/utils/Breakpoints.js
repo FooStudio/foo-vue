@@ -8,6 +8,13 @@ import isMobile from "ismobilejs";
  * @author Mendieta
  */
 export default class Breakpoint {
+
+    /**
+     * @property body
+     * @type {HTMLElement}
+     */
+    body;
+
     /**
      * Calls the mobile and browser handlers.
      * @method setup

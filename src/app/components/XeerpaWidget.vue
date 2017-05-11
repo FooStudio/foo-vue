@@ -1,7 +1,7 @@
 <style src="styles/components/XeerpaWidget.styl" lang="stylus" scoped></style>
 
 <script>
-    import Facebook from "foo/net/api/Facebook";
+    import Facebook from "foo/net/api/FacebookApi";
     import filter from "lodash/filter";
     import find from "lodash/find";
     import reject from "lodash/reject";
