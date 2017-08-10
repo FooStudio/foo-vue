@@ -5,6 +5,7 @@ module.exports = {
     build: {
         env: require('./prod.env'),
         index: path.resolve(__dirname, '../dist/index.html'),
+        indexPHP: path.resolve(__dirname, '../dist/main.php'),
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsSubDirectory: 'static',
         htdocsSubDirectory: '',

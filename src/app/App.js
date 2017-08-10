@@ -15,7 +15,6 @@ import routes from "app/routes";
 
 import Root from "app/Root.vue";
 
-Vue.config.productionTip = false;
 Vue.config.performance = process.env.NODE_ENV !== "production";
 routes.base = environment.vars.route;
 const router = new VueRouter(routes);

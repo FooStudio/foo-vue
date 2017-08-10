@@ -23,7 +23,7 @@ const config = {
     "asset_loading": true,
     "facebook_permissions": "email",
     "google_scopes": "https://www.googleapis.com/auth/plus.login",
-    "sdks": ["facebook", "google", "xeerpa"],
+    "sdks": [],
     "vars": {
         "animate": true,
         "resize": true
@@ -42,12 +42,12 @@ const config = {
             "analytics": [
                 {
                     "adapter": "google",
-                    "id": "ua2423423"
+                    "id": "uaXXXXXXXX"
                 }
             ],
             "properties": {
-                "fb": "144062099411527",
-                "gp": "1015126163676-t0vmcvjts8t11vb85k0gs1u3e5lj2hfe.apps.googleusercontent.com",
+                "fb": "XXXXXXXXXXXXXXX",
+                "gp": "XXXXXXXXXXXXXXX.apps.googleusercontent.com",
                 "xeerpa": "",
             }
         },
@@ -63,12 +63,12 @@ const config = {
             "analytics": [
                 {
                     "adapter": "google",
-                    "id": "ua2423423"
+                    "id": "uaXXXXXXXX"
                 }
             ],
             "properties": {
-                "fb": "144062099411527",
-                "gp": "1015126163676-t0vmcvjts8t11vb85k0gs1u3e5lj2hfe.apps.googleusercontent.com",
+                "fb": "XXXXXXXXXXXXXXX",
+                "gp": "XXXXXXXXXXXXXXX.apps.googleusercontent.com",
                 "xeerpa": "",
             }
         },
@@ -84,12 +84,12 @@ const config = {
             "analytics": [
                 {
                     "adapter": "google",
-                    "id": "ua2423423"
+                    "id": "uaXXXXXXXX"
                 }
             ],
             "properties": {
-                "fb": "144062099411527",
-                "gp": "1015126163676-t0vmcvjts8t11vb85k0gs1u3e5lj2hfe.apps.googleusercontent.com",
+                "fb": "XXXXXXXXXXXXXXX",
+                "gp": "XXXXXXXXXXXXXXX.apps.googleusercontent.com",
                 "xeerpa": "",
             }
         },
@@ -105,12 +105,12 @@ const config = {
             "analytics": [
                 {
                     "adapter": "google",
-                    "id": "ua2423423"
+                    "id": "uaXXXXXXXX"
                 }
             ],
             "properties": {
-                "fb": "144062099411527",
-                "gp": "1015126163676-t0vmcvjts8t11vb85k0gs1u3e5lj2hfe.apps.googleusercontent.com",
+                "fb": "XXXXXXXXXXXXXXX",
+                "gp": "XXXXXXXXXXXXXXX.apps.googleusercontent.com",
                 "xeerpa": "",
             }
         }
@@ -157,7 +157,7 @@ const environment = config["environments"][env];
 
 const developers = [
     {
-        "name": "Juan",
+        "name": "Adrián",
         "url": "http://github.com"
     },
     {
@@ -179,7 +179,7 @@ const designers = [
 
 const producers = [
     {
-        name: "Ajo"
+        name: "Cesar"
     }
 ];
 

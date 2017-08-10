@@ -19,45 +19,44 @@ const state = {
 };
 
 const actions = {
-    [LOGIN]({commit}, payload){
+    [LOGIN]({ commit }, payload) {
         return new Promise((resolve, reject) => {
             commit(LOGGING_IN, true);
             AuthManager.login(payload.service, payload.data, payload.xs)
                 .then((response) => {
-                    commit(LOGIN, {network: payload.service, response});
+                    commit(LOGIN, { network: payload.service, response });
                     resolve(response);
                     commit(LOGGING_IN, false);
                 })
                 .catch((error) => {
-                    reject(error);
-                    // console.error(error);
                     commit(LOGGING_IN, false);
+                    reject(error);
                 });
         });
     },
-    [REGISTER]({commit}, payload){
+    [REGISTER]({ commit }, payload) {
         commit(REGISTER, payload);
     },
-    [LOGOUT]({commit}, payload){
+    [LOGOUT]({ commit }, payload) {
         commit(LOGOUT, payload);
     }
 };
 
 const mutations = {
-    [LOGIN](state, payload){
+    [LOGIN](state, payload) {
         state.logged = true;
         state[payload.network] = payload.response;
     },
-    [LOGGING_IN](state, payload){
+    [LOGGING_IN](state, payload) {
         state.logging = payload;
     },
-    [REGISTER](state, data){
+    [REGISTER](state, data) {
         state.error = null;
         state.register_data = data;
     },
-    [LOGOUT](state){
+    [LOGOUT](state) {
         state.error = null;
-        // state.logged = false;
+        state.logged = false;
     }
 };
 
@@ -67,4 +66,4 @@ const getters = {
     }
 };
 
-export default {state, actions, mutations, getters};
+export default { state, actions, mutations, getters };

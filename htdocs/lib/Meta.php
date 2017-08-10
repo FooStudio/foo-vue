@@ -28,7 +28,7 @@ class Meta {
     'title'
   );
 
-  function Meta($json=NULL) {
+  function __constructor($json=NULL) {
     $this->ua = strtolower($_SERVER['HTTP_USER_AGENT']);
     if (array_key_exists('HTTP_X_FORWARDED_PROTO',$_SERVER)) {
       $protocol = $_SERVER['HTTP_X_FORWARDED_PROTO'];

@@ -58,7 +58,7 @@ BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
      RewriteCond %{REQUEST_FILENAME} !-f
      RewriteCond %{REQUEST_FILENAME} !-d
      RewriteCond %{REQUEST_URI} !index
-     RewriteRule (.*) index.html [L,QSA]
+     RewriteRule (.*) index.php [L,QSA]
 </ifModule>
 
 DirectoryIndex index.php index.html

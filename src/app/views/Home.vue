@@ -1,5 +1,3 @@
-<style src="styles/views/Home.styl" lang="stylus"></style>
-
 <script>
     import MainTransition from "app/transitions/GSAP";
 
@@ -62,19 +60,14 @@
 
             <h4 v-if="loading">loading data</h4>
             <h4 v-else-if="error">Error loading</h4>
-            <div v-else="!loading && !error" class="users">
+            <div v-else-if="!loading && !error" class="users">
                 <input type="text" v-model="filter">
-                <transition-group
-                    name="staggered-fade"
-                    tag="ul"
-                    :css="false"
-                    @before-enter="beforeEnter"
-                    @enter="enter"
-                    @leave="leave"
-                >
+                <transition-group name="staggered-fade" tag="ul" :css="false" @before-enter="beforeEnter" @enter="enter" @leave="leave">
                     <li v-for="(user, index) in filteredUsers" :key="user.id" :data-index="index">{{user.name}}</li>
                 </transition-group>
             </div>
         </div>
     </main-transition>
 </template>
+
+<style src="styles/views/Home.styl" lang="stylus"></style>
