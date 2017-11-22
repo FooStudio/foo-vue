@@ -4,7 +4,6 @@
  */
 import "sanitize.css/sanitize.css";
 import "./main.styl";
-import "babel-polyfill";
 import "app/utils/polyfills";
 import "modernizr";
 import "gsap";

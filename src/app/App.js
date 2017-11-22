@@ -1,6 +1,6 @@
 import Vue from "vue";
 import AbstractApp from "foo/core/AbstractApp";
-import {environment} from "src/config";
+import { environment } from "src/config";
 import store from "app/store";
 import LocaleManager from "foo/core/locale/LocaleManager";
 
@@ -10,7 +10,7 @@ import VueAnalytics from "foo/tracking/VueAnalytics";
 
 // VUE ROUTER
 import VueRouter from "vue-router";
-import {sync} from "vuex-router-sync";
+import { sync } from "vuex-router-sync";
 import routes from "app/routes";
 
 import Root from "app/Root.vue";
@@ -24,7 +24,7 @@ export default class App extends AbstractApp {
         super();
         Vue.use(VueFoo);
         Vue.use(VueAnalytics, {
-            adapters: environment.analytics,
+            adapters: environment.analytics
         });
         Vue.use(VueRouter);
     }
