@@ -1,30 +1,30 @@
 <style src="styles/views/Root.styl" lang="stylus" scoped></style>
 
 <script>
-    import {mapState} from "vuex";
-    import isMobile from "ismobilejs";
-    import Loader from "app/components/base/Loader.vue";
-    import RotateScreen from "app/components/base/RotateScreen.vue";
-    import MainContainer from "app/components/MainContainer.vue";
-    import Preloader from "./components/base/Preloader";
+import { mapState } from "vuex";
+import isMobile from "ismobilejs";
+import Loader from "app/components/base/Loader.vue";
+import RotateScreen from "app/components/base/RotateScreen.vue";
+import MainContainer from "app/components/MainContainer.vue";
+import Preloader from "./components/base/Preloader";
 
-    export default {
-        name: "App",
-        components: {
-            Preloader,
-            Loader,
-            RotateScreen,
-            MainContainer
+export default {
+    name: "App",
+    components: {
+        Preloader,
+        Loader,
+        RotateScreen,
+        MainContainer,
+    },
+    computed: {
+        ...mapState({
+            started: state => !state.app.loading,
+        }),
+        isPhone() {
+            return isMobile.phone;
         },
-        computed: {
-            ...mapState({
-                started: state => !state.app.loading,
-            }),
-            isPhone(){
-                return isMobile.phone;
-            }
-        }
-    };
+    },
+};
 </script>
 
 <template>
