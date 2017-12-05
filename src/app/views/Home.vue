@@ -1,54 +1,72 @@
 <script>
     import MainTransition from "app/transitions/GSAP";
+    import VideoPlayer from "foo/components/VideoPlayer.vue";
 
     export default {
         name: "Home",
-        data(){
+        data() {
             return {
                 users: [],
                 filter: "",
                 loading: true,
-                error: false
+                error: false,
             };
         },
-        created(){
+        created() {
             this.fetchData();
         },
         props: {},
-        components: {MainTransition},
-        mounted(){
+        components: {MainTransition, VideoPlayer},
+        mounted() {
         },
         methods: {
-            fetchData(){
-                this.$get("https://jsonplaceholder.typicode.com/users").then((response) => {
-                    this.loading = false;
-                    this.users = response.body;
-                }).then(undefined, (error) => {
-                    this.loading = false;
-                    this.error = true;
-                    console.error(error);
-                });
+            fetchData() {
+                this.$get("https://jsonplaceholder.typicode.com/users")
+                    .then(response => {
+                        this.loading = false;
+                        this.users = response.body;
+                    })
+                    .then(undefined, error => {
+                        this.loading = false;
+                        this.error = true;
+                        console.error(error);
+                    });
             },
-            beforeEnter(el){
+            beforeEnter(el) {
                 TweenMax.set(el, {alpha: 0, height: 0});
             },
-            enter(el, done){
+            enter(el, done) {
                 let delay = el.dataset.index * 0.015;
-                TweenMax.to(el, 0.65,
-                    {alpha: 1, height: 24, delay: delay, ease: Power4.easeOut, onComplete: done});
+                TweenMax.to(el, 0.65, {
+                    alpha: 1,
+                    height: 24,
+                    delay: delay,
+                    ease: Power4.easeOut,
+                    onComplete: done,
+                });
             },
-            leave(el, done){
+            leave(el, done) {
                 let delay = el.dataset.index * 0.015;
-                TweenMax.to(el, 0.65, {alpha: 0, height: 0, ease: Power4.easeOut, delay: delay, onComplete: done});
-            }
+                TweenMax.to(el, 0.65, {
+                    alpha: 0,
+                    height: 0,
+                    ease: Power4.easeOut,
+                    delay: delay,
+                    onComplete: done,
+                });
+            },
         },
         computed: {
-            filteredUsers(){
-                return this.users.filter((item) => {
-                    return item.name.toLowerCase().indexOf(this.filter.toLowerCase()) !== -1;
+            filteredUsers() {
+                return this.users.filter(item => {
+                    return (
+                        item.name
+                            .toLowerCase()
+                            .indexOf(this.filter.toLowerCase()) !== -1
+                    );
                 });
-            }
-        }
+            },
+        },
     };
 </script>
 
@@ -62,9 +80,24 @@
             <h4 v-else-if="error">Error loading</h4>
             <div v-else-if="!loading && !error" class="users">
                 <input type="text" v-model="filter">
-                <transition-group name="staggered-fade" tag="ul" :css="false" @before-enter="beforeEnter" @enter="enter" @leave="leave">
+                <transition-group name="staggered-fade" tag="ul" :css="false" @before-enter="beforeEnter" @enter="enter"
+                                  @leave="leave">
                     <li v-for="(user, index) in filteredUsers" :key="user.id" :data-index="index">{{user.name}}</li>
                 </transition-group>
+            </div>
+            <div class="player-container">
+                <div class="content">
+                    <video-player
+                        className="Player"
+                        :autoPlay="false"
+                        useNoise
+                        poster="http://il6.picdn.net/shutterstock/videos/3548084/thumb/1.jpg?i10c=img.resize(height:160)"
+                        src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4"
+                        togglePlayOnClick
+                        showPosterOnEnd
+                        hasControls
+                    ></video-player>
+                </div>
             </div>
         </div>
     </main-transition>

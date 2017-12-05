@@ -1,13 +1,13 @@
-import { padLeft } from "foo/utils/StringUtils";
+import {padLeft} from "foo/utils/StringUtils";
 
 /**
-     * Convert a string to seconds, with these formats supported:
-     *
-     * 00:03:00.1 / 03:00.1 / 180.1s / 3.2m / 3.2h / 00:01:53,800
-     * @param {string} value The string to be parsed
-     * @param {string} [delimiter=":"] The delimiter to be used
-     * @returns {number} The number of seconds parsed
-     */
+ * Convert a string to seconds, with these formats supported:
+ *
+ * 00:03:00.1 / 03:00.1 / 180.1s / 3.2m / 3.2h / 00:01:53,800
+ * @param {string} value The string to be parsed
+ * @param {string} [delimiter=":"] The delimiter to be used
+ * @returns {number} The number of seconds parsed
+ */
 export function stringToSeconds(value, delimiter = ":") {
     let arr = value.split(delimiter);
     let sec = 0;
@@ -19,7 +19,7 @@ export function stringToSeconds(value, delimiter = ":") {
         sec = parseFloat(value.substr(0, value.length - 1)) * 3600;
     } else if (arr.length > 1) {
         if (arr[2] && arr[2].toString().indexOf(",") !== -1) {
-            arr[2] = arr[2].toString().replace(/\,/, ".");
+            arr[2] = arr[2].toString().replace(/,/, ".");
         }
 
         sec = parseFloat(arr[arr.length - 1]);

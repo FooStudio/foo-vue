@@ -158,7 +158,7 @@ export function between(pstring, pstart, pend) {
         startIdx += pstart.length;
         let endIdx = pstring.indexOf(pend, startIdx);
         if (endIdx !== -1) {
-            str = pstring.substr(startidx, endIdx - startIdx);
+            str = pstring.substr(startIdx, endIdx - startIdx);
         }
     }
     return str;
@@ -361,7 +361,7 @@ export function slugify(replace) {
     st = st.replace(/[\u00D1]/ig, "n");
     st = st.replace(/[^a-z0-9 ]+/gi, "");
     st = st.trim().replace(/ /g, "-");
-    st = st.replace(/{2}/g, "");
+    //st = st.replace(/{2}/g, "");
     return (st.replace(/[^a-z\- ]*/gi, ""));
 }
 
