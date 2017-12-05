@@ -37,12 +37,16 @@
             },
         },
         components: {PreloaderTransition},
-        mounted(){
-            Promise.all([
+        async mounted(){
+            await ApiLoader.load();
+            await this.setTimer();
+            await this.setLoader();
+            this.loadingComplete();
+           /* Promise.all([
                 ApiLoader.load(),
                 this.setTimer(),
                 this.setLoader(),
-            ]).then(this.loadingComplete);
+            ]).then(this.loadingComplete);*/
         },
         methods: {
             setTimer(){

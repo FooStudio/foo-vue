@@ -5,10 +5,8 @@
     "author": "Mendieta <mendieta@foostudio.mx>",
     "private": true,
     "scripts": {
-        "dev":
-            "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-        "start":
-            "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+        "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+        "start": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
         "build": "node build/build.js",
         "deploy": "node build/deploy.js",
         "build:deploy": "npm run build && npm run deploy",
@@ -17,10 +15,14 @@
         "lint": "eslint --ext .js,.vue src"
     },
     "dependencies": {
+        "background-cover": "^0.0.6",
         "bowser": "^1.8.1",
         "classlist-polyfill": "^1.2.0",
         "domready": "^1.0.8",
+        "fullscreen-handler": "^0.0.2",
         "gsap": "^1.20.3",
+        "insert-rule": "^2.1.0",
+        "iphone-inline-video": "^2.2.2",
         "ismobilejs": "^0.4.1",
         "load-script": "^1.0.0",
         "lodash": "^4.17.4",
@@ -86,6 +88,7 @@
         "url-loader": "^0.5.8",
         "vue-loader": "^13.3.0",
         "vue-style-loader": "^3.0.1",
+        "vue-svg-loader": "^0.4.0",
         "vue-template-compiler": "^2.5.2",
         "webpack": "^3.6.0",
         "webpack-bundle-analyzer": "^2.9.0",
@@ -96,5 +99,9 @@
         "node": ">= 4.0.0",
         "npm": ">= 3.0.0"
     },
-    "browserslist": ["> 1%", "last 2 versions", "not ie <= 8"]
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not ie <= 8"
+    ]
 }
