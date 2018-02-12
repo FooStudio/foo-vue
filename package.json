@@ -19,6 +19,7 @@
         "bowser": "^1.8.1",
         "classlist-polyfill": "^1.2.0",
         "domready": "^1.0.8",
+        "es6-promise": "^4.2.4",
         "fullscreen-handler": "^0.0.2",
         "gsap": "^1.20.3",
         "insert-rule": "^2.1.0",
