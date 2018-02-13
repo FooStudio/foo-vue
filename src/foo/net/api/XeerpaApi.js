@@ -1,5 +1,5 @@
 import AbstractApi from "./AbstractApi";
-import {environment} from "src/config";
+import { environment } from "src/config";
 import bowser from "bowser";
 
 /**
@@ -82,24 +82,35 @@ export default class Xeerpa extends AbstractApi {
      * @method login
      */
     static login(resolve, reject, data = {}, sn = "") {
-        this.cb = resolve;
+        this._login(resolve, reject, data, sn);
+    }
+
+    static loginAsync(data = null, sn = this.FB) {
+        return new Promise((resolve, reject) => {
+            this._login(resolve, reject, data, sn);
+        });
+    }
+
+    static _login(resolve, reject, data = {}, sn = "") {
+        this.timeout = undefined;
+        this.resolveCb = resolve;
         const url = environment.properties.xeerpa;
         const apiURL = `${url}?socialNetwork=${sn}&data=${data}`;
-        window.addEventListener("message", this._messageHandler.bind(this), false);
-
+        window.addEventListener("message", this._messageHandler, false);
         window.open(apiURL, "Login", "width=" + (500) + ", height=" + (475) + ", scrollbars=yes");
-
-        if (navigator.appName === 'Microsoft Internet Explorer' || !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv 11/)) || bowser.msie) {
-            let checkCookie = setInterval(function () {
-                let cookie = this._readCookie();
-                if (cookie) {
-                    clearInterval(checkCookie);
-                    this._receiveData(cookie);
+        if (navigator.appName === "Microsoft Internet Explorer" || !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv 11/)) || bowser.msie) {
+            this._cookieInterval = window.setInterval(() => {
+                let data = this._readCookie();
+                if (data) {
+                    window.clearInterval(this._cookieInterval);
+                    this._receiveData(data);
                 }
             }, 100);
         }
-
-        // TODO: DUE TO HOW XEERPA WORKS NO CANCEL OR ERROR CALLBACK IS TRIGGERED. MAYBE USING A TIMEOUT TO VERIFY USER ACTIVITY.
+        this._loginTimeout = window.setTimeout(() => {
+            if (typeof this._cookieInterval === "number") window.clearInterval(this._cookieInterval);
+            reject(new Error("Xeerpa login timeout was reached."));
+        }, 3e4);
     }
 
     /**
@@ -108,10 +119,10 @@ export default class Xeerpa extends AbstractApi {
      * @private
      * @method _messageHandler
      */
-    static _messageHandler(event) {
+    static _messageHandler = (event) => {
         if (typeof event.data !== "string") return;
         let data = JSON.parse(event.data);
-        if (data.socialNetwork) this._receiveData(data);
+        if (data.socialNetwork) Xeerpa._receiveData(data);
     }
 
     /**
@@ -123,10 +134,11 @@ export default class Xeerpa extends AbstractApi {
     static _readCookie() {
         if (!document.cookie) return;
         let cookies = document.cookie.split(";");
-        for (let i = 0; cookies.length; i++) {
+        for (let i = 0; i < cookies.length; i++) {
             let cookie = cookies[i].split("=");
-            if (cookie[0] === "user") {
+            if (cookie[0].trim() === "user") {
                 let value = cookie[1];
+                value = JSON.parse(value);
                 document.cookie = "user=;path=/;expires=" + new Date(Date.now() - 1000).toGMTString();
                 return value;
             }
@@ -142,7 +154,8 @@ export default class Xeerpa extends AbstractApi {
     static _receiveData(data) {
         // TODO: Conditionally remove listener, IE doesn't use it.
         window.removeEventListener("message", this._messageHandler);
-        this.cb(data);
+        this._loginTimeout && window.clearTimeout(this._loginTimeout);
+        this.resolveCb(data);
     }
 
 }
