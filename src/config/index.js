@@ -2,22 +2,35 @@
  * Created by mendieta on 1/20/16.
  */
 
-const stagingRoute = "/clients/foo/boilerplate";
-const stagingURL = "http://www.fooprojects.com" + stagingRoute;
-
-const qaRoute = "/clients/foo/boilerplate";
-const qaURL = "http://www.fooprojects.com" + qaRoute;
-
-const productionRoute = "/";
-const productionURL = "http://www.client.com" + productionRoute;
-
-const developmentRoute = "/";
-const developmentURL = "http://localhost:8080" + developmentRoute;
-
-const apiEndPoint = "/endpoint/";
+const URLS = {
+    staging: {
+        url: 'http://www.fooprojects.com',
+        subdirectory: '/clients/brand/site',
+        public: '/clients/brand/site/static',
+        api: '/clients/brand/site/api',
+    },
+    qa: {
+        url: 'http://www.fooprojects.com',
+        subdirectory: '/clients/foo/boilerplate',
+        public: '/clients/foo/boilerplate/static',
+        api: '/clients/foo/boilerplate/api',
+    },
+    production: {
+        url: 'http://www.brand.com',
+        subdirectory: '',
+        public: '/static',
+        api: '/api',
+    },
+    development: {
+        url: 'http://localhost:8080',
+        subdirectory: '',
+        public: '/static',
+        api: '/api',
+    },
+};
 
 // CONFIG
-const config = {
+export const config = {
     "locale": "es-MX",
     "data_loading": true,
     "asset_loading": true,
@@ -32,12 +45,13 @@ const config = {
     "environments": {
         "production": {
             "vars": {
-                "base": productionURL,
-                "route": productionRoute,
-                "debug": false
+                "base": URLS.production.url,
+                "route": URLS.production.subdirectory,
+                "public": URLS.production.public,
+                "debug": false,
             },
             "urls": {
-                "api": productionURL + apiEndPoint
+                "api": URLS.production.api,
             },
             "analytics": [
                 {
@@ -53,12 +67,13 @@ const config = {
         },
         "staging": {
             "vars": {
-                "base": stagingURL,
-                "route": stagingRoute,
+                "base": URLS.staging.url,
+                "route": URLS.staging.subdirectory,
+                "public": URLS.staging.public,
                 "debug": true
             },
             "urls": {
-                "api": stagingURL + apiEndPoint
+                "api": URLS.staging.api,
             },
             "analytics": [
                 {
@@ -74,12 +89,13 @@ const config = {
         },
         "qa": {
             "vars": {
-                "base": qaURL,
-                "route": qaRoute,
+                "base": URLS.qa.url,
+                "route": URLS.qa.subdirectory,
+                "public": URLS.qa.public,
                 "debug": true
             },
             "urls": {
-                "api": qaURL + apiEndPoint
+                "api": URLS.qa.api,
             },
             "analytics": [
                 {
@@ -95,12 +111,13 @@ const config = {
         },
         "development": {
             "vars": {
-                "base": developmentURL,
-                "route": developmentRoute,
+                "base": URLS.development.url,
+                "route": URLS.development.subdirectory,
+                "public": URLS.development.public,
                 "debug": true
             },
             "urls": {
-                "api": developmentURL + apiEndPoint
+                "api": URLS.development.api
             },
             "analytics": [
                 {
@@ -118,69 +135,13 @@ const config = {
 };
 
 // ENVIRONMENT
-let env = "development";
-const hostArray = document.location.host.split("www.");
-const host = hostArray.length === 1 ? hostArray[0] : hostArray[1];
-
-switch (host.split(":").shift()) {
-    case "localhost": {
-        env = "development";
-        break;
-    }
-
-    case "fooprojects.com": {
-        env = "staging";
-        break;
-    }
-
-    case "staging.marca.com": {
-        env = "staging";
-        break;
-    }
-
-    case "qa.marca.com": {
-        env = "qa";
-        break;
-    }
-
-    case "marca.com": {
-        env = "production";
-        break;
-    }
-    default: {
-        env = "development";
-        break;
-    }
+function getHost(value) {
+    const url = new URL(value);
+    return url.host;
 }
 
-const environment = config["environments"][env];
+const env = Object
+    .entries(URLS)
+    .filter(current => getHost(current[1].url) === location.host)[0][0];
 
-const developers = [
-    {
-        "name": "Adrián",
-        "url": "http://github.com"
-    },
-    {
-        "name": "Erick",
-        "url": "http://github.com"
-    },
-    {
-        "name": "José",
-        "url": "http://github.com"
-    }
-];
-
-const designers = [
-    {
-        name: "Alex",
-        url: "http://behance.com"
-    }
-];
-
-const producers = [
-    {
-        name: "Cesar"
-    }
-];
-
-module.exports = {config, environment, developers, designers, producers};
+export const environment = config["environments"][env];
