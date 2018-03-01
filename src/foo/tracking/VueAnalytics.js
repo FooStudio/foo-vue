@@ -3,7 +3,7 @@
  */
 import store from "app/store";
 import AnalyticsAdapterManager from "foo/tracking/adapters/AnalyticsAdapterManager";
-import tags from "src/config";
+import tags from "src/config/tracking";
 import {environment} from "src/config/";
 
 /**
