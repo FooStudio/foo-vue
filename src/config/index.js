@@ -86,11 +86,11 @@ const CUSTOM_CONFIG = {
 };
 
 /**
- * @type {Config}
+ * @type {Readonly<Config>}
  */
-export const config = defaultsDeep(CUSTOM_CONFIG, DEFAULT_CONFIG);
+export const config = Object.freeze(defaultsDeep(CUSTOM_CONFIG, DEFAULT_CONFIG));
 
 /**
- * @type {Environment}
+ * @type {Readonly<Environment>}
  */
 export const environment = getEnvironment(config.environments);
