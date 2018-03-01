@@ -37,6 +37,7 @@
         "sanitize.css": "^5.0.0",
         "signals": "^1.0.0",
         "superagent": "^3.8.1",
+        "url-polyfill": "^1.0.11",
         "vue": "^2.5.2",
         "vue-i18n": "^7.1.1",
         "vue-router": "^3.0.1",

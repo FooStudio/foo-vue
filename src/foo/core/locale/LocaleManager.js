@@ -49,7 +49,7 @@ export default class LocaleManager {
         } else {
             store.dispatch(LOCALE_LOADING);
             promise = request
-                .get(`static/data/locale/${localeId}.json`)
+                .get(`${store.getters.public}/data/locale/${localeId}.json`)
                 .catch(error => console.error(`Failed to load locale: ${error}`))
                 .then(response => {
                     LocaleManager.loadedLocales.push(localeId);

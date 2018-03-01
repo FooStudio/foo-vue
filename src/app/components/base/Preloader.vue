@@ -57,9 +57,10 @@
                 });
             },
             setLoader(){
+                const {$store} = this;
                 return new Promise((resolve) => {
                     this.loader = preloader(this.options);
-                    assets.forEach(file => this.add(file));
+                    assets.forEach(file => this.add(`${$store.getters.public}/${file}`));
                     this.loader.on("progress", this.onProgress);
                     this.loader.on('complete', () => this.onComplete(resolve));
                     this.load();

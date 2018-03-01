@@ -1,6 +1,6 @@
 import Vue from "vue";
 import AbstractApp from "foo/core/AbstractApp";
-import { environment } from "src/config";
+import { environment } from "../config/index";
 import store from "app/store";
 import LocaleManager from "foo/core/locale/LocaleManager";
 
@@ -16,7 +16,7 @@ import routes from "app/routes";
 import Root from "app/Root.vue";
 
 Vue.config.performance = process.env.NODE_ENV !== "production";
-routes.base = environment.vars.route;
+routes.base = environment.url.subdirectory;
 const router = new VueRouter(routes);
 
 export default class App extends AbstractApp {

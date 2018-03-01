@@ -2,11 +2,13 @@
  * Created by mendieta on 10/23/16.
  */
 
+import { environment } from "src/config";
 export const LOCALE_CHANGED = "locale/changed";
 export const LOCALE_LOADING = "locale/loading";
 export const ASSET_LOADING = 'app/loading';
 
 const state = {
+    public: environment.url.public,
     locale: "",
     locale_loading: false,
     loading: true
@@ -40,7 +42,10 @@ const mutations = {
 const getters = {
     locale: state => {
         return state.locale;
-    }
+    },
+    public: state => {
+        return state.public;
+    },
 };
 
 export default {state, actions, mutations, getters};
