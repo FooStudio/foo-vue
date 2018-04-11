@@ -75,6 +75,6 @@ export default class Api {
      * @return {string}
      */
     static apiURL(endpoint) {
-        return `${environment.url.api}${endpoint}`;
+        return `${environment.url.api}/${endpoint}`;
     }
 }
