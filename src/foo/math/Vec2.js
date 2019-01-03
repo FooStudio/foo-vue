@@ -54,7 +54,7 @@ export default class Vec2 {
     add(x, y) {
         if (x instanceof Vec2) {
             this.x += x.x;
-            this.y *= x.y;
+            this.y += x.y;
             return this;
         }
         this.x += x;
