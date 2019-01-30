@@ -1,14 +1,13 @@
-<style src="styles/components/Preloader.styl" lang="stylus" scoped></style>
+<style src="styles/components/base/Preloader.styl" lang="stylus"></style>
 
 <script>
     import {mapActions} from "vuex";
-    import {ASSET_LOADING} from "app/store/modules/app";
-    import assets from "app/preload.json";
-    import preloader from "preloader";
+    import {ASSET_LOADING, DATA} from "@/app/store/modules/app";
+    import preloader from "@/app/utils/preloader";
     import ApiLoader from "foo/net/ApiLoader";
-    import PreloaderTransition from "app/transitions/PreloaderTransition";
+    import PreloaderTransition from "@/app/transitions/PreloaderTransition";
 
-    export default{
+    export default {
         name: "Preloader",
         data(){
             return {
@@ -57,10 +56,8 @@
                 });
             },
             setLoader(){
-                const {$store} = this;
                 return new Promise((resolve) => {
-                    this.loader = preloader(this.options);
-                    assets.forEach(file => this.add(`${$store.getters.public}/${file}`));
+                    this.loader = preloader;
                     this.loader.on("progress", this.onProgress);
                     this.loader.on('complete', () => this.onComplete(resolve));
                     this.load();
@@ -77,6 +74,8 @@
             },
             onComplete(done){
                 this.progress = 1;
+                const data = preloader.get(require('assets/data/data.json'));
+                this.$store.commit(DATA, data);
                 done();
             },
             loadingComplete(){
@@ -98,7 +97,9 @@
 <template>
     <preloader-transition>
         <div class="Preloader" v-if="loading">
-            <p>LOADING</p>
+            <p class="Preloader-copy">
+                Cargando
+            </p>
         </div>
     </preloader-transition>
 </template>

@@ -1,16 +1,13 @@
-@import "~styles/core/grid"
+// COLOR SCHEME CONSTANTS
+// Names from: http://chir.ag/projects/name-that-color
+// NOTE: Don't override black or white with similar colors because they might be
+// used as shadows, glares or gradients as pure black or white
+$BLACK = #000000
+$WHITE = #FFFFFF
+
+// FONT CONSTANTS
+$PRIMARY_FONT = 'Consolas', 'monaco', monospace
+
+@import '~styles/core/grid'
 @import '~styles/utils/mixins'
 @import '~styles/utils/helpers'
-
-//COLORS
-$white = #fff
-$black = #202020
-$primary = #ef2052
-$grey = #d6dcde
-$background = #1c1f24
-
-$header = $primary
-
-//FONTS
-$heading-font = "Monaco";
-$text-font = "Monaco";

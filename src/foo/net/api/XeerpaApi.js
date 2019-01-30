@@ -1,6 +1,5 @@
 import AbstractApi from "./AbstractApi";
 import { environment } from "src/config";
-import bowser from "bowser";
 
 /**
  * Xeerpa social login helper class.
@@ -98,7 +97,7 @@ export default class Xeerpa extends AbstractApi {
         const apiURL = `${url}?socialNetwork=${sn}&data=${data}`;
         window.addEventListener("message", this._messageHandler, false);
         window.open(apiURL, "Login", "width=" + (500) + ", height=" + (475) + ", scrollbars=yes");
-        if (navigator.appName === "Microsoft Internet Explorer" || !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv 11/)) || bowser.msie) {
+        if (navigator.appName === "Microsoft Internet Explorer" || !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv 11/))) {
             this._cookieInterval = window.setInterval(() => {
                 let data = this._readCookie();
                 if (data) {

@@ -22,6 +22,7 @@ import { defaultsDeep } from "lodash";
  * @prop {String} xeerpa
  *
  * @typedef Environment
+ * @prop {Number} priority
  * @prop {EnvironmentVars} vars
  * @prop {EnvironmentUrl} url
  * @prop {EnvironmentAnalytics[]} analytics
@@ -58,23 +59,20 @@ const CUSTOM_CONFIG = {
                 debug: false,
             },
             url: {
-                base: "http://brand.com",
+                base: "http://fooprojects.com",
+                subdirectory: "/clients/foo/boilerplate/",
+                public: "/clients/foo/boilerplate/static",
+                api: "/clients/foo/boilerplate/api",
             },
         },
         staging: {
             url: {
-                base: "http://fooprojects.com",
-                subdirectory: "/clients/brand/site",
-                public: "/clients/brand/site/static",
-                api: "/clients/brand/site/api",
+                base: "http://staging-url.com",
             },
         },
         qa: {
             url: {
-                base: "http://fooprojects.com",
-                subdirectory: "/clients/foo/boilerplate",
-                public: "/clients/foo/boilerplate/static",
-                api: "/clients/foo/boilerplate/api",
+                base: "http://qa-url.com",
             },
         },
         development: {

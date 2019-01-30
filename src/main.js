@@ -1,20 +1,9 @@
-/*!
- * Foo (Studio)
- * (c) 2013-2017 Foo (Studio)
- */
+import 'sanitize.css/sanitize.css'
+import './main.styl'
 
-import "es6-promise/auto"
-import "url-polyfill"
-import "sanitize.css/sanitize.css";
-import "./main.styl";
-import "app/utils/polyfills";
-import "modernizr";
-import "gsap";
-import domready from "domready";
-import App from "app/App";
+import 'babel-polyfill'
+import 'url-polyfill'
+import '@/app/utils/polyfills'
 
-const startApp = () => {
-    window["App"] = new App();
-};
-
-domready(() => startApp());
+import 'gsap'
+import './app'

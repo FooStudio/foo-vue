@@ -1,7 +1,7 @@
 /**
  * Created by mendieta on 4/27/17.
  */
-import store from "app/store";
+import store from "@/app/store";
 import AnalyticsAdapterManager from "foo/tracking/adapters/AnalyticsAdapterManager";
 import tags from "src/config/tracking";
 import {environment} from "src/config/";

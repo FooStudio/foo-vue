@@ -1,13 +1,13 @@
 {
-    "include": ["./src/**/*"],
+    "include": ["./src/*"],
     "exclude": ["node_modules", "dist"],
     "compilerOptions": {
         "target": "es6",
         "baseUrl": "src",
         "paths": {
-            "app": ["app/**/*"],
-            "styles": ["styles/**/*"],
-            "foo": ["foo/**/*"]
+            "app": ["app/*"],
+            "styles": ["styles/*"],
+            "foo": ["foo/*"]
         }
     }
 }

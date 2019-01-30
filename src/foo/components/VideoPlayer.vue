@@ -107,6 +107,7 @@
     import VideoTimeline from "./VideoTimeline.vue";
     import VideoPoster from "./VideoPoster.vue";
     import {secondsToString} from "foo/utils/TimeUtils";
+    import app from 'app/app'
 
     import PlayIcon from "assets/svg/play.svg";
     import PauseIcon from "assets/svg/pause.svg";
@@ -270,7 +271,7 @@
                 if (this.captions) {
                     TweenMax.set(this.$refs["captionsContainer"], {autoAlpha: Boolean(this.isShowingCaptions)});
                 }
-                App.resize.add(this.onResize);
+                app.resize.add(this.onResize);
             });
         },
         methods: {
@@ -442,7 +443,7 @@
             }
         },
         beforeDestroy() {
-            App.resize.remove(this.onResize);
+            app.resize.remove(this.onResize);
             this.fullscreen.destroy();
             this.pause();
             this.clearAutoPlayTimeout();

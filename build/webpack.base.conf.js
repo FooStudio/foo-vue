@@ -26,12 +26,11 @@ module.exports = {
         extensions: [".js", ".vue", ".json"],
         alias: {
             "@": resolve("src"),
-            src: path.resolve("src"),
             assets: path.resolve("src/assets"),
-            app: path.resolve("src/app"),
-            styles: path.resolve("src/styles"),
             foo: path.resolve("src/foo"),
-            modernizr$: path.resolve(".modernizrrc")
+            modernizr$: path.resolve(".modernizrrc"),
+            src: path.resolve("src"),
+            styles: path.resolve("src/styles"),
         }
     },
     module: {
@@ -65,24 +64,16 @@ module.exports = {
                 include: [resolve("src"), resolve("test")]
             },
             {
-                test: /\.svg$/,
-                loader: 'vue-svg-loader', // `vue-svg` for webpack 1.x
+                test: /\.(json)(\?.*)?$/,
+                loader: "file-loader",
                 options: {
-                    // optional [svgo](https://github.com/svg/svgo) options
-                    svgo: {
-                        plugins: [
-                            {removeDoctype: true},
-                            {removeComments: true},
-                            {removeMetadata: true},
-                            {removeTitle: true},
-                            {removeDesc: true},
-                        ]
-                    }
+                    limit: 10000,
+                    name: utils.assetsPath("data/[name].[hash:7].[ext]")
                 }
             },
             {
-                test: /\.(png|jpe?g|gif)(\?.*)?$/,
-                loader: "url-loader",
+                test: /\.(svg|png|jpe?g|gif)(\?.*)?$/,
+                loader: "file-loader",
                 options: {
                     limit: 10000,
                     name: utils.assetsPath("img/[name].[hash:7].[ext]")
@@ -90,7 +81,7 @@ module.exports = {
             },
             {
                 test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-                loader: "url-loader",
+                loader: "file-loader",
                 options: {
                     limit: 10000,
                     name: utils.assetsPath("media/[name].[hash:7].[ext]")
@@ -98,7 +89,7 @@ module.exports = {
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: "url-loader",
+                loader: "file-loader",
                 options: {
                     limit: 10000,
                     name: utils.assetsPath("fonts/[name].[hash:7].[ext]")

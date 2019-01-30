@@ -1,36 +1,14 @@
 @import '~styles/vars'
 
-html
+*
+*::before
+*::after
     box-sizing border-box
+
+html
+body
+    font-family $PRIMARY_FONT
+    color $BLACK
+    background-color $WHITE
     -webkit-font-smoothing antialiased
     -moz-osx-font-smoothing grayscale
-
-*, *:before, *:after
-    box-sizing border-box
-
-html, body
-    background-color $background
-    color $white
-    width 100%
-    height 100%
-    min-height 100%
-    margin 0
-    padding 0
-    font-family $text-font
-
-#app
-    width 100%
-    height 100%
-    min-height 100%
-
-h1
-    text-align center
-
-#main-loader
-    display block
-    size 100%
-    position fixed
-    background-color $primary
-    text-align center
-    color $white
-    z-index 1001

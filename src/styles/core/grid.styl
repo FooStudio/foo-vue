@@ -1,10 +1,45 @@
-//rupture.rasterise-media-queries = true
-rupture.mobile-cutoff = 600px
+// RUPTURE SETUP
+// https://github.com/jescalan/rupture
+////////////////////////////////////////////////////////////////////////////////
+rupture.mobile-cutoff = 768px
 rupture.desktop-cutoff = 1280px
-rupture.hd-cutoff = 1440px
-rupture.scale = 0 400px 600px 800px 1050px 1800px
+rupture.hd-cutoff = 1920px
+rupture.scale = 0 576px 768px 992px 1280px 1920px
 
+// LOST SETUP
+// https://github.com/peterramsing/lost
+////////////////////////////////////////////////////////////////////////////////
+@lost gutter 10px
+@lost flexbox no-flex
+@lost cycle auto
 
-@lost gutter 30px;
-@lost flexbox no-flex;
-@lost cycle auto;
+// GRID UTILS
+grid-cols = 12
+grid-gutter = 15px
+
+colsize(size)
+    size / grid-cols * 100%
+
+column-size(size)
+    width colsize(size)
+
+column(size, gutter = true, pos = false)
+    column-size size
+    if pos
+        position pos
+    if gutter
+        padding-left (grid-gutter / 2)
+        padding-right (grid-gutter / 2)
+
+floated-column(size, gutter = true)
+    float left
+    column size gutter
+
+offset-column(size)
+    margin-left colsize(size)
+
+pull-column(size)
+    left colsize(size * -1)
+
+push-column(size)
+    left colsize(size)

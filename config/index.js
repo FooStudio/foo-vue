@@ -9,7 +9,7 @@ module.exports = {
         assetsRoot: path.resolve(__dirname, "../dist"),
         assetsSubDirectory: "static",
         htdocsSubDirectory: "",
-        assetsPublicPath: "/",
+        assetsPublicPath: "/clients/foo/boilerplate/",
         productionSourceMap: true,
         // https://webpack.js.org/configuration/devtool/#production
         devtool: "#source-map",

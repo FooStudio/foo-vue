@@ -1,20 +1,33 @@
-<style src="styles/views/Root.styl" lang="stylus" scoped></style>
+<template>
+    <div id="app" class="App">
+        <template v-if="started">
+            <layout-header></layout-header>
+            <layout-main></layout-main>
+            <layout-footer></layout-footer>
+            <rotate-device v-if="isPhone"></rotate-device>
+        </template>
+        <preloader v-else transitionMode="out-in"
+        ></preloader>
+    </div>
+</template>
 
 <script>
-import { mapState } from "vuex";
-import isMobile from "ismobilejs";
-import Loader from "app/components/base/Loader.vue";
-import RotateScreen from "app/components/base/RotateScreen.vue";
-import MainContainer from "app/components/MainContainer.vue";
-import Preloader from "./components/base/Preloader";
+import { mapState } from 'vuex'
+import isMobile from 'ismobilejs'
+import Preloader from './components/base/Preloader'
+import RotateDevice from './components/base/RotateDevice'
+import LayoutHeader from './components/layout/LayoutHeader'
+import LayoutMain from './components/layout/LayoutMain'
+import LayoutFooter from './components/layout/LayoutFooter'
 
 export default {
-    name: "App",
+    name: 'App',
     components: {
         Preloader,
-        Loader,
-        RotateScreen,
-        MainContainer,
+        RotateDevice,
+        LayoutHeader,
+        LayoutMain,
+        LayoutFooter,
     },
     computed: {
         ...mapState({
@@ -24,16 +37,7 @@ export default {
             return isMobile.phone;
         },
     },
-};
+}
 </script>
 
-<template>
-    <div id="app">
-        <preloader v-if="!started" transitionMode="out-in"></preloader>
-        <template v-if="started">
-            <loader></loader>
-            <main-container></main-container>
-            <rotate-screen v-if="isPhone"></rotate-screen>
-        </template>
-    </div>
-</template>
+<style src="styles/views/Root.styl" lang="stylus"></style>

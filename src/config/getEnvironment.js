@@ -5,8 +5,12 @@
 export default function (environments) {
     const environment = Object
         .entries(environments)
+        // Sort environments by priority
+        .sort((a, b) => {
+            return a[1].priority - b[1].priority
+        })
         .reduce((prev, [key, env]) => {
-            if (Array.isArray(prev)) {
+            if (prev === null) {
                 let isSameHref;
                 if (env.url.subdirectory) {
                     const url = new URL(`${env.url.base}${env.url.subdirectory}`);
@@ -18,7 +22,7 @@ export default function (environments) {
                 // Default is development env
                 if (isSameHref || key === 'development') return env;
             }
-            return prev;
-        }, []);
+            return prev
+        }, null);
     return Object.freeze(environment);
 }

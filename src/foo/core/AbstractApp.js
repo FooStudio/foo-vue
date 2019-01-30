@@ -2,7 +2,6 @@ import {environment, config} from "src/config";
 import data from "src/config/data.json";
 import {Signal} from "signals";
 import throttle from "lodash/throttle";
-import Breakpoints from "foo/utils/Breakpoints";
 import LocaleManager from "foo/core/locale/LocaleManager";
 
 export default class AbstractApp {
@@ -92,7 +91,6 @@ export default class AbstractApp {
     setup() {
         this.setupDebug();
         LocaleManager.setup();
-        Breakpoints.setup();
     }
 
     /**

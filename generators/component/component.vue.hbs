@@ -1,18 +1,12 @@
-<style src="styles/components/{{#camelize}}{{name}}{{/camelize}}.styl" lang="stylus" scoped></style>
+<template>
+    <div class="{{#camelize}}{{name}}{{/camelize}}">
+    </div>
+</template>
 
 <script>
-    export default{
-        name: "{{#camelize}}{{name}}{{/camelize}}",
-        data(){
-            return {};
-        },
-        props: {},
-        components: {},
-        methods: {},
-        computed: {}
-    };
+export default {
+    name: '{{#camelize}}{{name}}{{/camelize}}',
+}
 </script>
 
-<template>
-    <div class="{{#camelize}}{{name}}{{/camelize}}"></div>
-</template>
+<style src="styles/components/{{#camelize}}{{name}}{{/camelize}}.styl" lang="stylus"></style>

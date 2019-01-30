@@ -37,9 +37,21 @@ export default Object.freeze({
         resize: true,
     },
     environments: {
-        production: DEFAULT_ENVIRONMENT,
-        staging: DEFAULT_ENVIRONMENT,
-        qa: DEFAULT_ENVIRONMENT,
-        development: DEFAULT_ENVIRONMENT,
+        staging: {
+            ...DEFAULT_ENVIRONMENT,
+            priority: 1,
+        },
+        qa: {
+            ...DEFAULT_ENVIRONMENT,
+            priority: 2,
+        },
+        production: {
+            ...DEFAULT_ENVIRONMENT,
+            priority: 3,
+        },
+        development: {
+            ...DEFAULT_ENVIRONMENT,
+            priority: 4,
+        },
     },
 });

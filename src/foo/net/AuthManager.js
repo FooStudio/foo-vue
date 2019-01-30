@@ -1,7 +1,7 @@
 import Facebook from "foo/net/api/FacebookApi";
 import Google from "foo/net/api/GoogleApi";
 import Xeerpa from "foo/net/api/XeerpaApi";
-import Api from "app/utils/Api";
+import Api from "@/app/utils/core/Api";
 
 /**
  * Authentication manager class.

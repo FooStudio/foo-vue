@@ -2,8 +2,8 @@ import Vue from "vue";
 import VueI18n from "vue-i18n";
 import request from "superagent";
 import {config} from "src/config";
-import store from "app/store";
-import {LOCALE_CHANGED, LOCALE_LOADING} from "app/store/modules/app";
+import store from "@/app/store";
+import {LOCALE_CHANGED, LOCALE_LOADING} from "@/app/store/modules/app";
 
 export default class LocaleManager {
     /**
@@ -35,15 +35,35 @@ export default class LocaleManager {
         })
     }
 
+    static userLocale = {
+        /**
+         * Save current session locale in local storage
+         * @param {string} locale
+         */
+        set(locale) {
+            localStorage.setItem('user-locale', locale)
+        },
+        /**
+         * Get user last session locale from local storage
+         * @returns {string}
+         */
+        get() {
+            return localStorage.getItem('user-locale')
+        },
+    }
+
     /**
      * Method that loads the current locale and (re)renders the App
      * @public
      * @param {string=} localeId - locale to load
      * @returns {Promise}
-     * @
      */
-    static loadLocale(localeId = config.locale) {
+    static loadLocale(localeId) {
         let promise;
+        if (!localeId) {
+            const userLocale = LocaleManager.userLocale.get()
+            localeId = userLocale || config.locale
+        }
         if (LocaleManager.loadedLocales.includes(localeId)) {
             promise = Promise.resolve();
         } else {
@@ -54,6 +74,7 @@ export default class LocaleManager {
                 .then(response => {
                     LocaleManager.loadedLocales.push(localeId);
                     LocaleManager.i18n.setLocaleMessage(localeId, response.body);
+                    LocaleManager.userLocale.set(localeId);
                 });
         }
         return promise
